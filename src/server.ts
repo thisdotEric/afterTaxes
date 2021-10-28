@@ -1,12 +1,31 @@
-import express, { Response } from 'express';
+import 'reflect-metadata';
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import { buildSchema } from 'type-graphql';
+import container from './ioc/ioc-container';
+import AppContext from './types/AppContext';
+import { MeResolver } from './graphql/resolvers';
 
-const app = express();
+const main = async () => {
+    const schema = await buildSchema({
+        resolvers: [MeResolver],
+        container,
+    });
 
-app.get('/', (_, res: Response) => {
-    res.send('GraphQL');
-});
+    const apolloServer = new ApolloServer({
+        schema,
+        context: ({ req }: AppContext) => ({ req }),
+    });
 
-const PORT = process.env.PORT || 4300;
-app.listen(PORT, () => {
-    console.log(`ExTracker running on port ${PORT}`);
-});
+    const app = express();
+
+    await apolloServer.start();
+    apolloServer.applyMiddleware({ app });
+
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`ExTracker server started on localhost:${PORT}/graphql`);
+    });
+};
+
+main();
