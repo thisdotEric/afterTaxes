@@ -1,3 +1,5 @@
 node_modules/
 .env
 dist/
+db_backups/*.sql
+db_backups/*.dump
