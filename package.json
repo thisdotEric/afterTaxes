@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
-    "pretty": "npx prettier --write ."
+    "pretty": "npx prettier --write .",
+    "knex": "npx knex --knexfile src/database/knex/knexfile.ts"
   },
   "keywords": [
     "graphql",
@@ -21,6 +22,8 @@
     "express": "^4.17.1",
     "graphql": "^15.6.1",
     "inversify": "^6.0.1",
+    "knex": "^0.95.13",
+    "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.4",
     "type-graphql": "^1.1.1"
@@ -29,6 +32,7 @@
     "@types/express": "^4.17.13",
     "@types/graphql": "^14.5.0",
     "@types/node": "^16.11.6",
+    "@types/pg": "^8.6.1",
     "@types/shelljs": "^0.8.9",
     "prettier": "^2.4.1",
     "ts-node-dev": "^1.1.8",
