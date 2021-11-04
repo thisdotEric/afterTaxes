@@ -4,3 +4,4 @@ package.json
 tsconfig.json
 .prettierrc.json
 *.md
+dist/
