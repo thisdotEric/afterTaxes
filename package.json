@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "pretty": "npx prettier --write .",
-    "knex": "npx knex --knexfile src/database/knex/knexfile.ts"
+    "knex": "npx knex --knexfile src/database/knex/knexfile.ts",
+    "rollback-all": "npx knex migrate:rollback --all --knexfile src/database/knex/knexfile.ts"
   },
   "keywords": [
     "graphql",

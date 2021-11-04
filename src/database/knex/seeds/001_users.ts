@@ -1,8 +1,11 @@
 import { Knex } from 'knex';
 import { DbNames } from '../../constants';
+import { hashPassword, PersistedPassword } from '../../../utils/auth/';
 
 export async function seed(knex: Knex): Promise<void> {
     await knex(DbNames.USERS).del();
+
+    const password: PersistedPassword = await hashPassword('password');
 
     // Insert a test user
     await knex(DbNames.USERS).insert([
@@ -11,8 +14,10 @@ export async function seed(knex: Knex): Promise<void> {
             first_name: 'Jason',
             middle_name: 'Nathan',
             last_name: 'Conte',
-            password: 'password',
-            password_salt: 'password_salt',
+            user_name: 'j_conte',
+            email: 'jason.conte@gmail.com',
+            password: password.hashedPassword,
+            password_salt: password.salt,
         },
     ]);
 }

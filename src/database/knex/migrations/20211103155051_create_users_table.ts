@@ -1,6 +1,5 @@
 import { Knex } from 'knex';
-import { DbNames, ReferenceOptions } from '../../constants';
-const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+import { DbNames, ReferenceOptions, months } from '../../constants';
 
 export async function up(knex: Knex): Promise<void> {
     return knex.schema
@@ -9,6 +8,8 @@ export async function up(knex: Knex): Promise<void> {
             table.string('first_name').notNullable();
             table.string('middle_name').notNullable();
             table.string('last_name').notNullable();
+            table.string('user_name').notNullable();
+            table.string('email').notNullable();
             table.text('password').notNullable();
             table.text('password_salt').notNullable();
         })
@@ -32,6 +33,6 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
     return knex.schema
-        .dropTableIfExists(DbNames.USERS)
-        .dropTableIfExists(DbNames.JOBS);
+        .dropTableIfExists(DbNames.JOBS)
+        .dropTableIfExists(DbNames.USERS);
 }
