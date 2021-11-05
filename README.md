@@ -59,3 +59,6 @@
 ```
   npm run dev
 ```
+
+## Acknowledgements
+* TypeScript's native path mapping guide using [Kehrlann/module-alias-74](https://github.com/Kehrlann/module-alias-74) repository.
