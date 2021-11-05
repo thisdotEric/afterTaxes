@@ -1,5 +1,5 @@
 import { Resolver, Query, UseMiddleware } from 'type-graphql';
-import LogAccess from '../../middlewares/logger.middleware';
+import { LogAccess } from '@middlewares';
 import { injectable } from 'inversify';
 
 @injectable()

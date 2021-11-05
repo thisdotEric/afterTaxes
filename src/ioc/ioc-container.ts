@@ -1,8 +1,8 @@
 import { Container } from 'inversify';
 //import TYPES from './types';
-import LogAccess from '../middlewares/logger.middleware';
+import { LogAccess } from '@middlewares';
 
-import { MeResolver } from '../graphql/resolvers';
+import { MeResolver } from '@graphql/resolvers';
 
 const container = new Container();
 
