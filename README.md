@@ -55,10 +55,21 @@
 ```
   npm run knex seed:run
 ```
-9. Run the application.
+9. Run the application locally. Runs on *localhost:3000* by default.
 ```
   npm run dev
 ```
+
+## Project Structure
+| Codebase              |      Description          |
+| :-------------------- | :-----------------------: |
+| [server.ts](src/server.ts)        |      Application's entry point     
+| [database](src/database)        |      Migrations, seed files and database connection object 
+| [graphql](src/graphql)        |      GraphQL related (resolvers, mutations, queries)     
+| [ioc](src/ioc)        |      Dependency inversion container and bindings    
+| [types](src/types)        |      Custom types (i.e. application context)
+| [utils](src/utils)        |      Helper class' and methods
+| [middlewares](src/middlewares)        |      Middleware implementations
 
 ## Acknowledgements
 * TypeScript's native path mapping guide using [Kehrlann/module-alias-74](https://github.com/Kehrlann/module-alias-74) repository.
