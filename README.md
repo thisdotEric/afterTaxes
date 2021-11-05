@@ -71,5 +71,14 @@
 | [utils](src/utils)        |      Helper class' and methods
 | [middlewares](src/middlewares)        |      Middleware implementations
 
+## Branches
+
+
+| Branch             |      Description          |
+| :-------------------- | :-----------------------: |
+| [main](https://github.com/thisdotEric/afterTaxes)        |      Main branch, most updated
+| [production](https://github.com/thisdotEric/afterTaxes/tree/production)        |      Production branch for automatic deploys. Currently hosted in *Heroku*
+| [db_setup](https://github.com/thisdotEric/afterTaxes/tree/db_setup)        |      Branch for migration creation and seed files 
+
 ## Acknowledgements
 * TypeScript's native path mapping guide using [Kehrlann/module-alias-74](https://github.com/Kehrlann/module-alias-74) repository.
