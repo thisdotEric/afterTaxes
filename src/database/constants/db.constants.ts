@@ -18,6 +18,8 @@ export abstract class DbNames {
     static readonly EXPENSES = 'expenses';
     static readonly EXPENSES_RECEIPTS = 'expenses_receipts';
     static readonly BUDGET_NAME = 'budget_name';
+    static readonly SAVINGS = 'savings';
+    static readonly SAVINGS_HISTORY = 'savings_history';
 }
 
 export abstract class ReferenceOptions {

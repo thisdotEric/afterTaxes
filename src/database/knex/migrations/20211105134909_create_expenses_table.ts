@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
             table.string('name').notNullable();
             table.text('description').nullable();
             table.date('date').notNullable();
-            table.integer('budget_id').unsigned()
+            table.integer('budget_id').unsigned();
 
             table
                 .foreign('budget_id')
