@@ -14,7 +14,6 @@ export async function seed(knex: Knex): Promise<void> {
             first_name: 'Jason',
             middle_name: 'Nathan',
             last_name: 'Conte',
-            user_name: 'j_conte',
             email: 'jason.conte@gmail.com',
             password: password.hashedPassword,
             password_salt: password.salt,
