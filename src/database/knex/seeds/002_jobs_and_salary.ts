@@ -13,7 +13,7 @@ export async function seed(knex: Knex): Promise<void> {
                 gross: 35000.0,
                 net: 30000.0,
                 tax_amount: 5000.0,
-                month: 4,
+                month: 11,
                 year: 2021,
             },
         ]),

@@ -15,6 +15,11 @@ export abstract class DbNames {
     static readonly JOBS = 'jobs';
     static readonly SALARY = 'salary';
     static readonly BUDGET = 'budget';
+    static readonly EXPENSES = 'expenses';
+    static readonly EXPENSES_RECEIPTS = 'expenses_receipts';
+    static readonly BUDGET_NAME = 'budget_name';
+    static readonly SAVINGS = 'savings';
+    static readonly SAVINGS_HISTORY = 'savings_history';
 }
 
 export abstract class ReferenceOptions {
