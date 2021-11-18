@@ -1,13 +1,13 @@
 import { Resolver, Query, UseMiddleware } from 'type-graphql';
 import { LogAccess } from '@middlewares';
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 
-@injectable()
+@Service()
 @Resolver()
 export class MeResolver {
-    @Query(() => String)
-    @UseMiddleware(LogAccess)
-    async me() {
-        return "Hello, I'm John Eric Siguenza";
-    }
+  @Query(() => String)
+  @UseMiddleware(LogAccess)
+  async me() {
+    return 'John Eric Siguenza';
+  }
 }
