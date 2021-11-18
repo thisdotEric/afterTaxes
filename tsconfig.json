@@ -28,7 +28,8 @@
 		"@types": ["types"],
 		"@ioc/*": ["ioc/*"],
 		"@utils/*": ["utils/*"],
-		"@database/*": ["database/*"]
+		"@database/*": ["database/*"],
+		"@entity": ["entity"],
 	}
   },
   "exclude": ["node_modules", "client", "dist"],
