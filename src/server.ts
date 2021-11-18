@@ -4,20 +4,16 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import container from '@ioc/ioc-container';
 import { AppContext } from '@types';
-import { MeResolver } from '@graphql/resolvers';
+import createGraphQLSchema from './build-schema';
 
 const main = async () => {
-    const schema = await buildSchema({
-        resolvers: [MeResolver],
-        container,
-    });
+    // Create GraphQL schemas
+    const schema = await createGraphQLSchema();
 
     const apolloServer = new ApolloServer({
         schema,
-        context: ({ req }: AppContext) => ({ req }),
+        context: ({ req }): AppContext => ({ req }),
     });
 
     const app = express();
