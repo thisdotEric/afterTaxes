@@ -8,25 +8,25 @@ import { AppContext } from '@types';
 import createGraphQLSchema from './build-schema';
 
 const main = async () => {
-    // Create GraphQL schemas
-    const schema = await createGraphQLSchema();
+  // Create GraphQL schemas
+  const schema = await createGraphQLSchema();
 
-    const apolloServer = new ApolloServer({
-        schema,
-        context: ({ req }): AppContext => ({ req }),
-    });
+  const apolloServer = new ApolloServer({
+    schema,
+    context: ({ req }): AppContext => ({ req }),
+  });
 
-    const app = express();
+  const app = express();
 
-    await apolloServer.start();
-    apolloServer.applyMiddleware({ app, path: '/api/v1' });
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app, path: '/api/v1' });
 
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(
-            `afterTaxes server started on ${process.env.APP_TAXES_URL}:${PORT}${apolloServer.graphqlPath}`
-        );
-    });
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(
+      `afterTaxes server started on ${process.env.APP_TAXES_URL}:${PORT}${apolloServer.graphqlPath}`
+    );
+  });
 };
 
 main();
