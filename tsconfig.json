@@ -28,8 +28,11 @@
 		"@types": ["types"],
 		"@ioc/*": ["ioc/*"],
 		"@utils/*": ["utils/*"],
-		"@database/*": ["database/*"]
-	}
+		"@database/*": ["database/*"],
+		"@entity": ["entity"],
+		"@repository": ["repository"],
+		"@exceptions": ["exceptions"]
+	  }
   },
   "exclude": ["node_modules", "client", "dist"],
   "include": ["./src/**/*"]

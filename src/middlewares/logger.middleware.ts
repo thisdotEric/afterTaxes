@@ -1,5 +1,5 @@
 import { MiddlewareInterface, ResolverData, NextFn } from 'type-graphql';
-import AppContext from '../types/AppContext';
+import { AppContext } from '@types';
 import { Service } from 'typedi';
 
 @Service()
