@@ -1,5 +1,5 @@
-import { Request } from 'express';
+import { FastifyRequest } from 'fastify';
 
 export default interface AppContext {
-  req: Request;
+  req: FastifyRequest;
 }
