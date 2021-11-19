@@ -1,18 +1,30 @@
 import KnexQueryBuilder from '@database/knex/knexDatabase';
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { DbNames } from '@database/constants';
 import { IUser } from '@entity';
+import { BaseRepository } from './base/base.repository';
+import { UserNotFoundException } from '@exceptions';
 
 @Service()
-export class UserRepository {
-  constructor(@Inject('knex') private readonly db: KnexQueryBuilder) {}
+export class UserRepository implements BaseRepository<IUser, string> {
+  constructor(private readonly db: KnexQueryBuilder) {}
 
-  async getUser(email: string): Promise<Required<IUser>> {
+  async getById(user_id: string): Promise<IUser> {
     const user = await this.db
       .getDbInstance()(DbNames.USERS)
-      .where({ email })
-      .select('user_id', 'first_name', 'middle_name', 'last_name', 'email')
+      .where({
+        user_id,
+      })
+      .select<IUser>(
+        'user_id as id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'email'
+      )
       .first();
+
+    if (!user) throw new UserNotFoundException();
 
     return user;
   }

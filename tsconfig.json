@@ -30,6 +30,8 @@
 		"@utils/*": ["utils/*"],
 		"@database/*": ["database/*"],
 		"@entity": ["entity"],
+		"@repository": ["repository"],
+		"@exceptions": ["exceptions"],
 	}
   },
   "exclude": ["node_modules", "client", "dist"],
