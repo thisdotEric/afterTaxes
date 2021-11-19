@@ -31,8 +31,8 @@
 		"@database/*": ["database/*"],
 		"@entity": ["entity"],
 		"@repository": ["repository"],
-		"@exceptions": ["exceptions"],
-	}
+		"@exceptions": ["exceptions"]
+	  }
   },
   "exclude": ["node_modules", "client", "dist"],
   "include": ["./src/**/*"]
