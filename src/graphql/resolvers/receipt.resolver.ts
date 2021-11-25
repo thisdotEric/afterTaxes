@@ -1,23 +1,18 @@
 import { Resolver, Arg, Mutation } from 'type-graphql';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
-import { createWriteStream } from 'fs';
 import { Service } from 'typedi';
+import { ReceiptRepository } from '@repository';
 
 @Service()
 @Resolver()
 export class ReceiptResolver {
+  constructor(private readonly receiptRepo: ReceiptRepository) {}
+
   @Mutation(() => Boolean)
   async uploadExpensesReceipt(
     @Arg('receipt', () => GraphQLUpload)
-    { createReadStream, filename, mimetype }: FileUpload
+    fileUpload: FileUpload
   ) {
-    console.log(mimetype);
-
-    return new Promise<boolean>(async (resolve, reject) => {
-      createReadStream()
-        .pipe(createWriteStream(filename))
-        .on('finish', () => resolve(true))
-        .on('error', () => reject(false));
-    });
+    return await this.receiptRepo.uploadImage(fileUpload);
   }
 }

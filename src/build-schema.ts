@@ -1,5 +1,5 @@
 import { buildSchema } from 'type-graphql';
-import { Container } from 'typedi';
+import { Container } from '@ioc';
 import { MeResolver, ReceiptResolver } from '@graphql/resolvers';
 
 export default function createGraphQLSchema() {

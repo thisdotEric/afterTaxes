@@ -31,7 +31,9 @@
 		"@database/*": ["database/*"],
 		"@entity": ["entity"],
 		"@repository": ["repository"],
-		"@exceptions": ["exceptions"]
+		"@exceptions": ["exceptions"],
+		"@ioc": ["ioc"],
+    "@authentication": ["authentication"]
 	  }
   },
   "exclude": ["node_modules", "client", "dist"],
