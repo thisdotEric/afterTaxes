@@ -1,7 +1,7 @@
 import {
   getGoogleAuthenticationObject,
   GoogleAuthObject,
-} from 'authentication';
+} from '@authentication';
 import { Container } from 'typedi';
 import TYPES from './bindings';
 
