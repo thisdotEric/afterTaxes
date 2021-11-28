@@ -9,7 +9,7 @@ import createGraphQLSchema from './build-schema';
 import { resolve } from 'path';
 import fastifyStaticFiles from 'fastify-static';
 
-const PORT = process.env.PORT || 3000;
+const PORT: string = process.env.PORT!;
 const API_PATH = '/api/v1';
 
 const app = Fastify();
