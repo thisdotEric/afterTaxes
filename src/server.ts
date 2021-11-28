@@ -8,6 +8,7 @@ import { AppContext } from '@types';
 import createGraphQLSchema from './build-schema';
 import MercuriusGQLUpload from 'mercurius-upload';
 import AltairFastify from 'altair-fastify-plugin';
+import cors from 'fastify-cors';
 
 const PORT = process.env.PORT || 3000;
 const API_PATH = '/api/v1';
@@ -20,6 +21,10 @@ const main = async () => {
 
   // Mercurius graphql upload plugin
   app.register(MercuriusGQLUpload);
+
+  app.register(cors, {
+    origin: '*',
+  });
 
   app.register(mercurius, {
     schema,
