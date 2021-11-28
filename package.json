@@ -19,8 +19,7 @@
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "npm run prod-rollback-all && npm run knex-prod migrate:latest && npm run knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "build:prod": "cross-env NODE_ENV=production && npm run build-ts && cd web && npm run build", 
-    "preinstall": "cd web && npm install --dev"
+    "build:prod": "cross-env NODE_ENV=production npm install --dev && npm run build-ts && cd web && npm install --dev && npm run build"
   },
   "keywords": [
     "graphql",
