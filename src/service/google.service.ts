@@ -1,6 +1,5 @@
 import { Inject, Service } from 'typedi';
 import { FileUpload } from 'graphql-upload';
-import { IFolder } from '@entity';
 import { GoogleAuthObject } from '@authentication';
 import { TYPES } from '@ioc';
 import { drive, drive_v3 } from '@googleapis/drive';

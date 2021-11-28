@@ -39,5 +39,5 @@
 	  }
   },
   "exclude": ["node_modules", "client", "dist"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./src/authentication/*.json"]
 }

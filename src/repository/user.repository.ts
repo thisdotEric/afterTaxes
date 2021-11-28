@@ -10,7 +10,7 @@ export class UserRepository implements BaseRepository<IUser, string> {
   constructor(private readonly db: KnexQueryBuilder) {}
 
   async add(entity: IUser): Promise<boolean> {
-    throw new Error('Method not implemented.');
+    return entity !== null;
   }
 
   async getById(user_id: string): Promise<IUser> {
