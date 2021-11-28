@@ -9,7 +9,6 @@ import createGraphQLSchema from './build-schema';
 import { resolve } from 'path';
 import fastifyStaticFiles from 'fastify-static';
 
-const PORT = process.env.PORT || 3000;
 const API_PATH = '/api/v1';
 
 const app = Fastify();
@@ -40,7 +39,7 @@ const main = async () => {
   });
 
   // Run the application
-  app.listen(PORT, () => {
+  app.listen(process.env.PORT || 3000, () => {
     console.log(
       `afterTaxes server started on ${process.env.APP_TAXES_URL}:${PORT}${API_PATH}`
     );
