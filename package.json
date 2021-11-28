@@ -20,7 +20,7 @@
     "prod-migrations": "npm run prod-rollback-all && npm run knex-prod migrate:latest && npm run knex-prod seed:run",
     "build-ts": "tsc -p .",
     "build:prod": "cross-env NODE_ENV=production && npm run build-ts && cd web && npm run build", 
-    "preinstall": "npm install --dev && cd web && npm install --dev"
+    "preinstall": "cd web && npm install --dev"
   },
   "keywords": [
     "graphql",
