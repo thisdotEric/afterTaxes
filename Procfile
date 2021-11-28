@@ -1,1 +1,1 @@
-Worker: node -r ./prod-paths.js ./dist/server.js
+worker: node -r ./prod-paths.js ./dist/server.js
