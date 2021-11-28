@@ -14,7 +14,7 @@
     "rollback-all": "npx knex migrate:rollback --all --knexfile src/database/knex/knexfile.ts",
     "build:dev": "cross-env NODE_ENV=production npm run build-ts && cd web && npm run build",
     "start": "node -r ./prod-paths.js ./dist/server.js",
-    "postinstall": "npm install --dev --prefix ./web && npm install --dev --prefix ./ && npm run build:prod",
+    "postinstall": "npm install --dev --prefix ./ && npm install --dev --prefix ./web && npm run build:prod",
     "prod-rollback-all": "knex migrate:rollback --all --knexfile dist/database/knex/knexfile.js",
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "npm run prod-rollback-all && npm run knex-prod migrate:latest && npm run knex-prod seed:run",
