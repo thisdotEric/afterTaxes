@@ -47,10 +47,11 @@ export class GoogleService {
         // Save the folder information to the database
         await this.knexUOW.folderRepository.add({
           folderId,
+          // id is the folder name
           id: folderName,
         });
       } else {
-        folderId = folderInfo.id;
+        folderId = folderInfo.folderId;
       }
 
       // Upload a single file
