@@ -1,18 +1,18 @@
 import { Resolver, Arg, Mutation } from 'type-graphql';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { Service } from 'typedi';
-import { ReceiptRepository } from '@repository';
+import { GoogleService } from '@service';
 
 @Service()
 @Resolver()
 export class ReceiptResolver {
-  constructor(private readonly receiptRepo: ReceiptRepository) {}
+  constructor(private readonly googleService: GoogleService) {}
 
   @Mutation(() => Boolean)
   async uploadExpensesReceipt(
     @Arg('receipt', () => GraphQLUpload)
     fileUpload: FileUpload
   ) {
-    return await this.receiptRepo.uploadImage(fileUpload);
+    return await this.googleService.uploadImage(fileUpload);
   }
 }

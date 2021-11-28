@@ -33,7 +33,9 @@
 		"@repository": ["repository"],
 		"@exceptions": ["exceptions"],
 		"@ioc": ["ioc"],
-    "@authentication": ["authentication"]
+    "@authentication": ["authentication"],
+    "@unit-of-work": ["unit-of-work"],
+    "@service": ["service"]
 	  }
   },
   "exclude": ["node_modules", "client", "dist"],
