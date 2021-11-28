@@ -12,13 +12,14 @@
     "pretty": "npx prettier --write .",
     "knex": "npx knex --knexfile src/database/knex/knexfile.ts",
     "rollback-all": "npx knex migrate:rollback --all --knexfile src/database/knex/knexfile.ts",
-    "build": "cross-env NODE_ENV=production npm run build-ts",
+    "build": "cross-env NODE_ENV=production npm run build-ts && npm run build-web",
     "start": "node -r ./prod-paths.js ./dist/server.js",
     "postinstall": "npm run build",
     "prod-rollback-all": "knex migrate:rollback --all --knexfile dist/database/knex/knexfile.js",
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "npm run prod-rollback-all && npm run knex-prod migrate:latest && npm run knex-prod seed:run",
-    "build-ts": "tsc -p ."
+    "build-ts": "tsc -p .",
+    "build-web": "cd web && npm run build"
   },
   "keywords": [
     "graphql",
@@ -32,6 +33,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "fastify": "^3.24.0",
+    "fastify-static": "^4.5.0",
     "graphql": "^15.6.1",
     "knex": "^0.95.13",
     "mercurius": "^8.9.1",
