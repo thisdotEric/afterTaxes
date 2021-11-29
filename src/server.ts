@@ -1,5 +1,6 @@
 // Only for Heroku hosting
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+//if (process.env.NODE_ENV !== 'production') 
+require('dotenv').config();
 
 import 'reflect-metadata';
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
