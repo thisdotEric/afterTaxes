@@ -9,6 +9,7 @@ import createGraphQLSchema from './build-schema';
 import { resolve } from 'path';
 import fastifyStaticFiles from 'fastify-static';
 
+const PORT = process.env.PORT || 3000;
 const API_PATH = '/api/v1';
 
 const app = Fastify();
@@ -39,10 +40,13 @@ const main = async () => {
   });
 
   // Run the application
-  app.listen(process.env.PORT || 3000, () => {
-    console.log(
-      `afterTaxes server started on ${process.env.APP_TAXES_URL}:${PORT}${API_PATH}`
-    );
+  app.listen(PORT, '0.0.0.0', (error: Error, address: string) => {
+    if (error) {
+      app.log.error(error);
+      process.exit(1);
+    }
+
+    console.log(`afterTaxes server started on ${address}${API_PATH}`);
   });
 };
 
