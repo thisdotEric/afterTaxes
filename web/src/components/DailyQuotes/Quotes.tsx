@@ -17,7 +17,7 @@ const Quotes: FC<QuotesProps> = ({}: QuotesProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('http://api.quotable.io/random')
+    fetch('https://api.quotable.io/random')
       .then(res => res.json())
       .then(data => {
         setRandomQuote({ author: data.author, quote: data.content });
