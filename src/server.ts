@@ -1,6 +1,5 @@
 // Only for Heroku hosting
-//if (process.env.NODE_ENV !== 'production') 
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 import 'reflect-metadata';
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
@@ -10,6 +9,7 @@ import createGraphQLSchema from './build-schema';
 import { resolve } from 'path';
 import fastifyStaticFiles from 'fastify-static';
 
+const PORT = process.ENV.PORT || 3000;
 const API_PATH = '/api/v1';
 
 const app = Fastify();
@@ -40,7 +40,7 @@ const main = async () => {
   });
 
   // Run the application
-  app.listen(process.env.PORT || 3000, () => {
+  app.listen(PORT || 3000, () => {
     console.log(
       `afterTaxes server started on ${process.env.APP_TAXES_URL}:${PORT}${API_PATH}`
     );
