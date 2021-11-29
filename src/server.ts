@@ -40,10 +40,13 @@ const main = async () => {
   });
 
   // Run the application
-  app.listen(PORT || 3000, () => {
-    console.log(
-      `afterTaxes server started on ${process.env.APP_TAXES_URL}:${PORT}${API_PATH}`
-    );
+  app.listen(PORT, '0.0.0.0', (error, address) => {
+    if (error) {
+      app.log.error(error);
+      process.exit(1);
+    }
+
+    console.log(`afterTaxes server started on ${address}${API_PATH}`);
   });
 };
 
