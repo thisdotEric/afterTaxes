@@ -40,7 +40,7 @@ const main = async () => {
   });
 
   // Run the application
-  app.listen(PORT, '0.0.0.0', (error, address) => {
+  app.listen(PORT, '0.0.0.0', (error: Error, address: string) => {
     if (error) {
       app.log.error(error);
       process.exit(1);
