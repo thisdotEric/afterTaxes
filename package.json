@@ -38,6 +38,7 @@
     "knex": "^0.95.13",
     "mercurius": "^8.9.1",
     "pg": "^8.7.1",
+    "redis": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.4",
     "type-graphql": "^1.1.1",

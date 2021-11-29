@@ -6,8 +6,10 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import mercurius from 'mercurius';
 import { AppContext } from '@types';
 import createGraphQLSchema from './build-schema';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import fastifyStaticFiles from 'fastify-static';
+import { redis } from '@utils/redis';
+import { writeFileSync } from 'fs';
 
 const PORT = process.env.PORT || 3000;
 const API_PATH = '/api/v1';
@@ -15,6 +17,16 @@ const API_PATH = '/api/v1';
 const app = Fastify();
 
 const main = async () => {
+  // Create the google authentication JSON file
+  await redis.connect();
+
+  const authObject = await redis.get(process.env.REDIS_GOOGLE_AUTH_KEY!);
+  writeFileSync(
+    // make sure to create 'authentication' folder inside src directory
+    join(__dirname, 'authentication', process.env.GOOGLE_AUTH_JSON_FILENAME!),
+    authObject!
+  );
+
   // Create GraphQL schemas
   const schema = await createGraphQLSchema();
 
