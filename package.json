@@ -19,7 +19,7 @@
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "npm run prod-rollback-all && npm run knex-prod migrate:latest && npm run knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "build-react": "cd web && npm run build",
+    "build-react": "cd web && npm run install && npm run build",
     "test": "jest --detectOpenHandles",
     "ci:test": "jest"
   },
