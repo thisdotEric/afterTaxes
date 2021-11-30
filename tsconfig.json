@@ -31,9 +31,11 @@
 		"@database/*": ["database/*"],
 		"@entity": ["entity"],
 		"@repository": ["repository"],
-		"@exceptions": ["exceptions"]
+		"@exceptions": ["exceptions"],
+    "@app/*": ["app/*"],
+    "@authentication": ["authentication"]
 	  }
   },
   "exclude": ["node_modules", "client", "dist"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "test/**/*.test.ts"]
 }
