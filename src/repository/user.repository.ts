@@ -9,6 +9,10 @@ import { UserNotFoundException } from '@exceptions';
 export class UserRepository implements BaseRepository<IUser, string> {
   constructor(private readonly db: KnexQueryBuilder) {}
 
+  async add(entity: IUser): Promise<boolean> {
+    return entity !== null;
+  }
+
   async getById(user_id: string): Promise<IUser> {
     const user = await this.db
       .getDbInstance()(DbNames.USERS)

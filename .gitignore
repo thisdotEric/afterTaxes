@@ -3,3 +3,4 @@ node_modules/
 dist/
 db_backups/*.sql
 db_backups/*.dump
+src/authentication/*.json

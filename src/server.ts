@@ -6,6 +6,9 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import mercurius from 'mercurius';
 import { AppContext } from '@types';
 import createGraphQLSchema from './build-schema';
+import MercuriusGQLUpload from 'mercurius-upload';
+import AltairFastify from 'altair-fastify-plugin';
+import cors from 'fastify-cors';
 import { resolve, join } from 'path';
 import fastifyStaticFiles from 'fastify-static';
 import { redis } from '@utils/redis';
@@ -30,6 +33,13 @@ const main = async () => {
   // Create GraphQL schemas
   const schema = await createGraphQLSchema();
 
+  // Mercurius graphql upload plugin
+  app.register(MercuriusGQLUpload);
+
+  app.register(cors, {
+    origin: '*',
+  });
+
   app.register(mercurius, {
     schema,
     graphiql: process.env.NODE_ENV === 'development',
@@ -40,6 +50,15 @@ const main = async () => {
       };
     },
   });
+
+  // Setup (altair) GraphQL playground on development only
+  if (process.env.NODE_ENV === 'development') {
+    app.register(AltairFastify, {
+      path: '/altair',
+      baseURL: '/altair/',
+      endpointURL: API_PATH,
+    });
+  }
 
   // Serve static files
   app.register(fastifyStaticFiles, {
