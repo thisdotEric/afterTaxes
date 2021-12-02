@@ -1,0 +1,76 @@
+.fields {
+  display: block;
+  text-align: center;
+}
+
+#remember {
+  display: flex;
+  margin: 10px;
+}
+
+#remember p {
+  color: white;
+  margin-left: 10px;
+  font-weight: 200;
+  font-size: 12px;
+}
+
+#app-name {
+  font-size: 48px;
+  text-align: center;
+  color: #75cf9a;
+  margin: 20px;
+}
+
+input:focus {
+  outline: none;
+}
+
+/* email and password input  */
+form input[type='text'],
+form input[type='password'] {
+  margin: auto;
+  background-color: #2e3139;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+  width: 275px;
+}
+
+/* login button */
+form input[type='submit'] {
+  background-color: #15c45e;
+  padding: 10px;
+  border: 0;
+  border-radius: 20px;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+/* login button */
+form input[type='submit']:hover {
+  background-color: #12a750;
+}
+
+/* login button */
+form input[type='checkbox'] {
+  cursor: pointer;
+}
+
+/* Remove white input background on autocomplete */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff !important;
+}
