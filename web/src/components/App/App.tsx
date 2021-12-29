@@ -1,19 +1,22 @@
 import React, { FC } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { Home } from '../../pages/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { LandingPage } from '../../pages/LandingPage';
 import { Dashboard } from '../../pages/Dashboard';
+import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
 
 interface AppProps {}
 
 const App: FC<AppProps> = ({}: AppProps) => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<Dashboard />}>
+          <Route path="/dashboard" element={<RecordExpenses />} />
+        </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 };
 

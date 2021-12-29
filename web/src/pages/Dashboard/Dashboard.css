@@ -3,7 +3,11 @@
   background-color: #202226;
 }
 
-.left {
+.side-nav * {
+  background-color: #2e3139;
+}
+
+.side-nav {
   background-color: #2e3139;
   height: 100%;
   width: 220px;
@@ -16,21 +20,4 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-}
-
-.history-cards * {
-  background-color: #2e3139;
-}
-
-.app {
-  background-color: transparent;
-  margin: 15px;
-  display: block;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.app {
-  color: white;
-  background-color: green;
 }

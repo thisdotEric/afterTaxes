@@ -1,45 +1,24 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import './Dashboard.css';
-import dummyData from '../../data';
+import { Outlet } from 'react-router-dom';
+import { SideNav } from '../../components/SideNav';
+import { AppLogo } from '../../components/App';
 import { User } from '../../components/User';
-import { RecordExpenses } from '../Expenses/RecordExpenses';
 
 interface DashboardProps {}
 
-export interface DailyExpensesOverview {
-  day: number;
-  budget: number;
-  spent: number;
-  spent_percentage: number;
-  remaining: number;
-}
-
-const AppLogo = () => {
-  return (
-    <div className="app">
-      <p>afterTaxes</p>
-    </div>
-  );
-};
-
 const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
-  const [expensesOverview, setExpensesOverview] =
-    useState<DailyExpensesOverview[]>(dummyData);
-
   return (
     <div className="dashboard">
-      <div className="left">
-        <AppLogo />
-
+      <div className="side-nav">
+        <div>
+          <AppLogo />
+          <SideNav />
+        </div>
         <User fullName="John Eric Siguenza" />
       </div>
       <div className="main">
-        {/* <Expenses
-          year={2021}
-          month="December"
-          expensesOverview={expensesOverview}
-        /> */}
-        <RecordExpenses />
+        <Outlet />
       </div>
     </div>
   );

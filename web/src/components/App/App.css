@@ -9,3 +9,30 @@
 .App {
   text-align: center;
 }
+
+.app {
+  background-color: transparent;
+  margin: 15px;
+  display: block;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.app {
+  color: white;
+  font-weight: bold;
+}
+
+#aftertaxes,
+#aftertaxes span {
+  background-color: #2e3139;
+  font-size: 20px;
+}
+
+#aftertaxes {
+  color: white;
+}
+
+#aftertaxes span {
+  color: #00f868;
+}

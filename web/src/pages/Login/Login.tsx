@@ -43,7 +43,9 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
 
   return (
     <div className="login">
-      <p id="app-name">afterTaxes</p>
+      <p id="app-name">
+        <span>after</span>Taxes
+      </p>
 
       <form
         action=""
