@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './Home.css';
 import { Login } from '../Login';
-import github from '../../images/github.png';
+import github from '../../assets/github.png';
 
 interface HomeProps {}
 

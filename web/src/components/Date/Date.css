@@ -1,0 +1,13 @@
+#date {
+  font-size: 30px;
+  padding: 20px 30px;
+  font-weight: bold;
+}
+
+#month {
+  color: white;
+}
+
+#year {
+  color: #00f868;
+}

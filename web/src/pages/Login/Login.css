@@ -1,0 +1,36 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+#remember {
+  display: flex;
+  margin: 10px;
+  cursor: pointer;
+}
+
+#remember p {
+  color: white;
+  margin-left: 10px;
+  font-weight: 200;
+  font-size: 12px;
+}
+
+#app-name {
+  font-size: 48px;
+  text-align: center;
+  color: #75cf9a;
+  margin: 20px;
+}
+
+#login-btn {
+  text-align: center;
+  width: 100%;
+}
+
+form input[type='checkbox'] {
+  cursor: pointer;
+}

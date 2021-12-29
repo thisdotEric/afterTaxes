@@ -1,0 +1,16 @@
+.side-nav {
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#active {
+  background-color: #15c45e;
+}

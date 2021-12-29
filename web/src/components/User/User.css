@@ -1,0 +1,25 @@
+.user * {
+  background-color: #2e3139;
+}
+
+.user {
+  display: block;
+  text-align: center;
+  margin: 10px;
+}
+
+.user p {
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.user-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-links img {
+  margin: 5px 10px;
+}

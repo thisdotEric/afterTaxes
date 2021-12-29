@@ -1,0 +1,123 @@
+.expenses {
+  width: 100%;
+}
+
+/* Main content */
+
+.history {
+  margin: 0px 70px;
+}
+
+.history-cards {
+  height: auto;
+  background-color: #2e3139;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.history-cards p {
+  color: #d6d2d2;
+}
+
+.history-cards:hover {
+  cursor: pointer;
+}
+
+#day,
+#budget,
+#spent,
+#remaining {
+  font-weight: bold;
+  color: white;
+}
+
+#day,
+#h_day {
+  text-align: left;
+  padding-left: 30px;
+  width: 10%;
+}
+
+#under-spent {
+  color: #00f868;
+  font-weight: bold;
+}
+
+#over-spent {
+  color: #fe4949;
+  font-weight: bold;
+}
+
+table tr td,
+table tr th {
+  text-align: left;
+}
+
+table tr th {
+  color: #d6d2d2;
+  font-weight: lighter;
+  font-size: 13px;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75em;
+}
+
+#angle {
+  text-align: right;
+  padding-right: 20px;
+  width: 10%;
+}
+
+#calendar-icon {
+  padding-left: 10px;
+}
+
+#accordion-body {
+  color: white;
+  width: 100%;
+}
+
+#accordion-body p {
+  background-color: #2e3139;
+  padding: 20px;
+}
+
+#content {
+  margin-bottom: 10px;
+}
+
+.accordion-content {
+  width: 100%;
+  text-align: center;
+}
+
+.hide {
+  display: none;
+}
+
+hr {
+  width: 80%;
+  border: 1px solid rgb(130, 130, 130);
+}
+
+.time {
+  width: 100px;
+}
+
+/* Change the color of the small clock in the time input */
+input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg)
+    brightness(95%) contrast(80%);
+}
+
+form {
+  width: 100%;
+}
+
+.table-header {
+  text-align: center;
+}

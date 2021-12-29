@@ -1,0 +1,36 @@
+.main {
+  margin-left: 225px;
+  background-color: #202226;
+}
+
+.left {
+  background-color: #2e3139;
+  height: 100%;
+  width: 220px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.history-cards * {
+  background-color: #2e3139;
+}
+
+.app {
+  background-color: transparent;
+  margin: 15px;
+  display: block;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.app {
+  color: white;
+  background-color: green;
+}
