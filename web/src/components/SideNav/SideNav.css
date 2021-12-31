@@ -18,8 +18,11 @@ ul li {
 
 #signout {
   width: 100%;
-  color: #fe4949;
   cursor: pointer;
+}
+
+#signout:hover {
+  background-color: #3b3e48;
 }
 
 .active {
@@ -28,10 +31,24 @@ ul li {
   background-color: #202226;
 }
 
-.link-row {
-  display: block;
+#icon {
+  background-color: inherit;
+  width: 13px;
+  height: 13px;
+  padding-right: 5px;
 }
 
-.bar {
-  border-left: 3px solid rgb(155, 218, 10);
+.sign {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #2e3139;
+}
+
+.logout {
+  background-color: #2e3139;
+  width: 13px;
+  height: 13px;
+  padding-left: 42px;
+  padding-right: 0;
 }
