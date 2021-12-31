@@ -52,7 +52,7 @@
 ```
   yarn dev
 ```
-s
+
 ## Project Structure
 | Codebase              |      Description          |
 | :-------------------- | :-----------------------: |
