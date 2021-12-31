@@ -11,15 +11,13 @@
     "dev": "cross-env NODE_ENV=development tsnd -r tsconfig-paths/register --respawn --transpile-only ./src/server.ts",
     "pretty": "npx prettier --write .",
     "knex": "npx knex --knexfile src/database/knex/knexfile.ts",
-    "rollback-all": "npx knex migrate:rollback --all --knexfile src/database/knex/knexfile.ts",
-    "build": "cross-env NODE_ENV=production npm run build-ts && npm run build-react",
+    "build": "cross-env NODE_ENV=production yarn build-ts",
     "start": "node -r ./prod-paths.js ./dist/server.js",
-    "postinstall": "npm install --include=dev --prefix ./ ./web && npm run build",
-    "prod-rollback-all": "knex migrate:rollback --all --knexfile dist/database/knex/knexfile.js",
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
-    "prod-migrations": "npm run prod-rollback-all && npm run knex-prod migrate:latest && npm run knex-prod seed:run",
+    "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "build-react": "cd web && npm run build"
+    "build-react": "cd web && yarn install && yarn build",
+    "heroku-postbuild": "yarn build-react"
   },
   "keywords": [
     "graphql",
