@@ -16,7 +16,7 @@
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "build-react": "cd web && yarn install && yarn build",
+    "build-react": "cd web && npm install --dev && yarn build",
     "heroku-postbuild": "yarn build-react"
   },
   "keywords": [
