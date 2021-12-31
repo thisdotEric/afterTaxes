@@ -1,0 +1,37 @@
+ul li {
+  list-style: none;
+  text-decoration: none;
+  background-color: #2e3139;
+}
+
+.link,
+#signout {
+  text-decoration: none;
+  color: white;
+  background-color: #2e3139;
+  padding: 10px 10px 10px 40px;
+  display: block;
+  text-align: left;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#signout {
+  width: 100%;
+  color: #fe4949;
+  cursor: pointer;
+}
+
+.active {
+  color: #15c45e;
+  font-weight: bold;
+  background-color: #202226;
+}
+
+.link-row {
+  display: block;
+}
+
+.bar {
+  border-left: 3px solid rgb(155, 218, 10);
+}

@@ -9,3 +9,28 @@
 .App {
   text-align: center;
 }
+
+.app {
+  background-color: #2e3139;
+  padding: 20px 10px 30px 10px;
+  text-align: center;
+}
+
+.app {
+  color: white;
+  font-weight: bold;
+}
+
+#aftertaxes,
+#aftertaxes span {
+  background-color: #2e3139;
+  font-size: 20px;
+}
+
+#aftertaxes {
+  color: white;
+}
+
+#aftertaxes span {
+  color: #00f868;
+}

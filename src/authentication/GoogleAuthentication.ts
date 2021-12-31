@@ -1,3 +1,4 @@
+import { redis } from '@utils/redis';
 import {
   BaseExternalAccountClient,
   Compute,
@@ -15,9 +16,21 @@ export type GoogleAuthObject =
   | BaseExternalAccountClient;
 
 export default async function getGoogleAuthenticationObject(): Promise<GoogleAuthObject> {
+  await redis.connect();
+
+  const private_key = (await redis.get(process.env.REDIS_GOOGLE_PRIVATE_KEY!))!;
+  const service_account_email = (await redis.get(
+    process.env.REDIS_GOOGLE_SERVICE_ACCOUNT_EMAIL!
+  ))!;
+
+  await redis.quit();
+
   // Create the Google authentication object
   return new GoogleAuth({
-    keyFile: __dirname + `/${process.env.GOOGLE_AUTH_JSON_FILENAME}`,
+    credentials: {
+      private_key,
+      client_email: service_account_email,
+    },
     scopes: ['https://www.googleapis.com/auth/drive'],
   }).getClient();
 }

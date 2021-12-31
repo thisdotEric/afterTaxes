@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import './Home.css';
+import './LandingPage.css';
 import { Login } from '../Login';
-import github from '../../images/github.png';
+import { github } from '../../assets';
 
-interface HomeProps {}
+interface LandingPageProps {}
 
-const Home: FC<HomeProps> = ({}: HomeProps) => {
+const LandingPage: FC<LandingPageProps> = ({}: LandingPageProps) => {
   return (
     <div className="home">
       <Login />
@@ -17,4 +17,4 @@ const Home: FC<HomeProps> = ({}: HomeProps) => {
   );
 };
 
-export default Home;
+export default LandingPage;

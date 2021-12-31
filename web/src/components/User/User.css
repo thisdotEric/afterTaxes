@@ -1,0 +1,41 @@
+.user * {
+  background-color: #2e3139;
+}
+
+.user {
+  display: block;
+  text-align: center;
+  margin: 10px;
+}
+
+.user p {
+  color: white;
+  padding: 10px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.user-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.user-links img {
+  margin-left: 20px;
+}
+
+#profile {
+  background: #2e3139;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid #00f868;
+}
+
+#signout {
+  border: none;
+  color: #00f868;
+}

@@ -13,9 +13,8 @@
 ```
   cd afterTaxes
 ```
-5.  Install packages/dependencies using npm *(comes with NodeJS)* or yarn.
+5.  Install packages/dependencies using yarn.
 ```
-  npm install
   yarn install
 ```
 6. Install a relational database, (I used [PostgreSQL 13](https://www.postgresql.org/download/) in this project). Take note of your database credentials.
@@ -47,19 +46,13 @@
 ```
 8. Run database migrations and seed files.
 ```
-  npm run rollback-all
-```
-```
-  npm run knex migrate:latest
-```
-```
-  npm run knex seed:run
+  yarn knex migrate:rollback --all && yarn knex migrate:latest && yarn knex seed:run
 ```
 9. Run the application locally. Runs on *localhost:3000* by default.
 ```
-  npm run dev
+  yarn dev
 ```
-
+s
 ## Project Structure
 | Codebase              |      Description          |
 | :-------------------- | :-----------------------: |
@@ -83,4 +76,3 @@
 
 ## Acknowledgements
 * TypeScript's native path mapping guide using [Kehrlann/module-alias-74](https://github.com/Kehrlann/module-alias-74) repository.
-* [quotable](https://github.com/lukePeavey/quotable) repository for random quotes.
