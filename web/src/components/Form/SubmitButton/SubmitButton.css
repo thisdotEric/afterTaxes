@@ -1,4 +1,4 @@
-input[type='submit'] {
+.btn {
   display: block;
   background-color: #0a9645;
   padding: 10px;
@@ -14,6 +14,6 @@ input[type='submit'] {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-input[type='submit']:hover {
+.btn:hover {
   background-color: #0a8a3f;
 }

@@ -1,16 +1,19 @@
-.main {
-  margin-left: 225px;
+.dashboard {
   background-color: #202226;
 }
 
-.side-nav * {
-  background-color: #2e3139;
+.main {
+  margin-left: 200px;
+}
+
+#top {
+  width: 100%;
 }
 
 .side-nav {
   background-color: #2e3139;
   height: 100%;
-  width: 220px;
+  width: 200px;
   position: fixed;
   z-index: 1;
   top: 0;

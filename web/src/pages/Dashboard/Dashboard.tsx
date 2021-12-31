@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './Dashboard.css';
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
@@ -8,10 +8,14 @@ import { User } from '../../components/User';
 interface DashboardProps {}
 
 const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
+  useEffect(() => {
+    document.title = 'Dashboard';
+  }, []);
+
   return (
     <div className="dashboard">
       <div className="side-nav">
-        <div>
+        <div id="top">
           <AppLogo />
           <SideNav />
         </div>

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './LandingPage.css';
 import { Login } from '../Login';
-import github from '../../assets/github.png';
+import { github } from '../../assets';
 
 interface LandingPageProps {}
 

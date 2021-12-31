@@ -1,16 +1,12 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Expenses.css';
 import { angle_down, angle_up } from '../../assets';
-import type { DailyExpensesOverview } from '../Dashboard/Dashboard';
 import { Date } from '../../components/Date';
 import { tableHeaders, getTimeIn24HourFormat } from '../../constants';
 import { TableHeader } from '../../components/Table';
+import expensesOverview from '../../data';
 
-interface ExpensesProps {
-  month: string;
-  year: number;
-  expensesOverview: DailyExpensesOverview[];
-}
+interface ExpensesProps {}
 
 interface DailyExpenses {
   index: number;
@@ -19,11 +15,11 @@ interface DailyExpenses {
   amount: number;
 }
 
-const Expenses: FC<ExpensesProps> = ({
-  expensesOverview,
-  year,
-  month,
-}: ExpensesProps) => {
+const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
+  useEffect(() => {
+    document.title = 'Expenses';
+  }, []);
+
   //Change to null after
   const [clicked, setClicked] = useState<null | number>(0);
   const [expenses, setExpenses] = useState<DailyExpenses[]>([

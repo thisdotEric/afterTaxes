@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import './User.css';
-import { github, settings, sign_out } from '../../assets';
+import { settings, sign_out } from '../../assets';
 import { useNavigate } from 'react-router-dom';
 
 interface UserProps {
@@ -11,28 +11,15 @@ const User: FC<UserProps> = ({ fullName }: UserProps) => {
   const navigate = useNavigate();
   return (
     <div className="user">
-      <p>{fullName}</p>
-
-      <div className="user-links">
+      <div id="name">
         <img
-          src={settings}
-          alt=""
-          width={22}
-          height={22}
-          title="User settings"
+          id="profile"
+          src="https://randomuser.me/api/portraits/med/women/30.jpg"
+          alt="Profile Picture"
+          title="John Eric Siguenza"
         />
-        <img
-          src={sign_out}
-          alt=""
-          width={30}
-          height={25}
-          title="Sign out"
-          onClick={e => {
-            e.preventDefault();
 
-            navigate('/');
-          }}
-        />
+        <p>{fullName}</p>
       </div>
     </div>
   );

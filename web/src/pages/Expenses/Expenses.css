@@ -81,6 +81,10 @@ table {
   width: 100%;
 }
 
+.history-cards * {
+  background-color: #2e3139;
+}
+
 #accordion-body p {
   background-color: #2e3139;
   padding: 20px;
