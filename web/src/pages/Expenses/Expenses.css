@@ -5,7 +5,7 @@
 /* Main content */
 
 .history {
-  margin: 0px 70px;
+  margin-right: 70px;
 }
 
 .history-cards {
@@ -29,6 +29,7 @@
 #remaining {
   font-weight: bold;
   color: white;
+  font-size: 14px;
 }
 
 #day,
@@ -41,11 +42,13 @@
 #under-spent {
   color: #00f868;
   font-weight: bold;
+  font-size: 14px;
 }
 
 #over-spent {
   color: #fe4949;
   font-weight: bold;
+  font-size: 14px;
 }
 
 table tr td,
@@ -56,7 +59,7 @@ table tr th {
 table tr th {
   color: #d6d2d2;
   font-weight: lighter;
-  font-size: 13px;
+  font-size: 11px;
 }
 
 table {
@@ -124,4 +127,10 @@ form {
 
 .table-header {
   text-align: center;
+}
+
+#angle-icon {
+  color: #00f868;
+  width: 22px;
+  height: 22px;
 }
