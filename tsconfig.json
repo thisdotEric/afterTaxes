@@ -31,9 +31,13 @@
 		"@database/*": ["database/*"],
 		"@entity": ["entity"],
 		"@repository": ["repository"],
-		"@exceptions": ["exceptions"]
+		"@exceptions": ["exceptions"],
+		"@ioc": ["ioc"],
+    "@authentication": ["authentication"],
+    "@unit-of-work": ["unit-of-work"],
+    "@service": ["service"]
 	  }
   },
   "exclude": ["node_modules", "client", "dist"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./src/authentication/*.json"]
 }

@@ -1,0 +1,9 @@
+export { default as calendar } from './calendar.svg';
+export { default as settings } from './settings.svg';
+export { default as github } from './github.png';
+export { default as angle_down } from './angle-down.svg';
+export { default as sign_out } from './signout.svg';
+export { default as pie } from './pie.svg';
+export { default as angle_up } from './angle-up.svg';
+export { default as save } from './save.svg';
+export { default as remove } from './delete.svg';

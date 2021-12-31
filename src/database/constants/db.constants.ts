@@ -20,6 +20,7 @@ export abstract class DbNames {
   static readonly BUDGET_NAME = 'budget_name';
   static readonly SAVINGS = 'savings';
   static readonly SAVINGS_HISTORY = 'savings_history';
+  static readonly GDRIVE_FOLDER = 'gdrive_folder';
 }
 
 export abstract class ReferenceOptions {
