@@ -42,6 +42,11 @@
 ```
   yarn dev
 ```
+10. Sign in using the dummy account.
+```
+  email:     test@test.com
+  password:  password
+```
 
 ## Project Structure
 | Codebase              |      Description          |
