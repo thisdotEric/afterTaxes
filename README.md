@@ -19,7 +19,7 @@
 ```
 6. Install a relational database, (I used [PostgreSQL](https://www.postgresql.org/download/) in this project). Take note of your database credentials.
 7. Create a new *PostgreSQL* database using [createdb](https://www.postgresql.org/docs/9.1/app-createdb.html) command.
-8. Using the *.env.example* file, create a *.env* file in the root folder. After which, fill up all the missing environment variables.
+8. Using the *.env.example* file, create a *.env* file in the root folder. After which, fill up all the missing environment variables without quotes.
 ```
 
   NODE_ENV=development
