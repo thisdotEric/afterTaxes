@@ -6,6 +6,7 @@ import { tableHeaders, getTimeIn24HourFormat } from '../../constants';
 import { TableHeader } from '../../components/Table';
 import expensesOverview from '../../data';
 import { ChevronDown, ChevronUp } from 'react-feather';
+import { month, year } from '../../constants/date';
 
 interface ExpensesProps {}
 
@@ -42,7 +43,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   return (
     <div className="expenses">
-      <Date month={12} year={2021} />
+      <Date month={month} year={year} />
 
       <div className="history">
         {/* <TableHeader /> */}
