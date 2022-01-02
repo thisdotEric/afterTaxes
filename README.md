@@ -3,8 +3,8 @@
 ---
 
 ## Steps to run project locally
-1. Install [NodeJs LTS](https://nodejs.org/en/download/).
-2. Install your favorite text editor (mine's [VS Code](https://code.visualstudio.com/download)) and also [Git](https://git-scm.com/downloads).
+1. Install [NodeJs LTS](https://nodejs.org/en/download/). The version used in this project is **v16.x LTS**, **v8.x** of NodeJs and npm, respectively.
+2. Install your favorite text editor (mine's [VS Code](https://code.visualstudio.com/download)), [git](https://git-scm.com/downloads) and [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable).
 3. Clone the project to your development machine using VS Code's terminal or Git Bash.
 ```
   git clone https://github.com/thisdotEric/afterTaxes.git
@@ -17,23 +17,13 @@
 ```
   yarn install
 ```
-6. Install a relational database, (I used [PostgreSQL 13](https://www.postgresql.org/download/) in this project). Take note of your database credentials.
+6. Install a relational database, (I used [PostgreSQL](https://www.postgresql.org/download/) in this project). Take note of your database credentials.
 7. Create a new *PostgreSQL* database using [createdb](https://www.postgresql.org/docs/9.1/app-createdb.html) command.
 8. Using the *.env.example* file, create a *.env* file in the root folder. After which, fill up all the missing environment variables.
 ```
 
   NODE_ENV=development
   PORT=3000
-
-  # Change to your remote URL after uploading into production
-  APP_TAXES_URL=localhost
-
-  # Credentials for remote pg_dump
-  PGPASSWORD=
-  REMOTE_HOST=
-  REMOTE_PORT=
-  REMOTE_DB_NAME=
-  REMOTE_DB_USER=
 
   # Local Database Credentials
   DB_NAME=
@@ -65,14 +55,11 @@
 | [middlewares](src/middlewares)        |      Middleware implementations
 
 ## Branches
-
-
 | Branch             |      Description          |
 | :-------------------- | :-----------------------: |
 | [main](https://github.com/thisdotEric/afterTaxes)        |      Main branch, most updated
 | [production](https://github.com/thisdotEric/afterTaxes/tree/production)        |      Production branch for automatic deploys. Currently hosted in *Heroku*
-| [db_setup](https://github.com/thisdotEric/afterTaxes/tree/db_setup)        |      Branch for migration creation and seed files 
-| [react-web](https://github.com/thisdotEric/afterTaxes/tree/react-web)        |      React Web application 
+| [web](https://github.com/thisdotEric/afterTaxes/tree/react-web)        |      React Web application 
 
 ## Acknowledgements
 * TypeScript's native path mapping guide using [Kehrlann/module-alias-74](https://github.com/Kehrlann/module-alias-74) repository.
