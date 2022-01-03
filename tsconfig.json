@@ -35,9 +35,10 @@
 		"@ioc": ["ioc"],
     "@authentication": ["authentication"],
     "@unit-of-work": ["unit-of-work"],
-    "@service": ["service"]
+    "@service": ["service"],
+    "@app/*": ["app/*"]
 	  }
   },
   "exclude": ["node_modules", "client", "dist"],
-  "include": ["./src/**/*", "./src/authentication/*.json"]
+  "include": ["./src/**/*", "__test__/**/*.test.ts"]
 }

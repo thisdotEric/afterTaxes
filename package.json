@@ -17,7 +17,8 @@
     "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
     "build-react": "cd web && yarn install && yarn build",
-    "heroku-postbuild": "yarn build-react"
+    "heroku-postbuild": "yarn build-react",
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [
     "graphql",
@@ -46,11 +47,14 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.0",
     "@types/node": "^16.11.6",
     "@types/pg": "^8.6.1",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
+    "jest": "^27.4.5",
     "prettier": "^2.4.1",
+    "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.11.0",
