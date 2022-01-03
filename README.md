@@ -18,6 +18,7 @@
   yarn install
 ```
 6. Install a relational database, (I used [PostgreSQL](https://www.postgresql.org/download/) in this project). Take note of your database credentials.
+    * If you prefer to use other relational database, please refer to the [KnexJs installation guide](https://knexjs.org/#Installation) and proceed to step 8.
 7. Create a new *PostgreSQL* database using [createdb](https://www.postgresql.org/docs/9.1/app-createdb.html) command.
 8. Using the *.env.example* file, create a *.env* file in the root folder. After which, fill up all the missing environment variables without quotes.
 ```
@@ -34,15 +35,15 @@
   DATABASE_URL=
 
 ```
-8. Run database migrations and seed files.
+9. Run database migrations and seed files.
 ```
   yarn knex migrate:rollback --all && yarn knex migrate:latest && yarn knex seed:run
 ```
-9. Run the application locally. Runs on *localhost:3000* by default.
+10. Run the application locally. Runs on *localhost:3000* by default.
 ```
   yarn dev
 ```
-10. Sign in using the dummy account.
+11. Sign in using the dummy account.
 ```
   email:     test@test.com
   password:  password
