@@ -19,7 +19,7 @@ export default async function getGoogleAuthenticationObject(): Promise<GoogleAut
   await redis.connect();
 
   const private_key = (await redis.get(process.env.REDIS_GOOGLE_PRIVATE_KEY!))!;
-  const service_account_email = (await redis.get(
+  const client_email = (await redis.get(
     process.env.REDIS_GOOGLE_SERVICE_ACCOUNT_EMAIL!
   ))!;
 
@@ -29,7 +29,7 @@ export default async function getGoogleAuthenticationObject(): Promise<GoogleAut
   return new GoogleAuth({
     credentials: {
       private_key,
-      client_email: service_account_email,
+      client_email,
     },
     scopes: ['https://www.googleapis.com/auth/drive'],
   }).getClient();

@@ -47,7 +47,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
     "@types/node": "^16.11.6",
     "@types/pg": "^8.6.1",
     "@types/shelljs": "^0.8.9",
