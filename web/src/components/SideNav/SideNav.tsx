@@ -1,14 +1,7 @@
 import React, { FC } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './SideNav.css';
-import {
-  LogOut,
-  Camera,
-  Check,
-  Home,
-  PieChart,
-  DollarSign,
-} from 'react-feather';
+import { Home, PieChart, DollarSign, UserPlus, Archive } from 'react-feather';
 
 interface SideNavProps {}
 
@@ -28,12 +21,22 @@ const links: Links[] = [
   {
     name: 'Expenses',
     to: '/expenses',
-    icon: <DollarSign id="icon" />,
+    icon: <Archive id="icon" />,
   },
   {
     name: 'Reports',
     to: '/reports',
     icon: <PieChart id="icon" />,
+  },
+  {
+    name: 'Budget',
+    to: '/budget',
+    icon: <DollarSign id="icon" />,
+  },
+  {
+    name: 'Profile',
+    to: '/reports',
+    icon: <UserPlus id="icon" />,
   },
   {
     name: 'Sign out',
