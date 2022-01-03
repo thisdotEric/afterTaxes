@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import './User.css';
-import { settings, sign_out } from '../../assets';
 import { useNavigate } from 'react-router-dom';
 
 interface UserProps {
@@ -14,7 +13,7 @@ const User: FC<UserProps> = ({ fullName }: UserProps) => {
       <div id="name">
         <img
           id="profile"
-          src="https://randomuser.me/api/portraits/med/women/30.jpg"
+          src="https://randomuser.me/api/portraits/med/men/30.jpg"
           alt="Profile Picture"
           title="John Eric Siguenza"
         />

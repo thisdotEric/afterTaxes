@@ -5,6 +5,7 @@ import { LandingPage } from '../../pages/LandingPage';
 import { Dashboard } from '../../pages/Dashboard';
 import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
 import Expenses from '../../pages/Expenses/Expenses';
+import { Day } from '../../pages/Reports';
 
 interface AppProps {}
 
@@ -16,6 +17,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
         <Route path="/" element={<Dashboard />}>
           <Route path="/dashboard" element={<RecordExpenses />} />
           <Route path="/expenses" element={<Expenses />} />
+          <Route path="/reports" element={<Day />} />
         </Route>
       </Routes>
     </Router>
