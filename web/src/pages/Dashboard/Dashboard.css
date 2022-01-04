@@ -3,7 +3,8 @@
 }
 
 .main {
-  margin-left: 200px;
+  margin-left: 250px;
+  margin-right: 20px;
 }
 
 #top {
@@ -13,7 +14,7 @@
 .side-nav {
   background-color: #2e3139;
   height: 100%;
-  width: 200px;
+  width: 210px;
   position: fixed;
   z-index: 1;
   top: 0;

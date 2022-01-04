@@ -1,6 +1,7 @@
 <h1 align='center'> afterTaxes </h1>
 
 ---
+![example workflow](https://github.com/thisdotEric/afterTaxes/actions/workflows/ci.yml/badge.svg)
 
 ## Steps to run project locally
 1. Install [NodeJs LTS](https://nodejs.org/en/download/). The version used in this project is **v16.x LTS**, **v8.x** of NodeJs and npm, respectively.
