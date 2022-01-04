@@ -8,6 +8,7 @@ export default {
     '@app': './src/assets',
   },
   plugins: [
+    '@snowpack/plugin-sass',
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
     [

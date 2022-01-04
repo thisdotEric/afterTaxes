@@ -1,0 +1,17 @@
+name: afterTaxes CI
+on:
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    name: 'Unit and integration tests'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+      - name: Run Test
+        env:
+          API_PATH: /api/v1
+        run: yarn test

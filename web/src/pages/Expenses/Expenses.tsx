@@ -5,6 +5,8 @@ import { Date } from '../../components/Date';
 import { tableHeaders, getTimeIn24HourFormat } from '../../constants';
 import { TableHeader } from '../../components/Table';
 import expensesOverview from '../../data';
+import { ChevronDown, ChevronUp } from 'react-feather';
+import { month, year } from '../../constants/date';
 
 interface ExpensesProps {}
 
@@ -41,10 +43,10 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   return (
     <div className="expenses">
-      <Date month={12} year={2021} />
+      <Date month={month} year={year} />
 
       <div className="history">
-        <TableHeader />
+        {/* <TableHeader /> */}
 
         {expensesOverview.map((history, index: number) => (
           <div className="history-cards">
@@ -70,12 +72,11 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                   </td>
                   <td id="remaining">{history.remaining.toFixed(2)}</td>
                   <td id="angle">
-                    <img
-                      src={clicked === index ? angle_up : angle_down}
-                      alt="angle-down"
-                      width={22}
-                      height={22}
-                    />
+                    {clicked === index ? (
+                      <ChevronUp id="angle-icon" />
+                    ) : (
+                      <ChevronDown id="angle-icon" />
+                    )}
                   </td>
                 </tr>
               </tbody>
