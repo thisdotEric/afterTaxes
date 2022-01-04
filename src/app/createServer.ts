@@ -6,7 +6,6 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import mercurius from 'mercurius';
 import { AppContext } from '@types';
 import createGraphQLSchema from './buildSchema';
-import MercuriusGQLUpload from 'mercurius-upload';
 import cors from 'fastify-cors';
 import fastifyStatic from 'fastify-static';
 import { join } from 'path';
@@ -14,14 +13,13 @@ import { join } from 'path';
 export default async function createServer() {
   const app = Fastify();
 
-  // Mercurius graphql upload plugin
-  app.register(MercuriusGQLUpload);
-
   app.register(cors, {
     origin: '*',
   });
 
-  // Create GraphQL schemas
+  /**
+   * Generate GraphQL Schema
+   */
   const schema = await createGraphQLSchema();
 
   app.register(mercurius, {

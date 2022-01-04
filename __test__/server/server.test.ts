@@ -5,11 +5,11 @@ describe('Server health check', () => {
   let app: FastifyInstance;
   const API_PATH = process.env.API_PATH;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await createServer();
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close();
   });
 
