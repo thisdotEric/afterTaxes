@@ -39,6 +39,6 @@
     "@app/*": ["app/*"]
 	  }
   },
-  "exclude": ["node_modules", "client", "dist"],
+  "exclude": ["node_modules", "client", "dist", "__test__"],
   "include": ["./src/**/*", "__test__/**/*.test.ts"]
 }
