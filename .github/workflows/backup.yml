@@ -10,13 +10,13 @@ jobs:
     name: 'Backup Database'
     runs-on: ubuntu-latest
     steps:
-      - name: Check out db_backup directory
+      - name: Check out backup directory
         uses: Bhacaz/checkout-files@v1
         with:
-          files: db_backup
+          files: backup
           token: ${{ secrets.PAT }}
       - name: View directory
-        run: cd db_backup && yarn install --frozen-lockfile
+        run: cd backup && yarn install --frozen-lockfile
 
       #   run: cd db_backup && yarn install --frozen-lockfile
       # - name: Backup aftertaxes database
