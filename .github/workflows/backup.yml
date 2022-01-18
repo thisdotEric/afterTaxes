@@ -1,7 +1,5 @@
 name: afterTaxes Database Backup
 on:
-  push:
-    branches: [monorepo]
   schedule:
     - cron: '0 22 * * 0'
 
