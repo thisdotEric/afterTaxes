@@ -42,14 +42,14 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
   let navigate = useNavigate();
 
   return (
-    <div className="login">
-      <p id="app-name">
+    <div className='login'>
+      <p id='app-name'>
         <span>after</span>Taxes
       </p>
 
       <form
-        action=""
-        onSubmit={e => {
+        action=''
+        onSubmit={(e) => {
           e.preventDefault();
 
           console.log(state);
@@ -58,39 +58,39 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         }}
       >
         <TextInput
-          type="email"
-          name="email"
-          placeholder="Email"
-          value="siguenza089@gmail.com"
+          type='email'
+          name='email'
+          placeholder='Email'
+          value='siguenza089@gmail.com'
           required={true}
-          title="Email"
-          onChange={e => {
+          title='Email'
+          onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
           }}
         />
         <TextInput
-          type="password"
-          name="password"
-          title="Password"
-          placeholder="Password"
-          value="password"
+          type='password'
+          name='password'
+          title='Password'
+          placeholder='Password'
+          value='password'
           required={true}
-          onChange={e => {
+          onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
           }}
         />
 
-        <div id="remember">
+        <div id='remember'>
           <input
-            type="checkbox"
-            name="remember-me"
+            type='checkbox'
+            name='remember-me'
             checked={checkBoxState}
             onClick={clickCheckbox}
           />
           <p onClick={clickCheckbox}>Remember Me</p>
         </div>
 
-        <SubmitButton id="login-btn" name="login" value="Sign in" />
+        <SubmitButton id='login-btn' name='login' value='Sign In' />
       </form>
     </div>
   );
