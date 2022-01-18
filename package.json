@@ -1,4 +1,5 @@
 {
+  "name": "aftertaxes",
   "private": true,
   "workspaces": [
     "packages/*"
