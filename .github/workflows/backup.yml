@@ -15,18 +15,16 @@ jobs:
         with:
           files: db_backup
           token: ${{ secrets.PAT }}
-      - name: Navigate to db_backup directory
-        run: ls -la
-      # - name: Install packages
-      #   run: yarn install --frozen-lockfile
-      # - name: Backup aftertaxes database
-      #   env:
-      #     DB_HOST: ${{ secrets.DB_HOST }}
-      #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      #     DB_USER: ${{ secrets.DB_USER }}
-      #     DB_PORT: ${{ secrets.DB_PORT }}
-      #     DB_NAME: ${{ secrets.DB_NAME }}
-      #     SERVICE_EMAIL: ${{ secrets.SERVICE_EMAIL }}
-      #     PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      #     FOLDER_ID: ${{ secrets.FOLDER_ID }}
-      #   run: yarn start
+      - name: Install packages
+        run: cd db_backup && yarn install --frozen-lockfile
+      - name: Backup aftertaxes database
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          SERVICE_EMAIL: ${{ secrets.SERVICE_EMAIL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          FOLDER_ID: ${{ secrets.FOLDER_ID }}
+        run: cd db_backup && yarn start
