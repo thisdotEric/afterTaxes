@@ -1,5 +1,5 @@
 {
-  "name": "db_backup",
+  "name": "backup",
   "description": "Node script to remotely backup the database to Google drive",
   "version": "1.0.0",
   "main": "index.js",
@@ -8,7 +8,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "@googleapis/drive": "^2.1.0",
