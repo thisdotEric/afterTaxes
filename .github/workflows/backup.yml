@@ -14,6 +14,7 @@ jobs:
         uses: Bhacaz/checkout-files@v1
         with:
           files: db_backup
+          token: ${{ secrets.PAT }}
       - name: Navigate to the backup script directory
         run: cd db_backup
       - name: Install packages
