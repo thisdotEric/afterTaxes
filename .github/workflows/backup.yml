@@ -10,13 +10,13 @@ jobs:
     name: 'Backup Database'
     runs-on: ubuntu-latest
     steps:
+      - name: Navigate to the backup script directory
+        run: cd db_backup
       - uses: actions/checkout@v2
         with:
           node: '16.x'
       - name: Install packages
         run: yarn install --frozen-lockfile
-      - name: Navigate to the backup script directory
-        run: cd db_backup
       - name: Backup aftertaxes database
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
