@@ -1,11 +1,11 @@
 {
-  "name": "aftertaxes-web",
+  "name": "@aftertaxes/web",
   "description": "Web App for afterTaxes application",
   "version": "1.0.0",
   "author": "John Eric Siguenza",
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build",
+    "build": "snowpack build && cp public/_redirects build/_redirects",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
   },

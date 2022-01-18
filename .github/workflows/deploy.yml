@@ -1,0 +1,26 @@
+name: Build and Deploy to Netlify
+on:
+  push:
+    branches: [netlify]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+
+        # For deployment, the build scope will only include the web directory and
+        # the commons directory if there is
+      - name: Build application
+        run: yarn build:web
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: 'packages/web/build'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
