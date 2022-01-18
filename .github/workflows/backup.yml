@@ -10,23 +10,18 @@ jobs:
     name: 'Backup Database'
     runs-on: ubuntu-latest
     steps:
-      - name: Check out backup directory
-        uses: Bhacaz/checkout-files@v1
-        with:
-          files: backup
-          token: ${{ secrets.PAT }}
-      - name: View directory
+      - uses: actions/checkout@v2
+      - name: Install depedendencies
         run: cd backup && yarn install --frozen-lockfile
-
-      #   run: cd db_backup && yarn install --frozen-lockfile
-      # - name: Backup aftertaxes database
-      #   env:
-      #     DB_HOST: ${{ secrets.DB_HOST }}
-      #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      #     DB_USER: ${{ secrets.DB_USER }}
-      #     DB_PORT: ${{ secrets.DB_PORT }}
-      #     DB_NAME: ${{ secrets.DB_NAME }}
-      #     SERVICE_EMAIL: ${{ secrets.SERVICE_EMAIL }}
-      #     PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      #     FOLDER_ID: ${{ secrets.FOLDER_ID }}
-      #   run: cd db_backup && yarn start
+        run: cd db_backup && yarn install --frozen-lockfile
+      - name: Backup aftertaxes database
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          SERVICE_EMAIL: ${{ secrets.SERVICE_EMAIL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          FOLDER_ID: ${{ secrets.FOLDER_ID }}
+        run: cd backup && yarn start
