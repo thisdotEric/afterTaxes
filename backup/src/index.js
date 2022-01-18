@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import uploadDbDumpToGoogleDrive from './backup';
 
 function getCurrentDate() {
   const date = new Date();
@@ -15,5 +16,5 @@ function getCurrentDate() {
    */
   const filename = getCurrentDate() + '.tar';
 
-  console.log(filename);
+  await uploadDbDumpToGoogleDrive(filename);
 })();
