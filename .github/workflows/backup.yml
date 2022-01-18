@@ -15,6 +15,8 @@ jobs:
         with:
           files: db_backup
           token: ${{ secrets.PAT }}
+      - name: Navigate to db_backup directory
+        run: cd db_backup
       - name: Install packages
         run: yarn install --frozen-lockfile
       - name: Backup aftertaxes database
