@@ -2,6 +2,8 @@ name: afterTaxes CI
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   tests:
@@ -14,4 +16,6 @@ jobs:
       - name: Run Test
         env:
           API_PATH: /api/v1
-        run: yarn test
+        run: yarn test:server
+      - name: Build both server and web application
+        run: yarn build && yarn build:web
