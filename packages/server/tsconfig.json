@@ -27,7 +27,6 @@
       "@exceptions": ["exceptions"],
       "@ioc": ["ioc"],
       "@authentication": ["authentication"],
-      "@unit-of-work": ["unit-of-work"],
       "@service": ["service"],
       "@app/*": ["app/*"]
     }

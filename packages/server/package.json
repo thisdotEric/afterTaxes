@@ -1,7 +1,9 @@
 {
-  "name": "aftertaxes",
+  "name": "@aftertaxes/server",
   "version": "1.0.0",
   "description": "GraphQL backend for a personalized income tracker application",
+  "author": "John Eric Siguenza <siguenzajohneric@gmail.com>",
+  "license": "MIT",
   "main": "dist/server.js",
   "engines": {
     "node": "16.x",
@@ -16,18 +18,14 @@
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "build-react": "cd web && yarn install && yarn build",
-    "heroku-postbuild": "yarn build-react",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [
     "graphql",
     "typescript",
     "nodejs",
-    "express"
+    "fastify"
   ],
-  "author": "John Eric Siguenza",
-  "license": "ISC",
   "dependencies": {
     "@googleapis/drive": "^2.0.2",
     "cross-env": "^7.0.3",

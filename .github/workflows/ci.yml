@@ -16,6 +16,6 @@ jobs:
       - name: Run Test
         env:
           API_PATH: /api/v1
-        run: yarn test
-      - name: Build application
-        run: yarn build && cd web && yarn install && yarn build
+        run: yarn test:server
+      - name: Build both server and web application
+        run: yarn build && yarn build:web
