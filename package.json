@@ -13,5 +13,10 @@
   },
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x",
+    "yarn": "1.22.17"
   }
 }
