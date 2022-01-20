@@ -10,6 +10,8 @@ import cors from 'fastify-cors';
 import autoLoad from 'fastify-autoload';
 import { join } from 'path';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 export default async function createServer() {
   const app = Fastify();
 
@@ -21,7 +23,8 @@ export default async function createServer() {
   });
 
   app.register(cors, {
-    origin: '*',
+    origin: isDev ? 'http://localhost:8080' : process.env.WEBAPP_URL,
+    credentials: true,
   });
 
   /**
@@ -31,7 +34,7 @@ export default async function createServer() {
 
   app.register(mercurius, {
     schema,
-    graphiql: process.env.NODE_ENV === 'development',
+    graphiql: isDev,
     path: `${process.env.API_PATH}`,
     context: (request: FastifyRequest, _): AppContext => {
       return {

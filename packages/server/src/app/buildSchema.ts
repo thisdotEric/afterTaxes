@@ -1,10 +1,10 @@
 import { buildSchema } from 'type-graphql';
 import { Container } from '@ioc';
-import { MeResolver } from '@graphql/resolvers';
+import { MeResolver, AuthenticationResolver } from '@graphql/resolvers';
 
 export default function createGraphQLSchema() {
   return buildSchema({
-    resolvers: [MeResolver],
+    resolvers: [MeResolver, AuthenticationResolver],
     container: Container,
     validate: false,
   });
