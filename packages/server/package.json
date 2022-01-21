@@ -27,6 +27,7 @@
     "fastify"
   ],
   "dependencies": {
+    "@aftertaxes/commons": "1.0.0",
     "@googleapis/drive": "^2.0.2",
     "connect-session-knex": "^2.1.1",
     "cross-env": "^7.0.3",

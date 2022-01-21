@@ -1,10 +1,11 @@
 import { AppContext } from '@types';
 import { Arg, Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
-import { LoginInput } from '../../graphql/inputs';
+import { LoginInput } from '@graphql/inputs';
+import { ILoggedInUser } from '@aftertaxes/commons';
 
 @ObjectType()
-class LoggedInUser {
+class LoggedInUser implements ILoggedInUser {
   @Field()
   email: string;
 
@@ -25,7 +26,7 @@ export default class AuthenticationResolver {
   ): Promise<LoggedInUser> {
     console.log(email, password);
 
-    const user = {
+    const user: LoggedInUser = {
       email,
       fullname: 'John Eric Siguenza',
     };
