@@ -1,7 +1,15 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './SideNav.css';
-import { Home, PieChart, DollarSign, UserPlus, Archive } from 'react-feather';
+import {
+  Home,
+  PieChart,
+  DollarSign,
+  UserPlus,
+  Archive,
+  User,
+} from 'react-feather';
+import { UserInitialState, UserContext } from '../../context';
 
 interface SideNavProps {}
 
@@ -49,6 +57,8 @@ const links: Links[] = [
 const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
   const navigate = useNavigate();
 
+  const { setUser } = useContext(UserContext);
+
   return (
     <ul className='ul'>
       {links.map((link, index) =>
@@ -58,7 +68,10 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
             onClick={(e) => {
               e.preventDefault();
 
-              localStorage.setItem('isLoggedIn', 'false');
+              /**
+               * Set the user to its initial (empty) state
+               */
+              setUser(UserInitialState);
 
               navigate('/');
             }}

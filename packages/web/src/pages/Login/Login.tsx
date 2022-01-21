@@ -1,9 +1,11 @@
-import React, { FC, useReducer, useState } from 'react';
+import React, { FC, useContext, useReducer, useState } from 'react';
 import './Login.css';
 import { SubmitButton, TextInput } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
 import graphql from '../../graphql/request';
 import { loginMutation } from '../../graphql/mutations';
+import { UserContext } from '../../context';
+import type { ILoggedInUser } from '@aftertaxes/commons';
 
 interface LoginProps {}
 
@@ -36,6 +38,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
     email: '',
     password: '',
   });
+  const { setUser } = useContext(UserContext);
 
   const clickCheckbox = () => {
     setCheckBoxState(!checkBoxState);
@@ -50,13 +53,18 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
       </p>
 
       <form
-        action=''
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const data = await graphql.request(loginMutation, state);
-          console.log(data);
-          localStorage.setItem('isLoggedIn', 'true');
+          const user = await graphql.request<ILoggedInUser>(
+            loginMutation,
+            state
+          );
+
+          /**
+           * Set the currently logged in user
+           */
+          setUser(user);
 
           navigate('/dashboard');
         }}

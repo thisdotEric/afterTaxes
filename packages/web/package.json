@@ -10,6 +10,7 @@
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
+    "@aftertaxes/commons": "1.0.0",
     "@snowpack/plugin-sass": "^1.4.0",
     "graphql-request": "^3.7.0",
     "react": "^17.0.2",
