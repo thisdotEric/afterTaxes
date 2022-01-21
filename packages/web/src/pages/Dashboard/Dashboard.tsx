@@ -13,15 +13,15 @@ const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
   }, []);
 
   return (
-    <div className="dashboard">
-      <div className="side-nav">
-        <div id="top">
+    <div className='dashboard'>
+      <div className='side-nav'>
+        <div id='top'>
           <AppLogo />
           <SideNav />
         </div>
-        <User fullName="John Eric Siguenza" />
+        <User fullName='John Eric Siguenza' />
       </div>
-      <div className="main">
+      <div className='main'>
         <Outlet />
       </div>
     </div>

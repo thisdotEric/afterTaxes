@@ -16,27 +16,27 @@ const links: Links[] = [
   {
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <Home id="icon" />,
+    icon: <Home id='icon' />,
   },
   {
     name: 'Expenses',
     to: '/expenses',
-    icon: <Archive id="icon" />,
+    icon: <Archive id='icon' />,
   },
   {
     name: 'Reports',
     to: '/reports',
-    icon: <PieChart id="icon" />,
+    icon: <PieChart id='icon' />,
   },
   {
     name: 'Budget',
     to: '/budget',
-    icon: <DollarSign id="icon" />,
+    icon: <DollarSign id='icon' />,
   },
   {
     name: 'Profile',
     to: '/reports',
-    icon: <UserPlus id="icon" />,
+    icon: <UserPlus id='icon' />,
   },
   {
     name: 'Sign out',
@@ -50,31 +50,33 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
   const navigate = useNavigate();
 
   return (
-    <ul className="ul">
+    <ul className='ul'>
       {links.map((link, index) =>
         link.isSignout ? (
           <form
-            action=""
-            onClick={e => {
+            action=''
+            onClick={(e) => {
               e.preventDefault();
+
+              localStorage.setItem('isLoggedIn', 'false');
 
               navigate('/');
             }}
           >
             <input
-              id="signout"
-              type="submit"
-              value="Sign out"
+              id='signout'
+              type='submit'
+              value='Sign out'
               style={{ color: '#fe4949' }}
             />
           </form>
         ) : (
           <li>
-            <NavLink key={index} id="actual-link" className="link" to={link.to}>
+            <NavLink key={index} id='actual-link' className='link' to={link.to}>
               {link.icon} {link.name}
             </NavLink>
           </li>
-        ),
+        )
       )}
     </ul>
   );

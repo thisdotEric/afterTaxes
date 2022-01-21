@@ -2,6 +2,8 @@ import React, { FC, useReducer, useState } from 'react';
 import './Login.css';
 import { SubmitButton, TextInput } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
+import graphql from '../../graphql/request';
+import { loginMutation } from '../../graphql/mutations';
 
 interface LoginProps {}
 
@@ -49,10 +51,12 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
 
       <form
         action=''
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
 
-          console.log(state);
+          const data = await graphql.request(loginMutation, state);
+          console.log(data);
+          localStorage.setItem('isLoggedIn', 'true');
 
           navigate('/dashboard');
         }}
@@ -61,7 +65,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           type='email'
           name='email'
           placeholder='Email'
-          value='siguenza089@gmail.com'
+          value={state.email}
           required={true}
           title='Email'
           onChange={(e) => {
@@ -73,7 +77,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           name='password'
           title='Password'
           placeholder='Password'
-          value='password'
+          value={state.password}
           required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
