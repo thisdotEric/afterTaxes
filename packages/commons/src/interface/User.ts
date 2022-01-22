@@ -1,10 +1,13 @@
 import ID from './ID';
 
-interface IUser extends ID<string> {
+export interface IUser extends ID<string> {
   firstName: string;
   middleName: string;
   lastName: string;
   email: string;
 }
 
-export default IUser;
+export interface ILoggedInUser {
+  email: IUser['email'];
+  fullname: string;
+}

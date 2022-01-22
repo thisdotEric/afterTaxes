@@ -1,7 +1,11 @@
-import React, { FC, useReducer, useState } from 'react';
+import React, { FC, useContext, useReducer, useState } from 'react';
 import './Login.css';
 import { SubmitButton, TextInput } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
+import graphql from '../../graphql/request';
+import { loginMutation } from '../../graphql/mutations';
+import { UserContext } from '../../context';
+import type { ILoggedInUser } from '@aftertaxes/commons';
 
 interface LoginProps {}
 
@@ -34,6 +38,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
     email: '',
     password: '',
   });
+  const { setUser } = useContext(UserContext);
 
   const clickCheckbox = () => {
     setCheckBoxState(!checkBoxState);
@@ -48,11 +53,18 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
       </p>
 
       <form
-        action=''
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
 
-          console.log(state);
+          const user = await graphql.request<ILoggedInUser, LoginState>(
+            loginMutation,
+            state
+          );
+
+          /**
+           * Set the currently logged in user
+           */
+          setUser(user);
 
           navigate('/dashboard');
         }}
@@ -61,7 +73,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           type='email'
           name='email'
           placeholder='Email'
-          value='siguenza089@gmail.com'
+          value={state.email}
           required={true}
           title='Email'
           onChange={(e) => {
@@ -73,7 +85,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           name='password'
           title='Password'
           placeholder='Password'
-          value='password'
+          value={state.password}
           required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });

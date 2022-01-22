@@ -7,12 +7,24 @@ import mercurius from 'mercurius';
 import { AppContext } from '@types';
 import createGraphQLSchema from './buildSchema';
 import cors from 'fastify-cors';
+import autoLoad from 'fastify-autoload';
+import { join } from 'path';
+
+const isDev = process.env.NODE_ENV === 'development';
 
 export default async function createServer() {
   const app = Fastify();
 
+  /**
+   * Registers all the plugins found in the plugins directory
+   */
+  app.register(autoLoad, {
+    dir: join(__dirname, '../plugins'),
+  });
+
   app.register(cors, {
-    origin: '*',
+    origin: isDev ? 'http://localhost:8080' : process.env.WEBAPP_URL,
+    credentials: true,
   });
 
   /**
@@ -22,7 +34,7 @@ export default async function createServer() {
 
   app.register(mercurius, {
     schema,
-    graphiql: process.env.NODE_ENV === 'development',
+    graphiql: isDev,
     path: `${process.env.API_PATH}`,
     context: (request: FastifyRequest, _): AppContext => {
       return {
