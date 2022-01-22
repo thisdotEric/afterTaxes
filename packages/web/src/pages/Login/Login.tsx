@@ -56,7 +56,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const user = await graphql.request<ILoggedInUser>(
+          const user = await graphql.request<ILoggedInUser, LoginState>(
             loginMutation,
             state
           );
