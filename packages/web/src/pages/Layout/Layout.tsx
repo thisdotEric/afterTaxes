@@ -2,7 +2,7 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import { SideNavWrapper, MainContentWrapper } from './Layout.styles';
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
-import { AppLogo } from '../../components/App';
+import { AppLogo } from '../../components/App/AppLogo';
 import { PopUp } from '../../components/PopUp';
 import { PopUpContext, IPopUp } from '../../context';
 
