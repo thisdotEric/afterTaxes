@@ -7,6 +7,7 @@ const white = '#fff';
 const red = '#fe4949';
 const loginGreen = '#0a9645';
 const loginGreenHover = '#0a9645';
+const grey = '#ddd4d4';
 
 export {
   primarybg,
@@ -18,4 +19,5 @@ export {
   red,
   loginGreen,
   loginGreenHover,
+  grey,
 };

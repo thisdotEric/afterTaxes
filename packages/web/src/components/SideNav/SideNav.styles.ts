@@ -4,6 +4,8 @@ import {
   primarybg,
   red,
   lightgreen,
+  white,
+  grey,
 } from '../../components/styles/colors';
 
 export const SideNavLinksWrapper = styled.ul`
@@ -15,13 +17,19 @@ export const SideNavLinksWrapper = styled.ul`
   .link,
   #signout {
     text-decoration: none;
-    color: white;
+    color: ${white};
     background-color: ${secondarybg};
     padding: 10px 10px 10px 40px;
     display: block;
     text-align: left;
     font-size: 13px;
     font-weight: bold;
+    transition: transform 0.1s;
+  }
+
+  .link:hover {
+    color: ${grey};
+    transform: scale(1.02);
   }
 
   #signout {
@@ -48,10 +56,11 @@ export const SideNavLinksWrapper = styled.ul`
     height: 13px;
     padding-right: 5px;
   }
-
-  .active {
+  .active,
+  .active:hover {
     color: ${lightgreen};
     font-weight: bold;
     background-color: ${primarybg};
+    transform: scale(1);
   }
 `;
