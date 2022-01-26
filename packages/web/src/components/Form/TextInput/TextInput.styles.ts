@@ -1,4 +1,4 @@
-import { secondarybg, white } from '../../../components/styles/colors';
+import { green, secondarybg, white } from '../../../components/styles/colors';
 import styled from 'styled-components';
 
 export const InputWrapper = styled.div`
@@ -66,5 +66,15 @@ export const InputWrapper = styled.div`
 
   input[type='number'] {
     -moz-appearance: textfield;
+  }
+
+  #eye {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    cursor: pointer;
+    color: ${green};
+    height: 16px;
+    width: 16px;
   }
 `;
