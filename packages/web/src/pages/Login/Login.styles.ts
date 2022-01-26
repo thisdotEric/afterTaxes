@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { lightgreen, primarybg, white } from '../../components/styles/colors';
+import {
+  lightgreen,
+  primarybg,
+  red,
+  white,
+} from '../../components/styles/colors';
 
 export const LoginWrapper = styled.div`
   display: flex;
@@ -38,6 +43,12 @@ export const LoginWrapper = styled.div`
 
   #github {
     margin-top: 100px;
+  }
+
+  #errMsg {
+    font-size: 13px;
+    text-align: left;
+    color: ${red};
   }
 `;
 

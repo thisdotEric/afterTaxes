@@ -41,8 +41,10 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
   const [checkBoxState, setCheckBoxState] = useState<boolean>(false);
   const [state, dispatch] = useReducer(loginReducer, {
     email: 'siguenza089@gmail.com',
-    password: '',
+    password: 'password',
   });
+  const [error, setError] = useState<string | null>();
+
   const { setUser } = useContext(UserContext);
 
   const clickCheckbox = () => {
@@ -83,6 +85,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           title='Email'
           onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
+            setError(null);
           }}
         />
         <TextInput
@@ -94,6 +97,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
+            setError(null);
           }}
         />
 
@@ -107,6 +111,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           <p onClick={clickCheckbox}>Remember Me</p>
         </RememberMe>
 
+        {error && <p id='errMsg'>{error}</p>}
         <SubmitButton id='login-btn' name='login' value='Sign In' />
 
         <a href='https://github.com/thisdotEric/afterTaxes' target='_blank'>
