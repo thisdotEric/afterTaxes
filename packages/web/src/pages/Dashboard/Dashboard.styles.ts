@@ -28,6 +28,11 @@ export const CalendarGridDate = styled.div<CalendarGridProps>`
   width: 155px;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.15);
+  }
 
   ${({ isLegend }) => {
     if (isLegend) return 'border: 1px solid springgreen;';
