@@ -8,9 +8,9 @@ interface SubmitButtonProps {
 }
 
 const SubmitButton: FC<SubmitButtonProps> = (
-  submitButtonProps: SubmitButtonProps,
+  submitButtonProps: SubmitButtonProps
 ) => {
-  return <input type="submit" {...submitButtonProps} className="btn" />;
+  return <input type='submit' {...submitButtonProps} className='btn' />;
 };
 
 export default SubmitButton;

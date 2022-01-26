@@ -1,33 +1,41 @@
 import React, { FC, useMemo, useState } from 'react';
-import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LandingPage } from '../../pages/LandingPage';
-import { Dashboard } from '../../pages/Dashboard';
-import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
+import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
-import { Day } from '../../pages/Reports';
 import ProtectedRoutes from './ProtectedRoutes';
-import { IUser, UserContext } from '../../context';
+import { UserContext } from '../../context';
+import { Login } from '../../pages/Login';
+import type { ILoggedInUser } from '@aftertaxes/commons';
+import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
+import { Dashboard } from '../../pages/Dashboard';
+import { IDate, month, day, year } from '../../constants/date';
+import { UserProfile } from '../../pages/UserProfile';
 
 interface AppProps {}
 
 const App: FC<AppProps> = ({}: AppProps) => {
-  const [user, setUser] = useState<IUser>({ name: '', email: ' ' });
+  const [user, setUser] = useState<ILoggedInUser | null>(null);
+  const [currentDate, setCurrentDate] = useState<IDate>({ day, month, year });
 
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const value = useMemo(
+    () => ({ user, setUser, currentDate, setCurrentDate }),
+    [user, setUser, currentDate, setCurrentDate]
+  );
 
   return (
     <UserContext.Provider value={value}>
       <Router>
         <Routes>
-          <Route path='/' element={<LandingPage />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path='/' element={<Dashboard />}>
-              <Route path='/dashboard' element={<RecordExpenses />} />
-              <Route path='/expenses' element={<Expenses />} />
-              <Route path='/reports' element={<Day />} />
+            <Route path='/' element={<Layout />}>
+              <Route path='dashboard' element={<Dashboard />} />
+              <Route path='expenses' element={<Expenses />} />
+              <Route path='reports' element={<RecordExpenses />} />
+              <Route path='profile' element={<UserProfile />} />
             </Route>
           </Route>
+
+          <Route path='/signin' element={<Login />} />
         </Routes>
       </Router>
     </UserContext.Provider>

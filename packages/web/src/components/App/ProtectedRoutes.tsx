@@ -1,15 +1,14 @@
-// import { Dashboard } from '../../pages/Dashboard';
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { UserContext } from '../../context';
 
 interface ProtectedRoutesProps {}
-
-const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' ? true : false;
 
 const ProtectedRoutes: FC<
   ProtectedRoutesProps
 > = ({}: ProtectedRoutesProps) => {
-  return isLoggedIn ? <Outlet /> : <Navigate to='/' />;
+  const { user } = useContext(UserContext);
+  return user !== null ? <Outlet /> : <Navigate to='/signin' />;
 };
 
 export default ProtectedRoutes;

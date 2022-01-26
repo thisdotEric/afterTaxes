@@ -1,11 +1,12 @@
-import React, { FC, useContext, useReducer, useState } from 'react';
-import './Login.css';
+import React, { FC, useContext, useReducer, useRef, useState } from 'react';
+import { LoginWrapper, RememberMe } from './Login.styles';
 import { SubmitButton, TextInput } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
 import graphql from '../../graphql/request';
 import { loginMutation } from '../../graphql/mutations';
 import { UserContext } from '../../context';
 import type { ILoggedInUser } from '@aftertaxes/commons';
+import { github } from '../../assets';
 
 interface LoginProps {}
 
@@ -17,6 +18,10 @@ interface LoginState {
 interface LoginAction {
   type: 'email' | 'password';
   payload: string;
+}
+
+interface TData {
+  login: ILoggedInUser;
 }
 
 function loginReducer(state: LoginState, action: LoginAction): LoginState {
@@ -35,9 +40,11 @@ function loginReducer(state: LoginState, action: LoginAction): LoginState {
 const Login: FC<LoginProps> = ({}: LoginProps) => {
   const [checkBoxState, setCheckBoxState] = useState<boolean>(false);
   const [state, dispatch] = useReducer(loginReducer, {
-    email: '',
-    password: '',
+    email: 'siguenza089@gmail.com',
+    password: 'password',
   });
+  const [error, setError] = useState<string | null>();
+
   const { setUser } = useContext(UserContext);
 
   const clickCheckbox = () => {
@@ -47,8 +54,8 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
   let navigate = useNavigate();
 
   return (
-    <div className='login'>
-      <p id='app-name'>
+    <LoginWrapper>
+      <p>
         <span>after</span>Taxes
       </p>
 
@@ -56,7 +63,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const user = await graphql.request<ILoggedInUser, LoginState>(
+          const authenticatedUser = await graphql.request<TData, LoginState>(
             loginMutation,
             state
           );
@@ -64,7 +71,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           /**
            * Set the currently logged in user
            */
-          setUser(user);
+          setUser(authenticatedUser.login);
 
           navigate('/dashboard');
         }}
@@ -72,27 +79,29 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         <TextInput
           type='email'
           name='email'
-          placeholder='Email'
+          label='Email'
           value={state.email}
           required={true}
           title='Email'
           onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
+            setError(null);
           }}
         />
         <TextInput
           type='password'
           name='password'
           title='Password'
-          placeholder='Password'
+          label='Password'
           value={state.password}
           required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
+            setError(null);
           }}
         />
 
-        <div id='remember'>
+        <RememberMe>
           <input
             type='checkbox'
             name='remember-me'
@@ -100,11 +109,16 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
             onClick={clickCheckbox}
           />
           <p onClick={clickCheckbox}>Remember Me</p>
-        </div>
+        </RememberMe>
 
+        {error && <p id='errMsg'>{error}</p>}
         <SubmitButton id='login-btn' name='login' value='Sign In' />
+
+        <a href='https://github.com/thisdotEric/afterTaxes' target='_blank'>
+          <img src={github} alt='Github' width={30} height={30} id='github' />
+        </a>
       </form>
-    </div>
+    </LoginWrapper>
   );
 };
 

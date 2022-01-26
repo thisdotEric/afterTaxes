@@ -28,7 +28,7 @@ const initialState: ExpensesState = {
 
 function expensesReducer(
   state: ExpensesState,
-  action: ExpensesAction,
+  action: ExpensesAction
 ): ExpensesState {
   switch (action.type) {
     case 'name':
@@ -65,59 +65,59 @@ const RecordExpenses: FC<RecordExpensesProps> = ({}: RecordExpensesProps) => {
   return (
     <>
       <Date month={month} year={year} date={day} />
-      <div className="form">
-        <div className="input-form">
+      <div className='form'>
+        <div className='input-form'>
           <form
-            action=""
-            onSubmit={e => {
+            action=''
+            onSubmit={(e) => {
               handleSubmit(e);
             }}
           >
-            <div className="record-expenses">
+            <div className='record-expenses'>
               <TextInput
-                name="name"
-                title="Expenses name"
-                placeholder="Name"
-                type="text"
+                name='name'
+                title='Expenses name'
+                label='Name'
+                type='text'
                 value={expensesState.name}
                 required={false}
-                onChange={e => {
+                onChange={(e) => {
                   runDispatch('name', e.currentTarget.value);
                 }}
                 width={415}
               />
               <TextInput
-                name="amount"
-                title="Amount"
-                placeholder="Amount"
-                type="number"
-                step="0.0001"
+                name='amount'
+                title='Amount'
+                label='Amount'
+                type='number'
+                step='0.0001'
                 value={expensesState.amount}
                 required={false}
                 width={415}
-                onChange={e => {
+                onChange={(e) => {
                   runDispatch('amount', e.currentTarget.value);
                 }}
               />
               <textarea
                 cols={39}
-                placeholder="(Addtional) Description"
-                spellCheck="false"
+                placeholder='(Addtional) Description'
+                spellCheck='false'
                 rows={8}
                 value={expensesState.description}
-                onChange={e => {
+                onChange={(e) => {
                   runDispatch('description', e.target.value);
                 }}
               />
-              <div className="actions">
+              <div className='actions'>
                 <SubmitButton
-                  id="save-btn"
-                  name="submit"
-                  value="Save Expenses"
+                  id='save-btn'
+                  name='submit'
+                  value='Save Expenses'
                 />
                 <button
-                  id="reset-btn"
-                  onClick={e => {
+                  id='reset-btn'
+                  onClick={(e) => {
                     runDispatch('reset', '');
                   }}
                 >
@@ -126,13 +126,6 @@ const RecordExpenses: FC<RecordExpensesProps> = ({}: RecordExpensesProps) => {
               </div>
             </div>
           </form>
-        </div>
-        <div className="info">
-          <p id="message">
-            This will be your <span id="count">50th</span> expenditure for the
-            day.
-          </p>
-          <p id="message">How do you feel about that?</p>
         </div>
       </div>
     </>

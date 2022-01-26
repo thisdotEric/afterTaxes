@@ -1,15 +1,16 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import './SideNav.css';
+import { SideNavLinksWrapper } from './SideNav.styles';
 import {
   Home,
   PieChart,
-  DollarSign,
-  UserPlus,
   Archive,
-  User,
+  UserPlus,
+  ShoppingCart,
+  Settings,
 } from 'react-feather';
-import { UserInitialState, UserContext } from '../../context';
+import { UserContext } from '../../context';
+import { formattedDateToday } from '../../constants/date';
 
 interface SideNavProps {}
 
@@ -17,10 +18,10 @@ interface Links {
   name: string;
   to: string;
   isSignout?: boolean;
-  icon: any;
+  icon: JSX.Element | null;
 }
 
-const links: Links[] = [
+const sideNavLinks: Links[] = [
   {
     name: 'Dashboard',
     to: '/dashboard',
@@ -28,7 +29,7 @@ const links: Links[] = [
   },
   {
     name: 'Expenses',
-    to: '/expenses',
+    to: `/expenses`,
     icon: <Archive id='icon' />,
   },
   {
@@ -37,15 +38,21 @@ const links: Links[] = [
     icon: <PieChart id='icon' />,
   },
   {
-    name: 'Budget',
-    to: '/budget',
-    icon: <DollarSign id='icon' />,
+    name: 'Wishlist',
+    to: '/profile',
+    icon: <ShoppingCart id='icon' />,
   },
   {
     name: 'Profile',
-    to: '/reports',
+    to: '/profile',
     icon: <UserPlus id='icon' />,
   },
+  {
+    name: 'Settings',
+    to: '/profile',
+    icon: <Settings id='icon' />,
+  },
+
   {
     name: 'Sign out',
     to: '/',
@@ -57,41 +64,35 @@ const links: Links[] = [
 const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
   const navigate = useNavigate();
 
+  const [links, _] = useState<Links[]>(sideNavLinks);
+
   const { setUser } = useContext(UserContext);
 
   return (
-    <ul className='ul'>
+    <SideNavLinksWrapper>
       {links.map((link, index) =>
         link.isSignout ? (
           <form
-            action=''
             onClick={(e) => {
               e.preventDefault();
 
-              /**
-               * Set the user to its initial (empty) state
-               */
-              setUser(UserInitialState);
+              setUser(null);
 
-              navigate('/');
+              navigate('/signin');
             }}
           >
-            <input
-              id='signout'
-              type='submit'
-              value='Sign out'
-              style={{ color: '#fe4949' }}
-            />
+            <div className='line'></div>
+            <input id='signout' type='submit' value='Sign out' />
           </form>
         ) : (
           <li>
-            <NavLink key={index} id='actual-link' className='link' to={link.to}>
+            <NavLink key={index} className='link' to={link.to}>
               {link.icon} {link.name}
             </NavLink>
           </li>
         )
       )}
-    </ul>
+    </SideNavLinksWrapper>
   );
 };
 
