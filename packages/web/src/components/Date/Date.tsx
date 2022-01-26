@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './Date.css';
+import { DateText } from './Date.styles';
 import { calendar } from '../../assets';
 
 interface DateProps {
@@ -42,27 +42,27 @@ function monthToString(month: number) {
 
 const Date: FC<DateProps> = ({ year, month, date }) => {
   return (
-    <p id="date">
-      <span id="month">{monthToString(month)} </span>
+    <DateText>
+      <span id='month'>{monthToString(month)} </span>
       {date && (
         <>
-          <span id="month">{date}</span>
-          <span id="month">, </span>
+          <span id='month'>{date}</span>
+          <span id='month'>, </span>
         </>
       )}
-      <span id="year">{year}</span>
+      <span id='year'>{year}</span>
       <span> </span>
-      <a href="">
+      <a href=''>
         <img
           src={calendar}
-          alt=""
-          title="Change Date"
+          alt=''
+          title='Change Date'
           width={20}
           height={20}
-          id="calendar-icon"
+          id='calendar-icon'
         />
       </a>
-    </p>
+    </DateText>
   );
 };
 

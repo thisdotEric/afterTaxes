@@ -1,33 +1,18 @@
-import React, { FC } from 'react';
-import './TextInput.css';
+import React, { FC, HTMLProps } from 'react';
+import { InputWrapper } from './TextInput.styles';
 
-interface TextInputProps {
-  name: string;
-  placeholder: string;
-  type: 'text' | 'password' | 'number' | 'email';
-  required: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  width?: number;
-  step?: string;
-  value: any;
-  title: string;
+interface TextInputProps extends HTMLProps<HTMLInputElement> {
+  label: string;
 }
 
-const TextInput: FC<TextInputProps> = (textInputProps: TextInputProps) => {
+const TextInput: FC<TextInputProps> = (inputProps: TextInputProps) => {
   return (
-    <div className="text-input">
-      <input
-        id="input"
-        spellCheck="false"
-        style={{
-          width: textInputProps.width ? `${textInputProps.width}px` : '300px',
-        }}
-        {...textInputProps}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          textInputProps.onChange(e);
-        }}
-      />
-    </div>
+    <InputWrapper>
+      <input {...inputProps} />
+      <label className={(inputProps.value as string) && 'filled'}>
+        {inputProps.label}
+      </label>
+    </InputWrapper>
   );
 };
 
