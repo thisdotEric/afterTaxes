@@ -111,7 +111,12 @@ const UserProfile: FC<UserProfileProps> = ({}: UserProfileProps) => {
                 <tr id={`${index}`} className={index > 0 ? 'job-row' : ''}>
                   <td>{position}</td>
                   <td>{company}</td>
-                  <td>{`${startDate} - ${endDate}`}</td>
+                  <td>
+                    {`${startDate} `} -{' '}
+                    <span className={endDate === 'Present' ? 'present' : ''}>
+                      {endDate}
+                    </span>
+                  </td>
                   <td id='action'>
                     <Edit id='edit-icon' width={20} height={20} />
                   </td>

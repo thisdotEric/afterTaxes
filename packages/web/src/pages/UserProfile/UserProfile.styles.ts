@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { green, lightgreen, secondarybg } from '../../components/styles/colors';
+import {
+  green,
+  grey,
+  lightgreen,
+  secondarybg,
+} from '../../components/styles/colors';
 
 export const ProfileWrapper = styled.div`
   color: white;
@@ -37,7 +42,7 @@ export const ProfileWrapper = styled.div`
       }
 
       .job-row {
-        color: grey;
+        color: ${grey};
       }
 
       td {
@@ -46,6 +51,10 @@ export const ProfileWrapper = styled.div`
         padding: 8px 5px;
         box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
         width: 250px;
+
+        .present {
+          color: ${lightgreen};
+        }
       }
 
       #action {
