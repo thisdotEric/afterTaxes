@@ -1,7 +1,10 @@
 import { GraphQLClient } from 'graphql-request';
 
-const graphql = new GraphQLClient('http://localhost:3000/api/v1', {
-  credentials: 'include',
-});
+const graphql = new GraphQLClient(
+  import.meta.env.SNOWPACK_PUBLIC_AFTERTAXES_SERVER,
+  {
+    credentials: 'include',
+  }
+);
 
 export default graphql;

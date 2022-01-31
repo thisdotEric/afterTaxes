@@ -1,2 +1,4 @@
 build/
 .env
+.env.prod
+.env.dev
