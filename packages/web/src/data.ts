@@ -1,60 +1,38 @@
-const dummyData = [
-  {
-    day: 1,
-    budget: 6000.0,
-    spent: 300.0,
-    spent_percentage: 50,
-    remaining: 100.25,
-  },
-  {
-    day: 2,
-    budget: 200.0,
-    spent: 300.0,
-    spent_percentage: 150,
-    remaining: 0,
-  },
-  {
-    day: 3,
-    budget: 200.0,
-    spent: 555.0,
-    spent_percentage: 250,
-    remaining: 0,
-  },
-  {
-    day: 4,
-    budget: 20.0,
-    spent: 0.0,
-    spent_percentage: 0,
-    remaining: 0.0,
-  },
-  {
-    day: 5,
-    budget: 250.0,
-    spent: 0.0,
-    spent_percentage: 0,
-    remaining: 0.0,
-  },
-  {
-    day: 6,
-    budget: 6000.0,
-    spent: 300.0,
-    spent_percentage: 50,
-    remaining: 100.25,
-  },
-  {
-    day: 7,
-    budget: 100.0,
-    spent: 50.0,
-    spent_percentage: 50,
-    remaining: 0,
-  },
-  {
-    day: 8,
-    budget: 200.0,
-    spent: 555.0,
-    spent_percentage: 250,
-    remaining: 0,
-  },
-];
+import { year, month } from './constants/date';
 
-export default dummyData;
+interface IExpensesOverview {
+  day: number;
+  budget: number;
+  spent: number;
+  spent_percentage: number;
+  remaining: number;
+}
+
+let expensesOverview: IExpensesOverview[] = [];
+const max = 10000;
+const min = 500;
+
+function getNumberOfDays(month: number, year: number): number {
+  const d = new Date(year, month + 1, 0);
+  console.log(d);
+
+  return d.getDate();
+}
+
+const numberOfDays = getNumberOfDays(month - 1, year);
+
+for (let i = 1; i <= numberOfDays; i++) {
+  let budget = Math.floor(Math.random() * (max - min + 1) + min) + 0.45;
+  let spent = Math.floor(Math.random() * (max - min + 1) + min);
+  let remaining = budget - spent;
+
+  expensesOverview.push({
+    day: i,
+    budget,
+    spent,
+    remaining: parseFloat(remaining.toFixed(2)),
+    spent_percentage: Math.round((spent / budget) * 100),
+  });
+}
+
+export default expensesOverview;
