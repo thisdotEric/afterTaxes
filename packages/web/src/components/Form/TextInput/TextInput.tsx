@@ -1,33 +1,41 @@
-import React, { FC } from 'react';
-import './TextInput.css';
+import React, { FC, HTMLProps, useState } from 'react';
+import { InputWrapper } from './TextInput.styles';
+import { Eye, EyeOff } from 'react-feather';
 
-interface TextInputProps {
-  name: string;
-  placeholder: string;
-  type: 'text' | 'password' | 'number' | 'email';
-  required: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  width?: number;
-  step?: string;
-  value: any;
-  title: string;
+interface TextInputProps extends HTMLProps<HTMLInputElement> {
+  label: string;
 }
 
-const TextInput: FC<TextInputProps> = (textInputProps: TextInputProps) => {
+const TextInput: FC<TextInputProps> = (inputProps: TextInputProps) => {
+  const [passwordnInputType, setPasswordInputType] = useState<boolean>(
+    inputProps.type === 'password'
+  );
+
   return (
-    <div className="text-input">
+    <InputWrapper>
       <input
-        id="input"
-        spellCheck="false"
-        style={{
-          width: textInputProps.width ? `${textInputProps.width}px` : '300px',
-        }}
-        {...textInputProps}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          textInputProps.onChange(e);
-        }}
+        {...inputProps}
+        type={passwordnInputType ? 'password' : 'text'}
+        spellCheck={false}
       />
-    </div>
+      <label className={(inputProps.value as string) && 'filled'}>
+        {inputProps.label}
+      </label>
+
+      {inputProps.type === 'password' && passwordnInputType && (
+        <Eye
+          id='eye'
+          onClick={() => setPasswordInputType(!passwordnInputType)}
+        />
+      )}
+
+      {inputProps.type === 'password' && !passwordnInputType && (
+        <EyeOff
+          id='eye'
+          onClick={() => setPasswordInputType(!passwordnInputType)}
+        />
+      )}
+    </InputWrapper>
   );
 };
 
