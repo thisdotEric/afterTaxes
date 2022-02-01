@@ -1,4 +1,4 @@
-name: Build and Deploy to Netlify
+name: Build and deploy afterTaxes apps
 
 on:
   push:
@@ -7,9 +7,19 @@ on:
 jobs:
   server-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Echo
-        run: echo 100
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build, Push and Release a Docker container to Heroku.
+      uses: gonuit/heroku-docker-deploy@v1.3.3
+      with:
+        email: ${{ secrets.HEROKU_EMAIL }}
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: aftertaxes
+        dockerfile_directory: ./
+        dockerfile_name: Dockerfile.heroku
+        docker_options: '--no-cache'
+        process_type: web
 
   web-deploy:
     runs-on: ubuntu-latest
