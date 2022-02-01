@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cp -v .env.prod .env && snowpack dev",
     "start:dev": "cp -v .env.dev .env && snowpack dev",
-    "build": "cp -v .env.prod .env && snowpack build && cp public/_redirects build/_redirects",
+    "build": "snowpack build && cp public/_redirects build/_redirects",
     "build:dev": "cp -v .env.dev .env && snowpack build && cp public/_redirects build/_redirects",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""

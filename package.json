@@ -8,7 +8,7 @@
   "scripts": {
     "build:web": "lerna run --scope @aftertaxes/commons --scope @aftertaxes/web build",
     "test:server": "lerna run test --scope=@aftertaxes/server --stream",
-    "build": "lerna run build",
+    "build": "lerna run --scope @aftertaxes/commons --scope @aftertaxes/server build",
     "start": "lerna run start --scope=@aftertaxes/server --stream"
   },
   "devDependencies": {
