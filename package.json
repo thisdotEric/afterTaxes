@@ -9,7 +9,8 @@
     "build:web": "lerna run --scope @aftertaxes/commons --scope @aftertaxes/web build",
     "test:server": "lerna run test --scope=@aftertaxes/server --stream",
     "build": "lerna run --scope @aftertaxes/commons --scope @aftertaxes/server build",
-    "start": "lerna run start --scope=@aftertaxes/server --stream"
+    "start": "lerna run start --scope=@aftertaxes/server --stream",
+    "build:commons": "lerna run build --scope=@aftertaxes/commons --stream"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
