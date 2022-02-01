@@ -1,10 +1,17 @@
 name: Build and Deploy to Netlify
+
 on:
   push:
-    branches: [production]
+    branches: [production, prod-test]
 
 jobs:
-  deploy:
+  server-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo 100
+
+  web-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
