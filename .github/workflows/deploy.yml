@@ -30,7 +30,7 @@ jobs:
         # For deployment, the build scope will only include the web directory and
         # the commons directory if there is
       - name: Build application
-        run: yarn SNOWPACK_PUBLIC_AFTERTAXES_SERVER=${{ secrets.AFTERTAXES_SERVER }} build:web
+        run: SNOWPACK_PUBLIC_AFTERTAXES_SERVER=${{ secrets.AFTERTAXES_SERVER }} yarn build:web
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
