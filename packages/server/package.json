@@ -18,7 +18,7 @@
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --coverage --detectOpenHandles --forceExit"
   },
   "keywords": [
     "graphql",
@@ -29,14 +29,14 @@
   "dependencies": {
     "@aftertaxes/commons": "1.0.0",
     "@googleapis/drive": "^2.0.2",
-    "connect-session-knex": "^2.1.1",
+    "@mgcrea/fastify-session": "^0.15.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "fastify": "^3.24.0",
     "fastify-autoload": "^3.10.0",
     "fastify-cookie": "^5.5.0",
     "fastify-cors": "^6.0.2",
-    "fastify-session": "^5.2.1",
+    "fastify-session-knex-store": "^0.1.4",
     "graphql": "^15.6.1",
     "knex": "^0.95.13",
     "mercurius": "^8.9.1",

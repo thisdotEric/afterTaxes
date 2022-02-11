@@ -1,25 +1,28 @@
 import fp from 'fastify-plugin';
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
-import fastifySession from 'fastify-session';
+import fastifySession from '@mgcrea/fastify-session';
 import fastifyCookie from 'fastify-cookie';
-import knexSessionStore from 'connect-session-knex';
+import KnexStore from 'fastify-session-knex-store';
 import { knex } from 'knex';
 import configs from '@database/knex/knexfile';
+
+const SESSION_TTL = 6.048e5; // 7 day in seconds
 
 /**
  * Plugin that sets up session authentication
  */
 export default fp(
-  (
+  async (
     fastify: FastifyInstance,
     _: FastifyPluginOptions,
     next: (error?: FastifyError) => void
-  ): void => {
+  ): Promise<void> => {
     fastify.register(fastifyCookie);
 
-    const KnexSessionStore = knexSessionStore(fastifySession);
-    const store = new KnexSessionStore({
-      knex: knex(configs[`${process.env.NODE_ENV}`]),
+    const store = new KnexStore({
+      client: knex(configs[`${process.env.NODE_ENV}`]),
+      ttl: SESSION_TTL,
+      table: 'sessions',
     });
 
     fastify.register(fastifySession, {
@@ -28,7 +31,8 @@ export default fp(
       store,
       cookie: {
         path: '/',
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: SESSION_TTL,
       },
     });
 

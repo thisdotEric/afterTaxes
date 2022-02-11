@@ -31,16 +31,13 @@ export default class AuthenticationResolver {
       fullname: 'John Eric Siguenza',
     };
 
-    req.session.user = user;
+    console.log(req.session);
 
     return user;
   }
 
   @Mutation(() => Boolean)
-  async logout(@Ctx() { req }: AppContext): Promise<boolean> {
-    console.log(req.session.user);
-
-    req.session.user = null;
+  async logout(): Promise<boolean> {
     return true;
   }
 }

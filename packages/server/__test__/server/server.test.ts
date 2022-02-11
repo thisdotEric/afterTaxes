@@ -1,4 +1,4 @@
-import createServer from '@app/createServer';
+import createServer from '../../src/app/createServer';
 import { FastifyInstance } from 'fastify';
 
 describe('Server health check', () => {
@@ -25,25 +25,6 @@ describe('Server health check', () => {
     };
 
     expect(response.statusCode).toBe(400);
-    expect(JSON.parse(response.body)).toStrictEqual(expected);
-  });
-
-  it('should return a status 200 and valid "data" object when graphql query is supplied', async () => {
-    const response = await app.inject({
-      method: 'GET',
-      url: API_PATH,
-      query: {
-        query: '{ me }',
-      },
-    });
-
-    const expected = {
-      data: {
-        me: 'John Eric Siguenza',
-      },
-    };
-
-    expect(response.statusCode).toBe(200);
     expect(JSON.parse(response.body)).toStrictEqual(expected);
   });
 });
