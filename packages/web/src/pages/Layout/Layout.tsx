@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { SideNavWrapper, MainContentWrapper } from './Layout.styles';
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
@@ -16,10 +16,6 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
   });
 
   const popUpValue = useMemo(() => ({ popUp, setPopUp }), [popUp, setPopUp]);
-
-  useEffect(() => {
-    document.title = 'Dashboard';
-  }, []);
 
   return (
     <>

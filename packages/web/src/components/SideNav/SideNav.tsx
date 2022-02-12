@@ -73,11 +73,13 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
       {links.map((link, index) =>
         link.isSignout ? (
           <form
+            key={index}
             onClick={(e) => {
               e.preventDefault();
 
               setUser(null);
 
+              localStorage.clear();
               navigate('/signin');
             }}
           >
@@ -85,8 +87,8 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
             <input id='signout' type='submit' value='Sign out' />
           </form>
         ) : (
-          <li>
-            <NavLink key={index} className='link' to={link.to}>
+          <li key={index}>
+            <NavLink className='link' to={link.to}>
               {link.icon} {link.name}
             </NavLink>
           </li>
