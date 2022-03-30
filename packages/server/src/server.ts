@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3000;
       process.exit(1);
     }
 
-    console.log(
-      `afterTaxes server started on ${address}${process.env.API_PATH}`
-    );
+    console.log(server.printRoutes());
+
+    console.log(`afterTaxes server started on ${address}`);
   });
 })();

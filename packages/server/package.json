@@ -1,7 +1,7 @@
 {
   "name": "@aftertaxes/server",
   "version": "1.0.0",
-  "description": "GraphQL backend for a personalized income tracker application",
+  "description": "REST API backend for a personalized income tracker application",
   "author": "John Eric Siguenza <siguenzajohneric@gmail.com>",
   "license": "MIT",
   "main": "dist/server.js",
