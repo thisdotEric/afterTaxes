@@ -1,4 +1,4 @@
-import createServer from '@app/createServer';
+import createServer, { isDev } from './createServer';
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
       process.exit(1);
     }
 
-    console.log(server.printRoutes());
+    if (isDev) console.log(server.printRoutes());
 
     console.log(`afterTaxes server started on ${address}`);
   });

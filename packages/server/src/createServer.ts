@@ -4,10 +4,10 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 import 'reflect-metadata';
 import Fastify from 'fastify';
 import cors from 'fastify-cors';
-import autoLoad from 'fastify-autoload';
+import AutoLoad from 'fastify-autoload';
 import { join } from 'path';
 
-const isDev = process.env.NODE_ENV === 'development';
+export const isDev = process.env.NODE_ENV === 'development';
 
 export default async function createServer() {
   const app = Fastify({ logger: true });
@@ -15,16 +15,24 @@ export default async function createServer() {
   /**
    * Registers all the plugins found in the plugins directory
    */
-  app.register(autoLoad, {
-    dir: join(__dirname, '../plugins'),
+  app.register(AutoLoad, {
+    dir: join(__dirname, 'plugins'),
   });
 
   /**
    * Autoload all REST endpoints from routes folder
    */
-  app.register(autoLoad, {
-    dir: join(__dirname, '../routes'),
-    options: { prefix: 'v1' },
+  app.register(AutoLoad, {
+    dir: join(__dirname, 'routes'),
+    dirNameRoutePrefix: (folderParent, folderName) => {
+      const v1RoutesPath = join(__dirname, 'routes/v1');
+
+      let prefixRoute = 'api';
+
+      if (folderParent === v1RoutesPath) prefixRoute = 'v1/' + folderName;
+
+      return prefixRoute;
+    },
   });
 
   app.register(cors, {
