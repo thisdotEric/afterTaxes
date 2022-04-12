@@ -3,19 +3,18 @@ import { Service } from 'typedi';
 import { DbNames } from '@database/constants';
 import { IUser } from '@entity';
 import { BaseRepository } from './base/base.repository';
-import { UserNotFoundException } from '@exceptions';
 
 @Service()
 export class UserRepository implements BaseRepository<IUser, string> {
-  constructor(private readonly db: KnexQueryBuilder) {}
+  constructor(private readonly knex: KnexQueryBuilder) {}
 
   async add(entity: IUser): Promise<boolean> {
     return entity !== null;
   }
 
-  async getById(user_id: string): Promise<IUser> {
-    const user = await this.db
-      .getDbInstance()(DbNames.USERS)
+  async getById(user_id: string): Promise<IUser | null> {
+    const user = await this.knex
+      .db()(DbNames.USERS)
       .where({
         user_id,
       })
@@ -28,7 +27,7 @@ export class UserRepository implements BaseRepository<IUser, string> {
       )
       .first();
 
-    if (!user) throw new UserNotFoundException();
+    if (!user) return null;
 
     return user;
   }

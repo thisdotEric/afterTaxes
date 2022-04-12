@@ -18,17 +18,13 @@
     "baseUrl": "./src",
     "paths": {
       "@middlewares": ["middlewares"],
-      "@graphql/*": ["graphql/*"],
       "@types": ["types"],
-      "@ioc/*": ["ioc/*"],
       "@utils/*": ["utils/*"],
       "@database/*": ["database/*"],
       "@entity": ["entity"],
-      "@repository": ["repository"],
+      "@repositories": ["repositories"],
       "@exceptions": ["exceptions"],
-      "@ioc": ["ioc"],
-      "@authentication": ["authentication"],
-      "@service": ["service"],
+      "@services": ["services"],
       "@app/*": ["app/*"]
     }
   },
