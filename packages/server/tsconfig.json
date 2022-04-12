@@ -21,10 +21,12 @@
       "@types": ["types"],
       "@utils/*": ["utils/*"],
       "@database/*": ["database/*"],
+      "@routes/*": ["routes/*"],
       "@entity": ["entity"],
       "@repositories": ["repositories"],
       "@exceptions": ["exceptions"],
       "@services": ["services"],
+      "@controllers": ["controllers"],
       "@app/*": ["app/*"]
     }
   },
