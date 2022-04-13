@@ -4,12 +4,16 @@ import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
  * Home app route
  */
 export default (
-  fastify: FastifyInstance,
+  server: FastifyInstance,
   _: FastifyPluginOptions,
   next: (error?: FastifyError) => void
 ) => {
-  fastify.get('/', async (_, _reply) => {
+  server.get('/', async (_, _reply) => {
     return 'Home page';
+  });
+
+  server.get('/healthcheck', async (_, _reply) => {
+    return { status: 'Ok' };
   });
 
   next();
