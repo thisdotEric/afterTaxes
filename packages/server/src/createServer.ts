@@ -5,6 +5,8 @@ import 'reflect-metadata';
 import Fastify from 'fastify';
 import cors from 'fastify-cors';
 import AutoLoad from 'fastify-autoload';
+import swagger from 'fastify-swagger';
+import { withRefResolver } from 'fastify-zod';
 import { join } from 'path';
 import { sessionsSchema } from '@routes/v1/sessions/sessions.schema';
 
@@ -19,6 +21,10 @@ export default async function createServer() {
   for (const schema of [...sessionsSchema]) {
     server.addSchema(schema);
   }
+
+  server.register(swagger, {
+    routePrefix: '/documentation',
+  });
 
   /**
    * Registers all the plugins found in the plugins directory
