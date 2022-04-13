@@ -23,11 +23,10 @@
       "@database/*": ["database/*"],
       "@routes/*": ["routes/*"],
       "@entity": ["entity"],
-      "@repositories": ["repositories"],
       "@exceptions": ["exceptions"],
-      "@services": ["services"],
-      "@controllers": ["controllers"],
-      "@app/*": ["app/*"]
+      "@app/*": ["app/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@modules/*": ["modules/*"]
     }
   },
   "exclude": ["node_modules", "client", "dist", "__test__"],

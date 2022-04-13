@@ -1,4 +1,4 @@
-import { Sessions } from '@controllers';
+import { SessionsController } from '@modules/sessions';
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
 import Container from 'typedi';
 import { $ref } from './sessions.schema';
@@ -8,7 +8,7 @@ export default (
   _: FastifyPluginOptions,
   next: (error?: FastifyError) => void
 ) => {
-  const { login: loginHandler } = Container.get(Sessions);
+  const { login: loginHandler } = Container.get(SessionsController);
 
   /**
    * Login route

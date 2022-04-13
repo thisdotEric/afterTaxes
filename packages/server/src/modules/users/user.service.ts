@@ -1,6 +1,6 @@
 import { IUser } from '@entity';
 import { UserNotFoundException } from '@exceptions';
-import { UserRepository } from '@repositories';
+import { UserRepository } from '@modules/users';
 import { Service } from 'typedi';
 
 @Service()

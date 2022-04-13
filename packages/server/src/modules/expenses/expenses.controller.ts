@@ -3,8 +3,8 @@ import { LoginInput } from 'routes/v1/sessions/sessions.schema';
 import { Service } from 'typedi';
 
 @Service()
-export default class Sessions {
-  async login(
+export default class ExpensesController {
+  async addNewExpenses(
     request: FastifyRequest<{
       Body: LoginInput;
     }>,
