@@ -9,8 +9,8 @@ export async function up(knex: Knex): Promise<void> {
     table.string('budget_name').notNullable();
     table.float('budget').unsigned();
     table.date('date_budgeted').notNullable();
-    table.date('from').notNullable();
-    table.date('to').notNullable();
+    table.date('budgetFrom').notNullable();
+    table.date('budgetTo').notNullable();
   });
 }
 
