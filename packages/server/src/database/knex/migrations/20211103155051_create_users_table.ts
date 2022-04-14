@@ -4,7 +4,7 @@ import { DbNames, ReferenceOptions, months } from '../../constants';
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable(DbNames.USERS, (table: Knex.TableBuilder) => {
-      table.uuid('user_id').notNullable().unique().primary();
+      table.increments('user_id').notNullable().unique().primary();
       table.string('first_name').notNullable();
       table.string('middle_name').notNullable();
       table.string('last_name').notNullable();
@@ -13,7 +13,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('password_salt').notNullable();
     })
     .createTable(DbNames.JOBS, (table: Knex.TableBuilder) => {
-      table.uuid('user_id');
+      table.integer('user_id');
       table.string('job_name');
       table.string('company');
       table.string('description').nullable();

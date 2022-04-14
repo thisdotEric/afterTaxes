@@ -1,7 +1,7 @@
 import { Knex } from 'knex';
 import { DbNames } from '../../constants';
 
-const test_user_id = '8c96a9df-958a-48da-be3d-38a237d2efc7';
+const test_user_id = 1;
 
 export async function seed(knex: Knex): Promise<void> {
   await Promise.all([knex(DbNames.SALARY).del(), knex(DbNames.JOBS).del()]);
