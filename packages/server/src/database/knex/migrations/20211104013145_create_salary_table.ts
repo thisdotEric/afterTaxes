@@ -3,7 +3,7 @@ import { DbNames, ReferenceOptions, months } from '../../constants';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(DbNames.SALARY, (table: Knex.TableBuilder) => {
-    table.uuid('user_id');
+    table.integer('user_id');
     table.float('gross').notNullable();
     table.float('net').notNullable();
     table.float('tax_amount').notNullable();
