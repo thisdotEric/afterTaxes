@@ -1,13 +1,19 @@
+import { BudgetController } from '@modules/budgets';
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
+import Container from 'typedi';
 
 export default (
-  fastify: FastifyInstance,
+  server: FastifyInstance,
   _: FastifyPluginOptions,
   next: (error?: FastifyError) => void
 ) => {
-  fastify.get('/', async (_, _reply) => {
+  const { addNewBudget } = Container.get(BudgetController);
+
+  server.get('/', async (_, _reply) => {
     return 'budgets';
   });
+
+  server.post('/', addNewBudget);
 
   next();
 };
