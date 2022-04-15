@@ -4415,10 +4415,22 @@ fastify-cors@^6.0.2:
     fastify-plugin "^3.0.0"
     vary "^1.1.2"
 
+fastify-decorators@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/fastify-decorators/-/fastify-decorators-3.11.0.tgz#1fc75ba36936860f360db0ae99ac02eb5c77b7fa"
+  integrity sha512-LHeSLiTPNQMd4urkBFuc5piJ6KIWJFOafAvK5CijL9LrhCbAw0Sn3CNtU/QiVf7E1K58K1gtuO3VYp6UZjDzmw==
+  dependencies:
+    fastify-plugin "^2.0.0 || ^3.0.0"
+
 fastify-error@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/fastify-error/-/fastify-error-0.3.1.tgz#8eb993e15e3cf57f0357fc452af9290f1c1278d2"
   integrity sha512-oCfpcsDndgnDVgiI7bwFKAun2dO+4h84vBlkWsWnz/OUK9Reff5UFoFl241xTiLeHWX/vU9zkDVXqYUxjOwHcQ==
+
+"fastify-plugin@^2.0.0 || ^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-3.0.1.tgz#79e84c29f401020f38b524f59f2402103fd21ed2"
+  integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
 
 fastify-plugin@^3.0.0:
   version "3.0.0"
@@ -9469,11 +9481,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typedi@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/typedi/-/typedi-0.10.0.tgz#e8f9a5ee100b84addbdfb57fe90d8d9ed2a21dea"
-  integrity sha512-v3UJF8xm68BBj6AF4oQML3ikrfK2c9EmZUyLOfShpJuItAqVBHWP/KtpGinkSsIiP6EZyyb6Z3NXyW9dgS9X1w==
 
 typescript@^4.2.4, typescript@^4.4.4, typescript@^4.5.4:
   version "4.5.4"

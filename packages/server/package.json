@@ -36,6 +36,7 @@
     "fastify-autoload": "^3.11.0",
     "fastify-cookie": "^5.5.0",
     "fastify-cors": "^6.0.2",
+    "fastify-decorators": "^3.11.0",
     "fastify-session-knex-store": "^0.1.4",
     "fastify-zod": "^1.0.0-rc10",
     "knex": "^0.95.13",
@@ -57,7 +58,6 @@
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.11.0",
-    "typedi": "^0.10.0",
     "typescript": "^4.4.4"
   }
 }

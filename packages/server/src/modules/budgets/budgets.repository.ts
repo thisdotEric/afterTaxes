@@ -1,7 +1,7 @@
 import { BUDGET } from '@database/constants';
 import { BUDGET_TYPES } from '@database/constants/budgets';
 import KnexQueryBuilder from '@database/knex/knexDatabase';
-import { Service } from 'typedi';
+import { Service } from 'fastify-decorators';
 
 export interface IBudget {
   name: string;
@@ -14,7 +14,7 @@ export interface IBudget {
 }
 
 @Service()
-export default class BudgetRepository {
+export class BudgetsRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
 
   async add(budgets: IBudget[]) {

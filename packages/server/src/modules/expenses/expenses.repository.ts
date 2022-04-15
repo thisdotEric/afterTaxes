@@ -1,6 +1,6 @@
 import KnexQueryBuilder from '@database/knex/knexDatabase';
-import { Service } from 'typedi';
 import { EXPENSES } from '@database/constants';
+import { Service } from 'fastify-decorators';
 
 export interface IExpenses {
   name: string;
@@ -10,7 +10,7 @@ export interface IExpenses {
 }
 
 @Service()
-export default class ExpensesRepository {
+export class ExpensesRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
 
   async add(entity: IExpenses): Promise<boolean> {

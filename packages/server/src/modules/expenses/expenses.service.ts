@@ -1,8 +1,8 @@
 import { ExpensesRepository, IExpenses } from '@modules/expenses';
-import { Service } from 'typedi';
+import { Service } from 'fastify-decorators';
 
 @Service()
-export default class ExpensesService {
+export class ExpensesService {
   constructor(private readonly expensesRepository: ExpensesRepository) {}
 
   async add(entity: IExpenses) {

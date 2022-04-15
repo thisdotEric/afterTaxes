@@ -1,22 +1,20 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { LoginInput } from 'routes/v1/sessions/sessions.schema';
-import { Service } from 'typedi';
+import { Controller, GET } from 'fastify-decorators';
+import { ExpensesInput } from '.';
 
-@Service()
-export default class ExpensesController {
+@Controller('/expenses')
+export class ExpensesController {
+  @GET('/')
   async addNewExpenses(
     request: FastifyRequest<{
-      Body: LoginInput;
+      Body: ExpensesInput;
     }>,
     reply: FastifyReply
   ) {
-    const { email, password } = request.body;
+    const expenses = request.body;
 
-    console.log(email, password);
+    console.log(expenses);
 
-    reply.send({
-      email,
-      user_id: 1,
-    });
+    return reply.code(201).send('New expenses saved');
   }
 }

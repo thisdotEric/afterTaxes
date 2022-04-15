@@ -1,9 +1,7 @@
 import { IUser } from '@entity';
 import { UserNotFoundException } from '@exceptions';
 import { UserRepository } from '@modules/users';
-import { Service } from 'typedi';
 
-@Service()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 

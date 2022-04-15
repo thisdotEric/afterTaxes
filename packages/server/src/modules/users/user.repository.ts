@@ -1,10 +1,8 @@
 import KnexQueryBuilder from '@database/knex/knexDatabase';
-import { Service } from 'typedi';
 import { DbNames } from '@database/constants';
 import { IUser } from '@entity';
 import { BaseRepository } from '@interfaces/repositories';
 
-@Service()
 export default class UserRepository implements BaseRepository<IUser, string> {
   constructor(private readonly knex: KnexQueryBuilder) {}
 
