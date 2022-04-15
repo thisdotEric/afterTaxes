@@ -1,38 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { LoginInput } from 'routes/v1/sessions/sessions.schema';
-import { injectable } from 'tsyringe';
-import SessionService from './session.service';
+import { GET, Service } from 'fastify-decorators';
+import { SessionService } from './session.service';
 
-@injectable()
-export default class SessionsController {
-  constructor(private readonly sessionService: SessionService) {}
+@Service()
+export class SessionsController {
+  constructor(private readonly sessionsService: SessionService) {}
 
-  async login(
-    request: FastifyRequest<{
-      Body: LoginInput;
-    }>,
-    reply: FastifyReply
-  ) {
-    const { email, password } = request.body;
-
-    await this.sessionService.login();
-
-    console.log(email, password);
-
-    reply.send({
-      email,
-      user_id: 1,
-    });
-  }
-
-  async tr(
-    request: FastifyRequest<{
-      Body: LoginInput;
-    }>,
-    reply: FastifyReply
-  ) {
-    await this.sessionService.login();
-
-    reply.send('{');
+  @GET('/')
+  async login(request: FastifyRequest, reply: FastifyReply) {
+    await this.sessionsService.login();
+    return reply.code(200).send(request.body);
   }
 }

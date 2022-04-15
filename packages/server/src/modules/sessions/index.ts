@@ -1,1 +1,1 @@
-export { default as SessionsController } from './sessions.controller';
+export * from './sessions.controller';

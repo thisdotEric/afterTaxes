@@ -1,7 +1,7 @@
-import { injectable } from 'tsyringe';
+import { Service } from 'fastify-decorators';
 
-@injectable()
-export default class SessionService {
+@Service()
+export class SessionService {
   async login() {
     console.log('Logging in');
   }
