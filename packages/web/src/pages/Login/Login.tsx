@@ -2,8 +2,6 @@ import React, { FC, useContext, useReducer, useRef, useState } from 'react';
 import { LoginWrapper, RememberMe } from './Login.styles';
 import { SubmitButton, TextInput } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
-import graphql from '../../graphql/request';
-import { loginMutation } from '../../graphql/mutations';
 import { UserContext } from '../../context';
 import type { ILoggedInUser } from '@aftertaxes/commons';
 import { github } from '../../assets';
@@ -63,15 +61,18 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const authenticatedUser = await graphql.request<TData, LoginState>(
-            loginMutation,
-            state
-          );
+          // const authenticatedUser = await graphql.request<TData, LoginState>(
+          //   loginMutation,
+          //   state
+          // );
 
-          /**
-           * Set the currently logged in user
-           */
-          setUser(authenticatedUser.login);
+          // /**
+          //  * Set the currently logged in user
+          //  */
+          setUser({
+            email: 'siguenzajohneric@gmail.com',
+            fullname: 'John Eric Siguenza',
+          });
 
           navigate('/dashboard');
         }}
