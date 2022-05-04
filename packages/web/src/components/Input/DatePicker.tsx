@@ -20,6 +20,8 @@ const DatePicker: FC<DatePickerProps> = ({ label, date }: DatePickerProps) => {
       firstDayOfWeek='sunday'
       classNames={{
         label: 'input-label',
+        arrow: 'arrow',
+        dropdown: 'arrow',
       }}
       id='user-input'
       icon={<Calendar size={20} strokeWidth={1} />}

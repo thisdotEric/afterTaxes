@@ -6,7 +6,6 @@ export const FormWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  width: 350px;
 
   .actions {
     display: flex;
