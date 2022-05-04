@@ -1,9 +1,16 @@
 import React, { FC, useReducer } from 'react';
 import './RecordExpenses.css';
 import { Date } from '../../../components/Date';
-import { TextInput } from '../../../components/Form';
-import { SubmitButton } from '../../../components/Form';
 import { month, day, year } from '../../../constants/date';
+import { FormWrapper } from './RecordExpenses.styles';
+import {
+  TextInput,
+  NumberInput,
+  TextArea,
+  SelectInput,
+  BudgetDropDown,
+} from '../../../components/Input';
+import { Button } from '../../../components/Button';
 
 interface RecordExpensesProps {}
 
@@ -65,69 +72,42 @@ const RecordExpenses: FC<RecordExpensesProps> = ({}: RecordExpensesProps) => {
   return (
     <>
       <Date month={month} year={year} date={day} />
-      <div className='form'>
-        <div className='input-form'>
-          <form
-            action=''
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <div className='record-expenses'>
-              <TextInput
-                name='name'
-                title='Expenses name'
-                label='Name'
-                type='text'
-                value={expensesState.name}
-                required={false}
-                onChange={(e) => {
-                  runDispatch('name', e.currentTarget.value);
-                }}
-                width={415}
-              />
-              <TextInput
-                name='amount'
-                title='Amount'
-                label='Amount'
-                type='number'
-                step='0.0001'
-                value={expensesState.amount}
-                required={false}
-                width={415}
-                onChange={(e) => {
-                  runDispatch('amount', e.currentTarget.value);
-                }}
-              />
-              <textarea
-                cols={39}
-                placeholder='(Addtional) Description'
-                spellCheck='false'
-                rows={8}
-                value={expensesState.description}
-                onChange={(e) => {
-                  runDispatch('description', e.target.value);
-                }}
-              />
-              <div className='actions'>
-                <SubmitButton
-                  id='save-btn'
-                  name='submit'
-                  value='Save Expenses'
-                />
-                <button
-                  id='reset-btn'
-                  onClick={(e) => {
-                    runDispatch('reset', '');
-                  }}
-                >
-                  Reset
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+
+      <FormWrapper>
+        <TextInput
+          label='Expense Name'
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
+        />
+        <NumberInput
+          label='Expense Amount'
+          onChange={(e) => {
+            console.log(e);
+          }}
+        />
+
+        <BudgetDropDown
+          onChange={(budgetType) => {
+            console.log(budgetType);
+          }}
+        />
+
+        <TextArea
+          label='Additional Description'
+          onChange={(e) => {
+            runDispatch('description', e.target.value);
+            console.log(e.target.value);
+          }}
+        />
+
+        <Button
+          name='Save Expense'
+          onClick={(e) => {
+            runDispatch('reset', '');
+          }}
+        />
+      </FormWrapper>
     </>
   );
 };

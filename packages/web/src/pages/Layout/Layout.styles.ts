@@ -5,7 +5,7 @@ export const MainContentWrapper = styled.div`
   background-color: ${primarybg};
   padding-left: 250px;
   padding-top: 5px;
-  padding-right: 10px;
+  padding-right: 20px;
   min-height: 100vh;
 `;
 

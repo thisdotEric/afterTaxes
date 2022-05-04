@@ -37,21 +37,21 @@ const sideNavLinks: Links[] = [
     to: '/reports',
     icon: <PieChart id='icon' />,
   },
-  {
-    name: 'Wishlist',
-    to: '/profile',
-    icon: <ShoppingCart id='icon' />,
-  },
-  {
-    name: 'Profile',
-    to: '/profile',
-    icon: <UserPlus id='icon' />,
-  },
-  {
-    name: 'Settings',
-    to: '/profile',
-    icon: <Settings id='icon' />,
-  },
+  // {
+  //   name: 'Wishlist',
+  //   to: '/profile',
+  //   icon: <ShoppingCart id='icon' />,
+  // },
+  // {
+  //   name: 'Profile',
+  //   to: '/profile',
+  //   icon: <UserPlus id='icon' />,
+  // },
+  // {
+  //   name: 'Settings',
+  //   to: '/profile',
+  //   icon: <Settings id='icon' />,
+  // },
 
   {
     name: 'Sign out',

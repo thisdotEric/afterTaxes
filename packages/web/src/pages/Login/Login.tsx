@@ -1,11 +1,11 @@
 import React, { FC, useContext, useReducer, useRef, useState } from 'react';
 import { LoginWrapper, RememberMe } from './Login.styles';
-import { SubmitButton, TextInput } from '../../components/Form';
+import { SubmitButton } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context';
 import type { ILoggedInUser } from '@aftertaxes/commons';
 import { github } from '../../assets';
-
+import { TextInput, PasswordInput } from '../../components/Input';
 interface LoginProps {}
 
 interface LoginState {
@@ -78,24 +78,16 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         }}
       >
         <TextInput
-          type='email'
-          name='email'
           label='Email'
-          value={state.email}
-          required={true}
-          title='Email'
+          type='email'
           onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
             setError(null);
           }}
         />
-        <TextInput
-          type='password'
-          name='password'
-          title='Password'
+
+        <PasswordInput
           label='Password'
-          value={state.password}
-          required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
             setError(null);
