@@ -1355,6 +1355,11 @@
     react-popper "^2.2.5"
     react-textarea-autosize "^8.3.2"
 
+"@mantine/dates@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@mantine/dates/-/dates-4.2.2.tgz#ea551693d4a86f923614dfda8c42a20279c715d2"
+  integrity sha512-Zzlok/BUkTuVmja5O9tggYh3KDXxfM3DlT7K7H1qYkT9aOybPz+nTrOI1uOhKhlPRy3jjwyRCDZ2oWJHPjNKEA==
+
 "@mantine/hooks@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-4.2.1.tgz#60960c24debaf6c0bd2e51f84ac28abecec534b8"
@@ -3948,6 +3953,11 @@ dateformat@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
+
+dayjs@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.1.tgz#90b33a3dda3417258d48ad2771b415def6545eb0"
+  integrity sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==
 
 debounce@^1.2.0:
   version "1.2.1"

@@ -5,7 +5,6 @@ import Expenses from '../../pages/Expenses/Expenses';
 import { UserContext } from '../../context';
 import { Login } from '../../pages/Login';
 import type { ILoggedInUser } from '@aftertaxes/commons';
-import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
 import { Dashboard } from '../../pages/Dashboard';
 import { UserProfile } from '../../pages/UserProfile';
 import ProtectedRoutes from '../App/ProtectedRoutes';
@@ -30,8 +29,17 @@ const App: FC<AppProps> = ({}: AppProps) => {
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<Layout />}>
               <Route path='dashboard' element={<Dashboard />} />
-              <Route path='expenses' element={<Expenses />} />
-              <Route path='reports' element={<RecordExpenses />} />
+              <Route path='expenses'>
+                <Route path='' element={<Expenses />} />
+              </Route>
+              <Route
+                path='reports'
+                element={
+                  <>
+                    <p>Reports</p>
+                  </>
+                }
+              />
               <Route path='profile' element={<UserProfile />} />
             </Route>
           </Route>

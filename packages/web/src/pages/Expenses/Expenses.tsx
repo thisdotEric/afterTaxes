@@ -1,10 +1,15 @@
 import React, { FC, useMemo, useState } from 'react';
+import './Expenses.css';
 import { Date as DateComponent } from '../../components/Date';
 import { month, year, day } from '../../constants/date';
 import type { IDate } from '../../constants/date';
-import { Table } from '@mantine/core';
+import { Modal, Table } from '@mantine/core';
 import { useTable, Column } from 'react-table';
-import { ExpensesTableWrapper, TableWrapper } from './Expenses.styles';
+import {
+  ExpensesPageWrapper,
+  ExpensesTableWrapper,
+  TableWrapper,
+} from './Expenses.styles';
 import {
   ArrowNarrowLeft,
   ArrowNarrowRight,
@@ -12,6 +17,7 @@ import {
   Trash,
 } from 'tabler-icons-react';
 import { green, red } from '../../components/styles/colors';
+import { RecordExpensesModal } from './RecordExpenses';
 
 interface ExpensesProps {}
 
@@ -36,6 +42,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     day,
     year,
   });
+
+  const [opened, setOpened] = useState(false);
 
   const data = useMemo<ExpensesHistory[]>(
     () => [
@@ -155,7 +163,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     useTable({ columns, data });
 
   return (
-    <div>
+    <ExpensesPageWrapper>
       <DateComponent month={date.month} year={date.year} />
 
       <TableWrapper>
@@ -210,7 +218,22 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
           </div>
         </div>
       </TableWrapper>
-    </div>
+
+      <button onClick={() => setOpened(true)}>Add</button>
+      <Modal
+        opened={opened}
+        classNames={{
+          modal: 'input-modal',
+          title: 'modal-title',
+          body: 'input-modal',
+          close: 'modal-close',
+        }}
+        onClose={() => setOpened(false)}
+        title='Add new expense item'
+      >
+        <RecordExpensesModal setModalState={() => setOpened(false)} />
+      </Modal>
+    </ExpensesPageWrapper>
   );
 };
 

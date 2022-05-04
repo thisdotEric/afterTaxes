@@ -1,18 +1,18 @@
 import React, { FC, useReducer } from 'react';
 import './RecordExpenses.css';
-import { Date } from '../../../components/Date';
-import { month, day, year } from '../../../constants/date';
 import { FormWrapper } from './RecordExpenses.styles';
 import {
   TextInput,
   NumberInput,
   TextArea,
-  SelectInput,
+  DatePicker,
   BudgetDropDown,
 } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 
-interface RecordExpensesProps {}
+interface RecordExpensesProps {
+  setModalState: () => void;
+}
 
 interface ExpensesState {
   name: string;
@@ -51,7 +51,9 @@ function expensesReducer(
   }
 }
 
-const RecordExpenses: FC<RecordExpensesProps> = ({}: RecordExpensesProps) => {
+const RecordExpenses: FC<RecordExpensesProps> = ({
+  setModalState,
+}: RecordExpensesProps) => {
   const [expensesState, dispatch] = useReducer(expensesReducer, initialState);
 
   const runDispatch = (type: ActionType, payload: string) => {
@@ -70,45 +72,45 @@ const RecordExpenses: FC<RecordExpensesProps> = ({}: RecordExpensesProps) => {
   };
 
   return (
-    <>
-      <Date month={month} year={year} date={day} />
+    <FormWrapper>
+      <DatePicker label='Expense Date' date={new Date()} />
 
-      <FormWrapper>
-        <TextInput
-          label='Expense Name'
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
-        />
-        <NumberInput
-          label='Expense Amount'
-          onChange={(e) => {
-            console.log(e);
-          }}
-        />
+      <TextInput
+        label='Expense Name'
+        onChange={(e) => {
+          console.log(e.target.value);
+        }}
+      />
 
-        <BudgetDropDown
-          onChange={(budgetType) => {
-            console.log(budgetType);
-          }}
-        />
+      <BudgetDropDown
+        onChange={(budgetType) => {
+          console.log(budgetType);
+        }}
+      />
 
-        <TextArea
-          label='Additional Description'
-          onChange={(e) => {
-            runDispatch('description', e.target.value);
-            console.log(e.target.value);
-          }}
-        />
+      <NumberInput
+        label='Expense Amount'
+        onChange={(e) => {
+          console.log(e);
+        }}
+      />
 
-        <Button
-          name='Save Expense'
-          onClick={(e) => {
-            runDispatch('reset', '');
-          }}
-        />
-      </FormWrapper>
-    </>
+      <TextArea
+        label='Additional Description'
+        onChange={(e) => {
+          runDispatch('description', e.target.value);
+          console.log(e.target.value);
+        }}
+      />
+
+      <Button
+        name='Save Expense'
+        onClick={(e) => {
+          runDispatch('reset', '');
+          setModalState();
+        }}
+      />
+    </FormWrapper>
   );
 };
 

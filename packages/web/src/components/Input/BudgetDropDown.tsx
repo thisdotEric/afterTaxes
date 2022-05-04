@@ -1,6 +1,7 @@
 import React, { FC, forwardRef } from 'react';
 import './Input.css';
 import { Group, Text, Select } from '@mantine/core';
+import { Calendar, ChartPie } from 'tabler-icons-react';
 
 interface BudgetItemProps extends React.ComponentPropsWithoutRef<'div'> {
   label: string;
@@ -72,6 +73,7 @@ const BudgetDropDown: FC<BudgetDropDownProps> = ({
         dropdown: 'dropdown',
       }}
       nothingFound='Budget not found'
+      icon={<ChartPie size={20} strokeWidth={1} />}
       filter={(value, item) =>
         item.label!.toLowerCase().includes(value.toLowerCase().trim()) ||
         item.remainingBudget

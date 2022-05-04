@@ -7,6 +7,13 @@ import {
   lightgreen,
 } from '../../components/styles/colors';
 
+export const ExpensesPageWrapper = styled.div`
+  .input-modal {
+    background-color: greenyellow;
+    color: black;
+  }
+`;
+
 export const TableWrapper = styled.div`
   hr {
     border: 0.5px solid gray;
