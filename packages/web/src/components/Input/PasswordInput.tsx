@@ -14,11 +14,16 @@ const PasswordInput: FC<PasswordInputProps> = (props: PasswordInputProps) => {
       {...props}
       classNames={{
         label: 'input-label',
+        visibilityToggle: 'password-wrapper',
       }}
       id='user-input'
       icon={<Key stroke='white' size={20} strokeWidth={1} />}
       visibilityToggleIcon={({ reveal, size }) =>
-        reveal ? <EyeOff size={size} /> : <EyeCheck size={size} />
+        reveal ? (
+          <EyeOff size={size} stroke='white' />
+        ) : (
+          <EyeCheck size={size} stroke='white' />
+        )
       }
     />
   );

@@ -15,10 +15,6 @@ export const LoginWrapper = styled.div`
   background-color: ${primarybg};
   height: 100vh;
 
-  form {
-    width: 320px;
-  }
-
   form input[type='checkbox'] {
     cursor: pointer;
   }

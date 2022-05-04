@@ -19,6 +19,14 @@
   -webkit-text-fill-color: #fff !important;
 }
 
+.password-wrapper {
+  background: transparent;
+}
+
+.password-wrapper:hover {
+  background: transparent;
+}
+
 .input-label {
   font-size: 12px;
   color: rgb(230, 230, 230);
