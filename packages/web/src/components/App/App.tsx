@@ -8,6 +8,8 @@ import type { ILoggedInUser } from '@aftertaxes/commons';
 import { Dashboard } from '../../pages/Dashboard';
 import { UserProfile } from '../../pages/UserProfile';
 import ProtectedRoutes from '../App/ProtectedRoutes';
+import { Group, Button } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 
 interface AppProps {}
 
@@ -36,7 +38,19 @@ const App: FC<AppProps> = ({}: AppProps) => {
                 path='reports'
                 element={
                   <>
-                    <p>Reports</p>
+                    <Group position='center'>
+                      <Button
+                        variant='outline'
+                        onClick={() =>
+                          showNotification({
+                            title: 'Default notification',
+                            message: 'Hey there, your code is awesome! 🤥',
+                          })
+                        }
+                      >
+                        Show notification
+                      </Button>
+                    </Group>
                   </>
                 }
               />

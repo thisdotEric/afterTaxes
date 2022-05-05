@@ -11,6 +11,7 @@ import {
 } from 'react-feather';
 import { UserContext } from '../../context';
 import { formattedDateToday } from '../../constants/date';
+import { CashBanknote } from 'tabler-icons-react';
 
 interface SideNavProps {}
 

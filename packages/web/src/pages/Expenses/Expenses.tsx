@@ -1,6 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
 import './Expenses.css';
-import { Date as DateComponent } from '../../components/Date';
 import { month, year, day } from '../../constants/date';
 import type { IDate } from '../../constants/date';
 import { Modal, Table } from '@mantine/core';
@@ -15,17 +14,13 @@ import {
   ArrowNarrowRight,
   Edit,
   Trash,
+  Check,
 } from 'tabler-icons-react';
 import { green, red } from '../../components/styles/colors';
 import { RecordExpensesModal } from './RecordExpenses';
+import { showNotification } from '@mantine/notifications';
 
 interface ExpensesProps {}
-
-interface DummyData {
-  id: number;
-  name: string;
-  comp?: any;
-}
 
 interface ExpensesHistory {
   id: number;
@@ -49,7 +44,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     () => [
       {
         id: 1,
-        date: '15th',
+        date: '15',
         name: 'Laptop Repair',
         description: 'Fixed laptop because windows sucks.',
         budgetType: 'Daily',
@@ -57,34 +52,34 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       },
       {
         id: 2,
-        date: '15th',
+        date: '15',
         name: 'Laptop Repair and Grocery store',
         budgetType: 'Monthly',
         amount: 100,
       },
       {
         id: 3,
-        date: '15th',
+        date: '15',
         name: 'I love interstellar movie will watch it again',
         budgetType: 'Transportation',
         amount: 100,
       },
       {
         id: 4,
-        date: '1st',
+        date: '10',
         name: 'Laptop Repair',
         budgetType: 'Food',
         amount: 100,
       },
       {
         id: 5,
-        date: '15th',
+        date: '15',
         name: 'Laptop Repair',
         amount: 100.5,
       },
       {
         id: 6,
-        date: '15th',
+        date: '15',
         name: 'Laptop Repair',
         description:
           'Fixed laptop because windows sucks. I give you my world, ',
@@ -92,14 +87,35 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       },
       {
         id: 7,
-        date: '15th',
+        date: '15',
         name: 'Laptop Repair',
         amount: 100,
       },
 
       {
         id: 6,
-        date: '15th',
+        date: '15',
+        name: 'Laptop Repair',
+        amount: 100,
+      },
+      {
+        id: 6,
+        date: '15',
+        name: 'Laptop Repair',
+        description:
+          'Fixed laptop because windows sucks. I give you my world, ',
+        amount: 100,
+      },
+      {
+        id: 7,
+        date: '15',
+        name: 'Laptop Repair',
+        amount: 100,
+      },
+
+      {
+        id: 6,
+        date: '15',
         name: 'Laptop Repair',
         amount: 100,
       },
@@ -111,22 +127,22 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     () =>
       [
         {
-          Header: () => <p>DATE</p>,
+          Header: 'DATE',
           accessor: 'date',
         },
         {
-          Header: () => <p>AMOUNT</p>,
+          Header: 'AMOUNT',
           accessor: 'amount',
           Cell: (row) => (
             <p id='expense-amt'> &#x20B1;{row.value.toFixed(2)}</p>
           ),
         },
         {
-          Header: () => <p>EXPENSE</p>,
+          Header: 'EXPENSE',
           accessor: 'name',
         },
         {
-          Header: () => <p>DESCRIPTION</p>,
+          Header: 'DESCRIPTION',
           accessor: 'description',
           Cell: (row) => {
             return <span id='description'>{row.value}</span>;
@@ -146,7 +162,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         {
           Header: 'ACTIONS',
           accessor: 'id',
-          Cell: (row) => {
+          Cell: () => {
             return (
               <>
                 <Edit stroke={green} size={20} /> &nbsp;
@@ -164,8 +180,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   return (
     <ExpensesPageWrapper>
-      <DateComponent month={date.month} year={date.year} />
-
       <TableWrapper>
         <ExpensesTableWrapper>
           <Table {...getTableProps()} fontSize={'xs'}>
@@ -219,7 +233,13 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         </div>
       </TableWrapper>
 
-      <button onClick={() => setOpened(true)}>Add</button>
+      <button
+        onClick={() => {
+          setOpened(true);
+        }}
+      >
+        Add
+      </button>
       <Modal
         opened={opened}
         classNames={{
@@ -231,7 +251,18 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         onClose={() => setOpened(false)}
         title='Add new expense item'
       >
-        <RecordExpensesModal setModalState={() => setOpened(false)} />
+        <RecordExpensesModal
+          setModalState={() => {
+            setOpened(false);
+
+            setTimeout(() => {
+              showNotification({
+                message: 'New expense item added',
+                icon: <Check />,
+              });
+            }, 100);
+          }}
+        />
       </Modal>
     </ExpensesPageWrapper>
   );

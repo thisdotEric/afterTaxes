@@ -1,7 +1,7 @@
 import React, { FC, forwardRef } from 'react';
 import './Input.css';
 import { Group, Text, Select } from '@mantine/core';
-import { Calendar, ChartPie } from 'tabler-icons-react';
+import { ChartPie } from 'tabler-icons-react';
 
 interface BudgetItemProps extends React.ComponentPropsWithoutRef<'div'> {
   label: string;
@@ -17,7 +17,7 @@ const budgetData = [
   },
   {
     label: 'Food',
-    remainingBudget: 5622,
+    remainingBudget: 405.56,
     value: 'Food',
   },
   {

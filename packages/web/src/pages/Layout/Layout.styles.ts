@@ -9,6 +9,19 @@ export const MainContentWrapper = styled.div`
   min-height: 100vh;
 `;
 
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  #header-title {
+    font-size: 20px;
+    padding: 20px 0px;
+    font-weight: bold;
+    color: white;
+  }
+`;
+
 export const SideNavWrapper = styled.div`
   background-color: ${secondarybg};
   height: 100%;

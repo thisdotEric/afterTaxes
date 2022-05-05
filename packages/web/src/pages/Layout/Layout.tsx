@@ -1,21 +1,35 @@
-import React, { FC, useMemo, useState } from 'react';
-import { SideNavWrapper, MainContentWrapper } from './Layout.styles';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import {
+  SideNavWrapper,
+  MainContentWrapper,
+  HeaderWrapper,
+} from './Layout.styles';
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
 import { AppLogo } from '../../components/App/AppLogo';
-import { PopUp } from '../../components/PopUp';
-import { PopUpContext, IPopUp } from '../../context';
+import { month, year, day, IDate } from '../../constants/date';
+import { Date as DateComponent } from '../../components/Date';
+import { HeaderContext } from '../../context';
 
 interface LayoutProps {}
 
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
-  const [popUp, setPopUp] = useState<IPopUp | null>({
-    message: '',
-    type: 'success',
-    show: false,
+  const { header, setHeader } = useContext(HeaderContext);
+
+  const [date, setDate] = useState<IDate>({
+    month,
+    year,
   });
 
-  const popUpValue = useMemo(() => ({ popUp, setPopUp }), [popUp, setPopUp]);
+  useEffect(() => {
+    setHeader({
+      header: 'Dashboard',
+      date: {
+        month,
+        year,
+      },
+    });
+  }, []);
 
   return (
     <>
@@ -26,13 +40,17 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
         </div>
       </SideNavWrapper>
 
-      <PopUpContext.Provider value={popUpValue}>
-        <MainContentWrapper>
-          <PopUp />
+      <MainContentWrapper>
+        <HeaderWrapper>
+          <DateComponent month={date.month} year={date.year} date={date.day} />
 
+          <p id='header-title'>&nbsp; Expenses List</p>
+        </HeaderWrapper>
+
+        <HeaderContext.Provider value={{ header, setHeader }}>
           <Outlet />
-        </MainContentWrapper>
-      </PopUpContext.Provider>
+        </HeaderContext.Provider>
+      </MainContentWrapper>
     </>
   );
 };

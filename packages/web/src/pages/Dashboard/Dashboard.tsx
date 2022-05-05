@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
-import { Date } from '../../components/Date';
 import expensesOverview from '../../data';
-import { month, year, day } from '../../constants/date';
+import { day } from '../../constants/date';
 import {
   CalendarGrid,
   CalendarGridDate,
@@ -21,8 +20,6 @@ const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
 
   return (
     <div>
-      <Date month={month} year={year} />
-
       <CalendarGrid>
         {expensesOverview.map((item, index) => (
           <CalendarGridDate
