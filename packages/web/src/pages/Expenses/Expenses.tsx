@@ -19,6 +19,7 @@ import {
 import { green, red } from '../../components/styles/colors';
 import { RecordExpensesModal } from './RecordExpenses';
 import { showNotification } from '@mantine/notifications';
+import { getNotificationProps } from '../../components/Notification';
 
 interface ExpensesProps {}
 
@@ -233,13 +234,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         </div>
       </TableWrapper>
 
-      <button
-        onClick={() => {
-          setOpened(true);
-        }}
-      >
-        Add
-      </button>
+      <button onClick={() => setOpened(true)}>Add</button>
       <Modal
         opened={opened}
         classNames={{
@@ -256,10 +251,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
             setOpened(false);
 
             setTimeout(() => {
-              showNotification({
-                message: 'New expense item added',
-                icon: <Check />,
-              });
+              showNotification(getNotificationProps('Hello', 'success'));
             }, 100);
           }}
         />
