@@ -1,17 +1,8 @@
 import React, { FC, useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { SideNavLinksWrapper } from './SideNav.styles';
-import {
-  Home,
-  PieChart,
-  Archive,
-  UserPlus,
-  ShoppingCart,
-  Settings,
-} from 'react-feather';
+import { Home, PieChart, Archive } from 'react-feather';
 import { UserContext } from '../../context';
-import { formattedDateToday } from '../../constants/date';
-import { CashBanknote } from 'tabler-icons-react';
 
 interface SideNavProps {}
 
@@ -65,7 +56,7 @@ const sideNavLinks: Links[] = [
 const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
   const navigate = useNavigate();
 
-  const [links, _] = useState<Links[]>(sideNavLinks);
+  const [links] = useState<Links[]>(sideNavLinks);
 
   const { setUser } = useContext(UserContext);
 

@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import './Expenses.css';
 import { month, year, day } from '../../constants/date';
 import type { IDate } from '../../constants/date';
@@ -19,6 +19,7 @@ import { green, red } from '../../components/styles/colors';
 import { RecordExpensesModal } from './RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
+import { HeaderContext } from '../../context';
 
 interface ExpensesProps {}
 
@@ -32,12 +33,6 @@ interface ExpensesHistory {
 }
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
-  const [date, setDate] = useState<IDate>({
-    month,
-    day,
-    year,
-  });
-
   const [opened, setOpened] = useState(false);
 
   const data = useMemo<ExpensesHistory[]>(
@@ -178,6 +173,18 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
+  const { setHeader } = useContext(HeaderContext);
+
+  useEffect(() => {
+    setHeader({
+      headerTitle: 'Expenses List',
+      date: {
+        month,
+        year,
+      },
+    });
+  }, []);
+
   return (
     <ExpensesPageWrapper>
       <TableWrapper>
@@ -250,7 +257,9 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
             setOpened(false);
 
             setTimeout(() => {
-              showNotification(getNotificationProps('Hello', 'success'));
+              showNotification(
+                getNotificationProps('New expense item added', 'error')
+              );
             }, 100);
           }}
         />
