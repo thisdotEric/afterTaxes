@@ -3,7 +3,7 @@ import type { IDate } from '../constants/date';
 
 export interface HeaderContextValue {
   headerTitle: string;
-  date: IDate;
+  date?: IDate;
 }
 interface HeaderContextProps {
   header: HeaderContextValue | null;

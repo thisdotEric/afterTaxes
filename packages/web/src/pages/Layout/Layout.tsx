@@ -15,16 +15,12 @@ interface LayoutProps {}
 
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
   const [header, setHeader] = useState<HeaderContextValue>({
-    headerTitle: '',
+    headerTitle: 'Dashboard',
     date: {
       month,
       year,
     },
   });
-
-  useEffect(() => {
-    document.title = 'Dashboard';
-  }, []);
 
   return (
     <HeaderContext.Provider value={{ header, setHeader }}>
@@ -38,9 +34,9 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
       <MainContentWrapper>
         <HeaderWrapper>
           <DateComponent
-            month={header ? header.date.month : month}
-            year={header ? header.date.year : year}
-            date={header?.date.day}
+            month={header ? header.date!.month : month}
+            year={header ? header.date!.year : year}
+            date={header?.date!.day}
           />
 
           <p id='header-title'>&nbsp; {header!.headerTitle}</p>

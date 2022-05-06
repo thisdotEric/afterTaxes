@@ -1,244 +1,114 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import './Expenses.css';
-import { month, year, day } from '../../constants/date';
-import type { IDate } from '../../constants/date';
-import { Modal, Table } from '@mantine/core';
-import { useTable, Column } from 'react-table';
-import {
-  ExpensesPageWrapper,
-  ExpensesTableWrapper,
-  TableWrapper,
-} from './Expenses.styles';
-import {
-  ArrowNarrowLeft,
-  ArrowNarrowRight,
-  Edit,
-  Trash,
-} from 'tabler-icons-react';
-import { green, red } from '../../components/styles/colors';
+import { Modal } from '@mantine/core';
+import { ExpensesPageWrapper } from './Expenses.styles';
 import { RecordExpensesModal } from './RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
 import { HeaderContext } from '../../context';
+import { expensesColumns } from './expenses.columns';
+import ExpensesTable from './ExpensesTable';
 
 interface ExpensesProps {}
 
-interface ExpensesHistory {
+export interface ExpensesHistory {
   id: number;
   date: Date | string;
   name: string;
   description?: string;
   amount: number;
-  budgetType?: string;
+  budgetType: string;
 }
+
+const dummy = [
+  {
+    id: 1,
+    date: '15',
+    name: 'Laptop Repair',
+    description: 'Fixed laptop because windows sucks.',
+    budgetType: 'Daily',
+    amount: 100,
+  },
+  {
+    id: 2,
+    date: '15',
+    name: 'Laptop Repair and Grocery store',
+    budgetType: 'Monthly',
+    amount: 100,
+  },
+  {
+    id: 3,
+    date: '15',
+    name: 'I love interstellar movie will watch it again',
+    budgetType: 'Transportation',
+    amount: 100,
+  },
+];
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   const [opened, setOpened] = useState(false);
+  const [rows, setRows] = useState<ExpensesHistory[]>([]);
+  const [refetch, setRefetch] = useState<number>(0);
 
-  const data = useMemo<ExpensesHistory[]>(
-    () => [
+  const addData = (): ExpensesHistory[] => {
+    setRows([
+      ...rows,
       {
+        amount: Math.random(),
+        budgetType: 'Tech',
+        date: '23',
         id: 1,
-        date: '15',
-        name: 'Laptop Repair',
-        description: 'Fixed laptop because windows sucks.',
-        budgetType: 'Daily',
-        amount: 100,
+        name: 'Spotify Premium',
+        description: '3 month subscription',
       },
-      {
-        id: 2,
-        date: '15',
-        name: 'Laptop Repair and Grocery store',
-        budgetType: 'Monthly',
-        amount: 100,
-      },
-      {
-        id: 3,
-        date: '15',
-        name: 'I love interstellar movie will watch it again',
-        budgetType: 'Transportation',
-        amount: 100,
-      },
-      {
-        id: 4,
-        date: '10',
-        name: 'Laptop Repair',
-        budgetType: 'Food',
-        amount: 100,
-      },
-      {
-        id: 5,
-        date: '15',
-        name: 'Laptop Repair',
-        amount: 100.5,
-      },
-      {
-        id: 6,
-        date: '15',
-        name: 'Laptop Repair',
-        description:
-          'Fixed laptop because windows sucks. I give you my world, ',
-        amount: 100,
-      },
-      {
-        id: 7,
-        date: '15',
-        name: 'Laptop Repair',
-        amount: 100,
-      },
+    ]);
 
-      {
-        id: 6,
-        date: '15',
-        name: 'Laptop Repair',
-        amount: 100,
-      },
-      {
-        id: 6,
-        date: '15',
-        name: 'Laptop Repair',
-        description:
-          'Fixed laptop because windows sucks. I give you my world, ',
-        amount: 100,
-      },
-      {
-        id: 7,
-        date: '15',
-        name: 'Laptop Repair',
-        amount: 100,
-      },
+    return rows;
+  };
 
-      {
-        id: 6,
-        date: '15',
-        name: 'Laptop Repair',
-        amount: 100,
-      },
-    ],
-    []
-  );
+  const { header, setHeader } = useContext(HeaderContext);
 
-  const columns = useMemo(
-    () =>
-      [
-        {
-          Header: 'DATE',
-          accessor: 'date',
-        },
-        {
-          Header: 'AMOUNT',
-          accessor: 'amount',
-          Cell: (row) => (
-            <p id='expense-amt'> &#x20B1;{row.value.toFixed(2)}</p>
-          ),
-        },
-        {
-          Header: 'EXPENSE',
-          accessor: 'name',
-        },
-        {
-          Header: 'DESCRIPTION',
-          accessor: 'description',
-          Cell: (row) => {
-            return <span id='description'>{row.value}</span>;
-          },
-        },
-        {
-          Header: 'BUDGET TYPE',
-          accessor: 'budgetType',
-          Cell: (row) => {
-            return (
-              <h4>
-                <span id='budget-type'>{row.value}</span>
-              </h4>
-            );
-          },
-        },
-        {
-          Header: 'ACTIONS',
-          accessor: 'id',
-          Cell: () => {
-            return (
-              <>
-                <Edit stroke={green} size={20} /> &nbsp;
-                <Trash stroke={red} size={20} />
-              </>
-            );
-          },
-        },
-      ] as Column<ExpensesHistory>[],
-    []
-  );
+  const fetchExpensesRows = async () => {
+    const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
+    const data = await res.json();
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
-
-  const { setHeader } = useContext(HeaderContext);
+    return data;
+  };
 
   useEffect(() => {
     setHeader({
+      ...header,
       headerTitle: 'Expenses List',
-      date: {
-        month,
-        year,
-      },
     });
+
+    const fetchData = async () => {
+      const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
+      const data = await res.json();
+
+      setRows(data);
+    };
+
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    setHeader({
+      ...header,
+      headerTitle: 'Expenses List',
+    });
+
+    setRows(addData());
+  }, [refetch]);
+
+  // Memoized table rows and columns
+  const data = useMemo<ExpensesHistory[]>(() => addData(), [refetch]);
+  const columns = useMemo(() => expensesColumns, []);
 
   return (
     <ExpensesPageWrapper>
-      <TableWrapper>
-        <ExpensesTableWrapper>
-          <Table {...getTableProps()} fontSize={'xs'}>
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render('Header')}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        </ExpensesTableWrapper>
-        <hr />
-        <div id='tbl-footer'>
-          <p id='total-expenses'>
-            Total Expense Items for May 2022: <span>150</span>
-          </p>
+      {/* Expenses list table */}
 
-          <div id='pagination'>
-            <p>
-              Page <span>10</span> of <span>15</span> &nbsp;
-            </p>
-            <div>
-              <button>
-                <ArrowNarrowLeft size={16} />
-              </button>
-              &nbsp;
-              <button>
-                <ArrowNarrowRight size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </TableWrapper>
+      {rows && <ExpensesTable columns={columns} data={data} />}
 
       <button onClick={() => setOpened(true)}>Add</button>
       <Modal
@@ -258,9 +128,12 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
             setTimeout(() => {
               showNotification(
-                getNotificationProps('New expense item added', 'error')
+                getNotificationProps('New expense item added', 'success')
               );
             }, 100);
+
+            setRefetch(Math.random());
+            console.log(refetch);
           }}
         />
       </Modal>
