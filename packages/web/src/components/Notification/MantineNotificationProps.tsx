@@ -15,7 +15,7 @@ export const getNotificationProps = (
     partialNotification = {
       title,
       message: null,
-      icon: <X stroke='white' />,
+      icon: <X stroke='white' height={5} />,
       color: 'red',
     };
   } else if (notificationType === 'info') {
@@ -28,7 +28,7 @@ export const getNotificationProps = (
     partialNotification = {
       title,
       message: null,
-      icon: <Check stroke='white' />,
+      icon: <Check stroke='white' height={5} />,
       color: 'teal',
     };
   }

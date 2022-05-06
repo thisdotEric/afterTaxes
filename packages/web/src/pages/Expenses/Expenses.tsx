@@ -14,7 +14,6 @@ import {
   ArrowNarrowRight,
   Edit,
   Trash,
-  Check,
 } from 'tabler-icons-react';
 import { green, red } from '../../components/styles/colors';
 import { RecordExpensesModal } from './RecordExpenses';
