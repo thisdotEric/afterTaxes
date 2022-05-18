@@ -3,6 +3,7 @@ import { Edit, Trash } from 'tabler-icons-react';
 import type { Column } from 'react-table';
 import type { ExpensesHistory } from './Expenses';
 import { green, red } from '../../components/styles/colors';
+import { Link } from 'react-router-dom';
 
 export const expensesColumns = [
   {
@@ -41,10 +42,15 @@ export const expensesColumns = [
     accessor: 'id',
     Cell: () => {
       return (
-        <>
-          <Edit stroke={green} size={20} /> &nbsp;
-          <Trash stroke={red} size={20} />
-        </>
+        <span>
+          <Link to={''} id='action-link'>
+            Edit
+          </Link>
+          {' | '}
+          <Link to={''} id='action-link'>
+            Remove
+          </Link>
+        </span>
       );
     },
   },

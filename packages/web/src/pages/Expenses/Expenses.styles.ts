@@ -96,6 +96,16 @@ export const ExpensesTableWrapper = styled.table`
     word-wrap: break-word;
     font-weight: bold;
 
+    #action-link {
+      color: lightgray;
+      text-decoration: none;
+    }
+
+    #action-link:hover {
+      color: ${green};
+      text-decoration: underline;
+    }
+
     #expense-amt {
       color: ${green};
       font-weight: bold;
