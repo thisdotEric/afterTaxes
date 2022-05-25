@@ -20,6 +20,41 @@ export const TableWrapper = styled.div`
     margin: 2px s0px;
   }
 
+  .table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 5px;
+
+    #table-search {
+      background: ${secondarybg};
+      border: none;
+      caret-color: white;
+      color: white;
+      height: 10px;
+      font-size: 14px;
+
+      &::placeholder {
+        font-size: 12px;
+      }
+    }
+
+    #add-expense {
+      text-decoration: none;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      border: none;
+      background: transparent;
+
+      &:hover {
+        text-decoration: underline;
+        color: ${green};
+      }
+    }
+  }
+
   #tbl-footer {
     display: flex;
     justify-content: space-between;

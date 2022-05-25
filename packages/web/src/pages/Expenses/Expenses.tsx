@@ -25,7 +25,7 @@ const dummy = [
     id: 1,
     date: '15',
     name: 'Laptop Repair',
-    description: 'Fixed laptop because windows sucks.',
+    description: 'Fixed laptop because windows sucks. Then fixed ',
     budgetType: 'Daily',
     amount: 100,
   },
@@ -47,23 +47,23 @@ const dummy = [
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   const [opened, setOpened] = useState(false);
-  const [rows, setRows] = useState<ExpensesHistory[]>([]);
+  const [rows, setRows] = useState<ExpensesHistory[]>(dummy);
   const [refetch, setRefetch] = useState<number>(0);
 
-  const addData = (): ExpensesHistory[] => {
-    setRows([
-      ...rows,
-      {
-        amount: Math.random(),
-        budgetType: 'Tech',
-        date: '23',
-        id: 1,
-        name: 'Spotify Premium',
-        description: '3 month subscription',
-      },
-    ]);
-
-    return rows;
+  const addData = () => {
+    setRows((old) => {
+      return [
+        ...old,
+        {
+          amount: Math.random(),
+          budgetType: 'Tech',
+          date: '23',
+          id: 1,
+          name: 'Spotify Premium',
+          description: '3 month subscription',
+        },
+      ];
+    });
   };
 
   const { header, setHeader } = useContext(HeaderContext);
@@ -85,32 +85,32 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
       const data = await res.json();
 
-      setRows(data);
+      setRows(dummy);
     };
 
     fetchData();
   }, []);
 
   useEffect(() => {
-    setHeader({
-      ...header,
-      headerTitle: 'Expenses List',
-    });
-
-    setRows(addData());
+    addData();
   }, [refetch]);
 
   // Memoized table rows and columns
-  const data = useMemo<ExpensesHistory[]>(() => addData(), [refetch]);
+  const data = useMemo<ExpensesHistory[]>(() => rows, [rows]);
   const columns = useMemo(() => expensesColumns, []);
 
   return (
     <ExpensesPageWrapper>
       {/* Expenses list table */}
 
-      {rows && <ExpensesTable columns={columns} data={data} />}
+      {rows && (
+        <ExpensesTable
+          columns={columns}
+          data={data}
+          action={() => setOpened(true)}
+        />
+      )}
 
-      <button onClick={() => setOpened(true)}>Add</button>
       <Modal
         opened={opened}
         classNames={{

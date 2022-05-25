@@ -1,25 +1,44 @@
 import React, { FC, useMemo } from 'react';
 import './Expenses.css';
-import { Table } from '@mantine/core';
+import { Button, Table, TextInput } from '@mantine/core';
 import { Column, useTable } from 'react-table';
 import { ExpensesTableWrapper, TableWrapper } from './Expenses.styles';
-import { ArrowNarrowLeft, ArrowNarrowRight } from 'tabler-icons-react';
+import {
+  ArrowNarrowLeft,
+  ArrowNarrowRight,
+  Plus,
+  Search,
+} from 'tabler-icons-react';
 import type { ExpensesHistory } from './Expenses';
 
 interface ExpensesTableProps {
   columns: readonly Column<ExpensesHistory>[];
   data: readonly ExpensesHistory[];
+  action?: () => void;
 }
 
 const ExpensesTable: FC<ExpensesTableProps> = ({
   columns,
   data,
+  action = () => {},
 }: ExpensesTableProps) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
   return (
     <TableWrapper>
+      <div className='table-actions'>
+        <TextInput
+          icon={<Search size={15} />}
+          size='xs'
+          id='table-search'
+          placeholder='Search Expense'
+        />
+
+        <Button id='add-expense' onClick={() => action()}>
+          Add new expense
+        </Button>
+      </div>
       <ExpensesTableWrapper>
         <Table {...getTableProps()} fontSize={'xs'}>
           <thead>

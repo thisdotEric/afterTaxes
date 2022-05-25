@@ -73,43 +73,46 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
 
   return (
     <FormWrapper>
-      <DatePicker label='Expense Date' date={new Date()} />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
 
-      <TextInput
-        label='Expense Name'
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
-      />
-
-      <BudgetDropDown
-        onChange={(budgetType) => {
-          console.log(budgetType);
-        }}
-      />
-
-      <NumberInput
-        label='Expense Amount'
-        onChange={(e) => {
-          console.log(e);
-        }}
-      />
-
-      <TextArea
-        label='Additional Description'
-        onChange={(e) => {
-          runDispatch('description', e.target.value);
-          console.log(e.target.value);
-        }}
-      />
-
-      <Button
-        name='Save Expense'
-        onClick={(e) => {
           runDispatch('reset', '');
           setModalState();
         }}
-      />
+      >
+        <DatePicker label='Expense Date' date={new Date()} />
+
+        <TextInput
+          label='Expense Name'
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
+        />
+
+        <BudgetDropDown
+          onChange={(budgetType) => {
+            console.log(budgetType);
+          }}
+        />
+
+        <NumberInput
+          label='Expense Amount'
+          onChange={(e) => {
+            console.log(e);
+          }}
+        />
+
+        <TextArea
+          label='Additional Description'
+          onChange={(e) => {
+            runDispatch('description', e.target.value);
+            console.log(e.target.value);
+          }}
+        />
+
+        <Button name='Save Expense' />
+      </form>
     </FormWrapper>
   );
 };

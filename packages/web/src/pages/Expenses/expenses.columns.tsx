@@ -46,9 +46,9 @@ export const expensesColumns = [
           <Link to={''} id='action-link'>
             Edit
           </Link>
-          {' | '}
+          {'  '}
           <Link to={''} id='action-link'>
-            Remove
+            Delete
           </Link>
         </span>
       );

@@ -15,7 +15,8 @@ const Button: FC<ButtonProps> = ({ onClick, name }: ButtonProps) => {
       radius={10}
       leftIcon={<DeviceFloppy strokeWidth={1} size={20} />}
       classNames={{ root: 'root-btn' }}
-      onClick={onClick}
+      // onClick={onClick}
+      type='submit'
     >
       {name}
     </MantineButton>
