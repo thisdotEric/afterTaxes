@@ -149,12 +149,6 @@ export const ExpensesTableWrapper = styled.table`
     #description {
       width: 10px;
     }
-
-    #budget-type {
-      background-color: ${secondarybg};
-      padding: 5px 10px;
-      border-radius: 10px;
-    }
   }
 
   tbody tr {

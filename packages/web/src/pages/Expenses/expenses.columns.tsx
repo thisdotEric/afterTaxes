@@ -29,13 +29,6 @@ export const expensesColumns = [
   {
     Header: 'BUDGET TYPE',
     accessor: 'budgetType',
-    Cell: (row) => {
-      return (
-        <h4>
-          <span id='budget-type'>{row.value}</span>
-        </h4>
-      );
-    },
   },
   {
     Header: 'ACTIONS',

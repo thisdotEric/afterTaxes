@@ -32,7 +32,7 @@ const ExpensesTable: FC<ExpensesTableProps> = ({
           icon={<Search size={15} />}
           size='xs'
           id='table-search'
-          placeholder='Search Expense'
+          placeholder='Search'
         />
 
         <Button id='add-expense' onClick={() => action()}>
