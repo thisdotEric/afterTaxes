@@ -10,6 +10,7 @@ import { UserProfile } from '../../pages/UserProfile';
 import ProtectedRoutes from '../App/ProtectedRoutes';
 import { Group, Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import Budget from '../../pages/Budget';
 
 interface AppProps {}
 
@@ -34,23 +35,14 @@ const App: FC<AppProps> = ({}: AppProps) => {
               <Route path='expenses'>
                 <Route path='' element={<Expenses />} />
               </Route>
+              <Route path='budget'>
+                <Route path='' element={<Budget />} />
+              </Route>
               <Route
                 path='reports'
                 element={
                   <>
-                    <Group position='center'>
-                      <Button
-                        variant='outline'
-                        onClick={() =>
-                          showNotification({
-                            title: 'Default notification',
-                            message: 'Hey there, your code is awesome! 🤥',
-                          })
-                        }
-                      >
-                        Show notification
-                      </Button>
-                    </Group>
+                    <p>Reports</p>
                   </>
                 }
               />

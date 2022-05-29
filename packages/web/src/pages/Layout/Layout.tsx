@@ -8,7 +8,7 @@ import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
 import { AppLogo } from '../../components/App/AppLogo';
 import { month, year, day, IDate } from '../../constants/date';
-import { Date as DateComponent } from '../../components/Date';
+import { DateComponent as DateComponent } from '../../components/Date';
 import { HeaderContext, HeaderContextValue } from '../../context';
 
 interface LayoutProps {}

@@ -1,8 +1,14 @@
 import React, { FC, useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { SideNavLinksWrapper } from './SideNav.styles';
-import { Home, PieChart, Archive } from 'react-feather';
 import { UserContext } from '../../context';
+import {
+  CurrencyDollar,
+  FileDollar,
+  Home2,
+  Logout,
+  ReportAnalytics,
+} from 'tabler-icons-react';
 
 interface SideNavProps {}
 
@@ -13,50 +19,38 @@ interface Links {
   icon: JSX.Element | null;
 }
 
-const sideNavLinks: Links[] = [
-  {
-    name: 'Dashboard',
-    to: '/dashboard',
-    icon: <Home id='icon' />,
-  },
-  {
-    name: 'Expenses',
-    to: `/expenses`,
-    icon: <Archive id='icon' />,
-  },
-  {
-    name: 'Reports',
-    to: '/reports',
-    icon: <PieChart id='icon' />,
-  },
-  // {
-  //   name: 'Wishlist',
-  //   to: '/profile',
-  //   icon: <ShoppingCart id='icon' />,
-  // },
-  // {
-  //   name: 'Profile',
-  //   to: '/profile',
-  //   icon: <UserPlus id='icon' />,
-  // },
-  // {
-  //   name: 'Settings',
-  //   to: '/profile',
-  //   icon: <Settings id='icon' />,
-  // },
-
-  {
-    name: 'Sign out',
-    to: '/',
-    isSignout: true,
-    icon: null,
-  },
-];
-
+const iconSize = 18;
 const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
   const navigate = useNavigate();
 
-  const [links] = useState<Links[]>(sideNavLinks);
+  const [links] = useState<Links[]>([
+    {
+      name: 'Dashboard',
+      to: '/dashboard',
+      icon: <Home2 size={iconSize} />,
+    },
+    {
+      name: 'Expenses',
+      to: `/expenses`,
+      icon: <FileDollar size={iconSize} />,
+    },
+    {
+      name: 'Budgets',
+      to: '/budget',
+      icon: <CurrencyDollar size={iconSize} />,
+    },
+    {
+      name: 'Reports',
+      to: '/reports',
+      icon: <ReportAnalytics size={iconSize} />,
+    },
+    {
+      name: 'Sign out',
+      to: '/',
+      isSignout: true,
+      icon: <Logout size={iconSize} />,
+    },
+  ]);
 
   const { setUser } = useContext(UserContext);
 
@@ -81,7 +75,7 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
         ) : (
           <li key={index}>
             <NavLink className='link' to={link.to}>
-              {link.icon} {link.name}
+              {link.icon} <span>{link.name}</span>
             </NavLink>
           </li>
         )
