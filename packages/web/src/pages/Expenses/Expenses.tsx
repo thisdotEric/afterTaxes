@@ -8,6 +8,7 @@ import { getNotificationProps } from '../../components/Notification';
 import { HeaderContext } from '../../context';
 import { expensesColumns } from './expenses.columns';
 import ExpensesTable from './ExpensesTable';
+import { useSetHeader } from '../../hooks';
 
 interface ExpensesProps {}
 
@@ -46,6 +47,8 @@ const dummy = [
 ];
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
+  useSetHeader('Expenses List');
+
   const [opened, setOpened] = useState(false);
   const [rows, setRows] = useState<ExpensesHistory[]>(dummy);
   const [refetch, setRefetch] = useState<number>(0);
@@ -66,8 +69,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     });
   };
 
-  const { header, setHeader } = useContext(HeaderContext);
-
   const fetchExpensesRows = async () => {
     const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
     const data = await res.json();
@@ -76,11 +77,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   };
 
   useEffect(() => {
-    setHeader({
-      ...header,
-      headerTitle: 'Expenses List',
-    });
-
     const fetchData = async () => {
       const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
       const data = await res.json();
