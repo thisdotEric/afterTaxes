@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSetHeader } from '../../hooks';
 import { Timeline, Text, Card, Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
@@ -82,6 +82,10 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       onConfirm: () =>
         setBudget((old) => old.filter((b) => b.budget_id != budget_id)),
     });
+
+  useEffect(() => {
+    console.log('Hello');
+  }, []);
 
   return (
     <BudgetWrapper>
