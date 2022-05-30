@@ -11,6 +11,7 @@ import {
 } from './Budget.styles';
 import BudgetTimeline from '../../components/Budget/BudgetTimeline';
 import { useModals } from '@mantine/modals';
+import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 
 interface BudgetProps {}
 
@@ -66,56 +67,9 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     },
   ]);
 
-  const [budgetTimeline, setBudgetTimeline] = useState<IBudgetTimeline[]>([
-    {
-      amount: 20,
-      description: 'From Salary',
-      date: new Date(),
-    },
-    {
-      amount: 30,
-      description: 'Mark gave me 100',
-      date: new Date(),
-    },
-    {
-      amount: 20,
-      description: 'From 30th salary',
-      date: new Date(),
-      deductFunds: true,
-    },
-    {
-      amount: 30,
-      description: 'Mark gave me 100',
-      date: new Date(),
-    },
-    {
-      amount: 20,
-      description: 'From 30th salary',
-      date: new Date(),
-    },
-    {
-      amount: 30,
-      description: 'Mark gave me 100',
-      date: new Date(),
-    },
-    {
-      amount: 20,
-      description: 'From 30th salary',
-      date: new Date(),
-    },
-    {
-      amount: 30,
-      description: 'Mark gave me 100',
-      date: new Date(),
-    },
-    {
-      amount: 20,
-      description: 'From 30th salary',
-      date: new Date(),
-    },
-  ]);
-
   const modals = useModals();
+
+  const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
 
   const openConfirmModal = (budget_id: number) =>
     modals.openConfirmModal({
@@ -143,8 +97,16 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
             89.25 <span>(20%)</span>
           </span>
         </BudgetText>
-        <Button size='xs'>Add funds</Button>
+        <Button size='xs' onClick={() => setOpenAddFundsModal(true)}>
+          Add funds
+        </Button>
       </BudgetHeaderWrapper>
+
+      {/* Modal */}
+      <AddBudgetModal
+        opened={openAddFundsModal}
+        setOpened={setOpenAddFundsModal}
+      />
 
       <div id='allocated-budgets-actions'>
         <p>Allocated Budgets</p>
