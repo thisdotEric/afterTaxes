@@ -117,6 +117,7 @@ export const ExpensesTableWrapper = styled.table`
     font-weight: bold;
     border-bottom-color: white;
     cursor: pointer;
+    font-size: 13px;
 
     p {
       display: flex;
@@ -126,6 +127,7 @@ export const ExpensesTableWrapper = styled.table`
   }
 
   tbody tr td {
+    font-size: 13px;
     color: white;
     border-bottom-color: gray;
     word-wrap: break-word;

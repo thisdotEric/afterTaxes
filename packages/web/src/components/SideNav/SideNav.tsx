@@ -35,7 +35,7 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
       icon: <FileDollar size={iconSize} />,
     },
     {
-      name: 'Budgets',
+      name: 'Budget',
       to: '/budget',
       icon: <CurrencyDollar size={iconSize} />,
     },

@@ -9,6 +9,7 @@ import { HeaderContext } from '../../context';
 import { expensesColumns } from './expenses.columns';
 import ExpensesTable from './ExpensesTable';
 import { useSetHeader } from '../../hooks';
+import { year, month } from '../../constants/date';
 
 interface ExpensesProps {}
 
@@ -47,7 +48,7 @@ const dummy = [
 ];
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
-  useSetHeader('Expenses List');
+  useSetHeader('Expenses List', { year, month });
 
   const [opened, setOpened] = useState(false);
   const [rows, setRows] = useState<ExpensesHistory[]>(dummy);

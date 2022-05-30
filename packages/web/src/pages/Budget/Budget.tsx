@@ -3,7 +3,12 @@ import { useSetHeader } from '../../hooks';
 import { Timeline, Text, Card, Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
 import { Edit, Minus, Plus, Trash } from 'tabler-icons-react';
-import { BudgetCards, BudgetWrapper } from './Budget.styles';
+import {
+  BudgetCards,
+  BudgetHeaderWrapper,
+  BudgetText,
+  BudgetWrapper,
+} from './Budget.styles';
 import BudgetTimeline from '../../components/Budget/BudgetTimeline';
 import { useModals } from '@mantine/modals';
 
@@ -127,10 +132,26 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   return (
     <BudgetWrapper>
       {/* <BudgetTimeline timeline={budgetTimeline} /> */}
-      <p id='total-budget'>
-        Total Budget: Php <span>100.00</span>
-      </p>
-      <p>Unallocated Budget: Php100.00</p>
+
+      <BudgetHeaderWrapper>
+        <BudgetText>
+          Total Monthly Budget: <span>1000.50</span>
+        </BudgetText>
+        <BudgetText>
+          Unallocated Budget:{' '}
+          <span>
+            89.25 <span>(20%)</span>
+          </span>
+        </BudgetText>
+        <Button size='xs'>Add funds</Button>
+      </BudgetHeaderWrapper>
+
+      <div id='allocated-budgets-actions'>
+        <p>Allocated Budgets</p>
+        <Button id='create-new-budget' size='xs'>
+          + Create new budget
+        </Button>
+      </div>
 
       <BudgetCards>
         {budget.map(({ amount, name, budget_id }) => (

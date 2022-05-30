@@ -16,11 +16,67 @@ export const BudgetWrapper = styled.div`
     font-weight: bold;
   }
 
+  #allocated-budgets-actions {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 12px;
+
+    p {
+      color: white;
+      font-weight: bold;
+    }
+
+    #create-new-budget {
+      border: none;
+      background: none;
+      color: white;
+      font-weight: normal;
+
+      &:hover {
+        color: ${green};
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+  }
+`;
+
+export const BudgetHeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: ${secondarybg};
+
   #total-budget {
     color: white;
+    font-weight: bold;
 
     span {
-      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      color: ${green};
+
+      span {
+        font-size: 15px;
+      }
+    }
+  }
+`;
+
+export const BudgetText = styled.p`
+  color: white;
+  font-weight: bold;
+
+  span {
+    font-size: 16px;
+    font-weight: bold;
+    color: ${green};
+
+    span {
+      font-size: 15px;
     }
   }
 `;
@@ -40,7 +96,6 @@ export const BudgetCards = styled.div`
     .action-btn {
       background: none;
       text-align: left;
-      font-size: 12px;
       cursor: pointer;
 
       &:hover {
@@ -61,7 +116,6 @@ export const BudgetCards = styled.div`
     background-color: ${secondarybg};
     margin: 10px;
     border: none;
-    font-size: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
