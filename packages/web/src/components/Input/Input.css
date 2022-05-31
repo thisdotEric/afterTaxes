@@ -1,5 +1,5 @@
-#user-input {
-  width: 350px;
+#user-input,
+#action-input {
   background-color: #2e3139;
   border: none;
   caret-color: white;
@@ -8,7 +8,14 @@
   font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
   margin-bottom: 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  min-width: auto;
+}
+
+#user-input {
+  width: 350px;
+}
+
+#action-input {
+  width: 100px;
 }
 
 #user-input:-webkit-autofill,
@@ -41,9 +48,24 @@
   border-color: #2e3139;
 }
 
-.dropdown {
+.dropdown,
+.action-dropdown {
   background-color: #2e3139;
   border-color: transparent;
+}
+
+.action-item {
+  color: white;
+  background-color: #2e3139;
+}
+
+.action-item:hover {
+  font-weight: bold;
+  color: #15c45e;
+}
+
+.action-root {
+  height: 35px;
 }
 
 #dropdown-label {

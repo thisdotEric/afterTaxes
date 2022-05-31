@@ -1,23 +1,30 @@
 import React, { FC } from 'react';
 import './Input.css';
 import { Select } from '@mantine/core';
+import { ChevronDown } from 'tabler-icons-react';
 
-interface SelectInputProps {}
+interface DropdownData {
+  value: string;
+  label: string;
+}
+interface SelectInputProps {
+  data: DropdownData[];
+}
 
-const SelectInput: FC<SelectInputProps> = ({}: SelectInputProps) => {
+const SelectInput: FC<SelectInputProps> = ({ data }: SelectInputProps) => {
   return (
     <Select
-      id='user-input'
-      label='Budget Type'
+      id='action-input'
       classNames={{
         label: 'input-label',
+        dropdown: 'action-dropdown',
+        item: 'action-item',
+        wrapper: 'action-root',
       }}
-      data={[
-        { value: 'react', label: 'React', group: 'best' },
-        { value: 'ng', label: 'Angular', group: 'not' },
-        { value: 'svelte', label: 'Svelte', group: 'not' },
-        { value: 'vue', label: 'Vue', group: 'not' },
-      ]}
+      rightSection={<ChevronDown size={14} />}
+      rightSectionWidth={30}
+      placeholder='Action'
+      data={data}
     />
   );
 };

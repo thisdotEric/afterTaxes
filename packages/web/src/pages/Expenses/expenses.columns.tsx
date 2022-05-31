@@ -4,6 +4,8 @@ import type { Column } from 'react-table';
 import type { ExpensesHistory } from './Expenses';
 import { green, red } from '../../components/styles/colors';
 import { Link } from 'react-router-dom';
+import { Select } from '@mantine/core';
+import { SelectInput } from '../../components/Input';
 
 export const expensesColumns = [
   {
@@ -29,22 +31,5 @@ export const expensesColumns = [
   {
     Header: 'BUDGET TYPE',
     accessor: 'budgetType',
-  },
-  {
-    Header: 'ACTIONS',
-    accessor: 'id',
-    Cell: () => {
-      return (
-        <span>
-          <Link to={''} id='action-link'>
-            Edit
-          </Link>
-          {'  '}
-          <Link to={''} id='action-link'>
-            Delete
-          </Link>
-        </span>
-      );
-    },
   },
 ] as Column<ExpensesHistory>[];

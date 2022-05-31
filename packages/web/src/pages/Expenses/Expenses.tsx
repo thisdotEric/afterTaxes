@@ -10,6 +10,8 @@ import { expensesColumns } from './expenses.columns';
 import ExpensesTable from './ExpensesTable';
 import { useSetHeader } from '../../hooks';
 import { year, month } from '../../constants/date';
+import { SelectInput } from '../../components/Input';
+import type { Column } from 'react-table';
 
 interface ExpensesProps {}
 
@@ -38,13 +40,6 @@ const dummy = [
     budgetType: 'Monthly',
     amount: 100,
   },
-  {
-    id: 3,
-    date: '15',
-    name: 'I love interstellar movie will watch it again',
-    budgetType: 'Transportation',
-    amount: 100,
-  },
 ];
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
@@ -57,7 +52,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   const addData = () => {
     setRows((old) => {
       return [
-        ...old,
         {
           amount: Math.random(),
           budgetType: 'Tech',
@@ -66,6 +60,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
           name: 'Spotify Premium',
           description: '3 month subscription',
         },
+        ...old,
       ];
     });
   };
@@ -94,7 +89,34 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   // Memoized table rows and columns
   const data = useMemo<ExpensesHistory[]>(() => rows, [rows]);
-  const columns = useMemo(() => expensesColumns, []);
+
+  const columns = useMemo(
+    () =>
+      [
+        ...expensesColumns,
+        {
+          Header: 'ACTIONS',
+          accessor: 'id',
+          Cell: (row) => {
+            return (
+              <SelectInput
+                data={[
+                  {
+                    label: 'Edit',
+                    value: 'edit',
+                  },
+                  {
+                    label: 'Delete',
+                    value: 'delete',
+                  },
+                ]}
+              />
+            );
+          },
+        },
+      ] as Column<ExpensesHistory>[],
+    []
+  );
 
   return (
     <ExpensesPageWrapper>
