@@ -1,6 +1,5 @@
 import React, { FC, useReducer } from 'react';
 import './RecordExpenses.css';
-import { FormWrapper } from './RecordExpenses.styles';
 import {
   TextInput,
   NumberInput,
@@ -9,6 +8,7 @@ import {
   BudgetDropDown,
 } from '../../../components/Input';
 import { Button } from '../../../components/Button';
+import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
 
 interface RecordExpensesProps {
   setModalState: () => void;

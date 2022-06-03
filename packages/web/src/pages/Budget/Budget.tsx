@@ -9,6 +9,7 @@ import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import axios from 'axios';
 import BudgetHeader from '../../components/Budget/BudgetHeader';
 import CategorizedBudgetCard from '../../components/Budget/CategorizedBudgetCard';
+import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategorizedBudgetModal';
 
 interface BudgetProps {}
 
@@ -44,6 +45,8 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
 
   const [budgets, setBudgets] = useState<CategorizedBudget[]>([]);
   const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
+  const [openCreateBudgetModal, setOpenCreateBudgetModal] =
+    useState<boolean>(false);
 
   const modals = useModals();
   const openConfirmModal = (budget_id: number) =>
@@ -84,22 +87,34 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
         openAddFundsModal={setOpenAddFundsModal}
       />
 
+      <div id='allocated-budgets-actions'>
+        <p>Allocated Budgets</p>
+        <Button
+          id='create-new-budget'
+          size='xs'
+          onClick={() => setOpenCreateBudgetModal(true)}
+        >
+          + Create new budget
+        </Button>
+      </div>
+
       {/* Modal */}
       <AddBudgetModal
         opened={openAddFundsModal}
         setOpened={setOpenAddFundsModal}
-        remainingBudget={budgetBreakdown.unallocated}
         onSubmit={async () => {
           await fetchBudgetPageValues();
         }}
       />
 
-      <div id='allocated-budgets-actions'>
-        <p>Allocated Budgets</p>
-        <Button id='create-new-budget' size='xs'>
-          + Create new budget
-        </Button>
-      </div>
+      <CreateCategorizedBudgetModal
+        remainingBudget={budgetBreakdown.unallocated}
+        opened={openCreateBudgetModal}
+        setOpened={setOpenCreateBudgetModal}
+        onSubmit={async () => {
+          console.log(1);
+        }}
+      />
 
       <BudgetCards>
         {budgets &&

@@ -6,9 +6,10 @@ import { primarybg } from '../../../components/styles/colors';
 import { NumberInput, TextArea } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import axios from 'axios';
+import SharedModalWrapper from '../../../components/Modal';
+import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
 
 interface AddBudgetModalProps {
-  remainingBudget: number;
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
   onSubmit: () => Promise<void>;
@@ -24,7 +25,7 @@ const AddBudgetModal: FC<AddBudgetModalProps> = ({
   const [disabled, setDisabled] = useState(true);
 
   return (
-    <Modal
+    <SharedModalWrapper
       opened={opened}
       onClose={() => {
         setAmount(0);
@@ -36,7 +37,7 @@ const AddBudgetModal: FC<AddBudgetModalProps> = ({
         modal: { backgroundColor: primarybg },
       }}
     >
-      <ModalWrapper>
+      <FormWrapper>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -73,8 +74,8 @@ const AddBudgetModal: FC<AddBudgetModalProps> = ({
 
           <Button name='Add new fund' disable={disabled} />
         </form>
-      </ModalWrapper>
-    </Modal>
+      </FormWrapper>
+    </SharedModalWrapper>
   );
 };
 
