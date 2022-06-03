@@ -1,11 +1,6 @@
 import React from 'react';
-import { Edit, Trash } from 'tabler-icons-react';
 import type { Column } from 'react-table';
 import type { ExpensesHistory } from './Expenses';
-import { green, red } from '../../components/styles/colors';
-import { Link } from 'react-router-dom';
-import { Select } from '@mantine/core';
-import { SelectInput } from '../../components/Input';
 
 export const expensesColumns = [
   {

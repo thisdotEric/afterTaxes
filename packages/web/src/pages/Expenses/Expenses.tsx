@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import './Expenses.css';
-import { Modal } from '@mantine/core';
+import { Button, Menu, Modal } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
 import { RecordExpensesModal } from './RecordExpenses';
 import { showNotification } from '@mantine/notifications';
@@ -12,6 +12,13 @@ import { useSetHeader } from '../../hooks';
 import { year, month } from '../../constants/date';
 import { SelectInput } from '../../components/Input';
 import type { Column } from 'react-table';
+import {
+  ChevronDown,
+  Dots,
+  Edit,
+  ExternalLink,
+  Trash,
+} from 'tabler-icons-react';
 
 interface ExpensesProps {}
 
@@ -24,71 +31,48 @@ export interface ExpensesHistory {
   budgetType: string;
 }
 
-const dummy = [
-  {
-    id: 1,
-    date: '15',
-    name: 'Laptop Repair',
-    description: 'Fixed laptop because windows sucks. Then fixed ',
-    budgetType: 'Daily',
-    amount: 100,
-  },
-  {
-    id: 2,
-    date: '15',
-    name: 'Laptop Repair and Grocery store',
-    budgetType: 'Monthly',
-    amount: 100,
-  },
-];
+interface ActionList {
+  value: string;
+  label: string;
+  icon: JSX.Element;
+}
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   useSetHeader('Expenses List', { year, month });
 
+  // Modal state variables
   const [opened, setOpened] = useState(false);
-  const [rows, setRows] = useState<ExpensesHistory[]>(dummy);
-  const [refetch, setRefetch] = useState<number>(0);
+  const [openedEditModal, setOpenedEditModal] = useState(false);
+  const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
+    useState(false);
 
-  const addData = () => {
-    setRows((old) => {
-      return [
-        {
-          amount: Math.random(),
-          budgetType: 'Tech',
-          date: '23',
-          id: 1,
-          name: 'Spotify Premium',
-          description: '3 month subscription',
-        },
-        ...old,
-      ];
-    });
-  };
+  const [rows, setRows] = useState<ExpensesHistory[]>([]);
+  const [actions] = useState<ActionList[]>([
+    {
+      value: 'edit',
+      label: 'Edit',
+      icon: <Edit size={14} />,
+    },
+    {
+      value: 'delete',
+      label: 'Delete',
+      icon: <Trash size={14} />,
+    },
+  ]);
 
-  const fetchExpensesRows = async () => {
+  const fetchData = async () => {
     const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
     const data = await res.json();
 
-    return data;
+    setRows(data);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
-      const data = await res.json();
-
-      setRows(dummy);
-    };
-
     fetchData();
   }, []);
 
-  useEffect(() => {
-    addData();
-  }, [refetch]);
-
   // Memoized table rows and columns
-  const data = useMemo<ExpensesHistory[]>(() => rows, [rows]);
+  const data = useMemo<ExpensesHistory[]>(() => rows, [rows, setRows]);
 
   const columns = useMemo(
     () =>
@@ -99,18 +83,31 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
           accessor: 'id',
           Cell: (row) => {
             return (
-              <SelectInput
-                data={[
-                  {
-                    label: 'Edit',
-                    value: 'edit',
-                  },
-                  {
-                    label: 'Delete',
-                    value: 'delete',
-                  },
-                ]}
-              />
+              <Menu
+                withArrow
+                control={
+                  <Button
+                    size='xs'
+                    id='action-btn'
+                    rightIcon={<ChevronDown size={12} />}
+                  >
+                    Action
+                  </Button>
+                }
+              >
+                {actions.map(({ value, label, icon }) => (
+                  <Menu.Item
+                    icon={icon}
+                    onClick={async () => {
+                      console.log(value, row.value);
+
+                      await fetchData();
+                    }}
+                  >
+                    {label}
+                  </Menu.Item>
+                ))}
+              </Menu>
             );
           },
         },
@@ -120,8 +117,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   return (
     <ExpensesPageWrapper>
-      {/* Expenses list table */}
-
       {rows && (
         <ExpensesTable
           columns={columns}
@@ -150,9 +145,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 getNotificationProps('New expense item added', 'success')
               );
             }, 100);
-
-            setRefetch(Math.random());
-            console.log(refetch);
           }}
         />
       </Modal>

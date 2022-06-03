@@ -12,6 +12,14 @@ export const ExpensesPageWrapper = styled.div`
     background-color: greenyellow;
     color: black;
   }
+
+  #action-btn {
+    background: none;
+
+    &:hover {
+      background-color: ${primarybg};
+    }
+  }
 `;
 
 export const TableWrapper = styled.div`
