@@ -9,6 +9,7 @@ const BUDGET_NAME = 'budget_name';
 const SAVINGS = 'savings';
 const SAVINGS_HISTORY = 'savings_history';
 const GDRIVE_FOLDER = 'gdrive_folder';
+const SESSIONS = 'sessions';
 
 export {
   USERS,
@@ -22,4 +23,5 @@ export {
   SAVINGS,
   SAVINGS_HISTORY,
   GDRIVE_FOLDER,
+  SESSIONS,
 };
