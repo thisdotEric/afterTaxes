@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { BUDGET, CATEGORIZED_BUDGET } from '../../constants/tables';
+import { BUDGET, CATEGORIZED_BUDGET, USERS } from '../../constants/tables';
 import { BUDGET_TYPES } from '../../constants/budgets';
 
 export async function up(knex: Knex): Promise<void> {
@@ -15,6 +15,13 @@ export async function up(knex: Knex): Promise<void> {
       table.text('description').nullable();
 
       table.timestamps(true, true);
+
+      table.integer('user_id').notNullable().unsigned();
+      table
+        .foreign('user_id')
+        .references('user_id')
+        .inTable(USERS)
+        .onDelete('CASCADE');
     })
     .createTable(CATEGORIZED_BUDGET, (table: Knex.TableBuilder) => {
       table
@@ -28,6 +35,13 @@ export async function up(knex: Knex): Promise<void> {
       table.float('budget').unsigned();
 
       table.timestamps(true, true);
+
+      table.integer('user_id').notNullable().unsigned();
+      table
+        .foreign('user_id')
+        .references('user_id')
+        .inTable(USERS)
+        .onDelete('CASCADE');
     });
 }
 
