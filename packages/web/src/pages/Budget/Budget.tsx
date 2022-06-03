@@ -41,8 +41,8 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   });
 
   const [budgetBreakdown, setBudgetBreakdown] = useState<BudgetBreakdown>({
-    total: 100.0,
-    unallocated: 20,
+    total: 0,
+    unallocated: 0,
   });
 
   const [budgets, setBudgets] = useState<Budget[]>([
@@ -63,22 +63,18 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       },
       labels: { confirm: 'Remove Budget', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: async () => {
-        setBudgets((old) => old.filter((b) => b.budget_id != budget_id));
-        await fetchBudgetPageValues();
-      },
+      onConfirm: () =>
+        setBudgets((old) => old.filter((b) => b.budget_id != budget_id)),
     });
 
   const fetchBudgetPageValues = async () => {
-    const { data, status } = await axios.get(
+    const { data } = await axios.get(
       'http://localhost:3000/api/v1/budgets/2022/06'
     );
 
-    console.log(data.year, status);
-
     setBudgetBreakdown({
-      total: data.year,
-      unallocated: data.month,
+      total: data.total,
+      unallocated: data.unallocated,
     });
   };
 

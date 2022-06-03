@@ -19,9 +19,15 @@ export class BudgetsController {
   ) {
     const { year, month } = request.params;
 
-    return reply.code(200).send({
-      year,
+    const budgetBreakdown = await this.budgetService.getBudgetBreakdown(
       month,
+      year
+    );
+
+    return reply.code(200).send({
+      month,
+      year,
+      ...budgetBreakdown,
     });
   }
 
