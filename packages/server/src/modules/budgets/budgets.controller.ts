@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { BudgetsService } from './budgets.service';
-import { BudgetListInput } from './budgets.schema';
+import { BudgetInput } from './budgets.schema';
 import { Controller, POST, GET } from 'fastify-decorators';
 
 @Controller('/budgets')
@@ -14,13 +14,14 @@ export class BudgetsController {
 
   @POST('/')
   public async addNewBudget(
-    request: FastifyRequest<{ Body: { budgets: BudgetListInput } }>,
+    request: FastifyRequest<{ Body: { budget: BudgetInput } }>,
     reply: FastifyReply
   ) {
-    const { budgets } = request.body;
+    const { budget } = request.body;
 
     try {
-      await this.budgetService.add(budgets);
+      await this.budgetService.add(budget);
+      console.log(budget);
     } catch (error: any) {
       return reply.code(400).send(error);
     }

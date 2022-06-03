@@ -6,7 +6,7 @@ import { IBudget } from './budgets.repository';
 export class BudgetsService {
   constructor(private readonly budgetRepository: BudgetsRepository) {}
 
-  async add(budgets: IBudget[]) {
-    await this.budgetRepository.add(budgets);
+  async add(budget: IBudget) {
+    await this.budgetRepository.add(budget);
   }
 }

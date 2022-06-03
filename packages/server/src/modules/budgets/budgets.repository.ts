@@ -1,34 +1,19 @@
 import { BUDGET } from '@database/constants';
-import { BUDGET_TYPES } from '@database/constants/budgets';
 import KnexQueryBuilder from '@database/knex/knexDatabase';
 import { Service } from 'fastify-decorators';
 
+// budget_type: keyof typeof BUDGET_TYPES | string;
 export interface IBudget {
-  name: string;
+  amount: number;
   description?: string;
-  budget_type: keyof typeof BUDGET_TYPES | string;
-  budget: number;
-  date_budgeted: Date;
-  budgetFrom: Date;
-  budgetUntil: Date;
+  created_at?: Date;
 }
 
 @Service()
 export class BudgetsRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
 
-  async add(budgets: IBudget[]) {
-    await this.knex
-      .db()(BUDGET)
-      .insert(
-        budgets.map(budget => ({
-          budget_type: budget.budget_type,
-          budget_name: budget.name,
-          budget: budget.budget,
-          date_budgeted: budget.date_budgeted,
-          budgetFrom: budget.budgetFrom,
-          budgetTo: budget.budgetUntil,
-        }))
-      );
+  async add(budget: IBudget) {
+    await this.knex.db()(BUDGET).insert(budget);
   }
 }

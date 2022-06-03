@@ -6,6 +6,7 @@ import { primarybg } from '../../../components/styles/colors';
 import { NumberInput, TextArea } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { DeviceFloppy } from 'tabler-icons-react';
+import axios from 'axios';
 
 interface AddBudgetModalProps {
   opened: boolean;
@@ -29,6 +30,14 @@ const AddBudgetModal: FC<AddBudgetModalProps> = ({
         <form
           onSubmit={async (e) => {
             e.preventDefault();
+
+            await axios.post('http://localhost:3000/api/v1/budgets', {
+              budget: {
+                amount: 100,
+                description: 'Hey',
+                created_at: '2022-10-12',
+              },
+            });
           }}
         >
           <NumberInput label='Additional Fund' />

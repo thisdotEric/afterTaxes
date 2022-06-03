@@ -17,24 +17,24 @@ export default fp(
     _: FastifyPluginOptions,
     next: (error?: FastifyError) => void
   ): Promise<void> => {
-    fastify.register(fastifyCookie);
+    // fastify.register(fastifyCookie);
 
-    const store = new KnexStore({
-      client: knex(configs[`${process.env.NODE_ENV}`]),
-      ttl: SESSION_TTL,
-      table: 'sessions',
-    });
+    // const store = new KnexStore({
+    //   client: knex(configs[`${process.env.NODE_ENV}`]),
+    //   ttl: SESSION_TTL,
+    //   table: 'sessions',
+    // });
 
-    fastify.register(fastifySession, {
-      secret: `${process.env.SESSION_SECRET}`,
-      cookieName: 'sid',
-      store,
-      cookie: {
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: SESSION_TTL,
-      },
-    });
+    // fastify.register(fastifySession, {
+    //   secret: `${process.env.SESSION_SECRET}`,
+    //   cookieName: 'sid',
+    //   store,
+    //   cookie: {
+    //     path: '/',
+    //     secure: process.env.NODE_ENV === 'production',
+    //     maxAge: SESSION_TTL,
+    //   },
+    // });
 
     next();
   }
