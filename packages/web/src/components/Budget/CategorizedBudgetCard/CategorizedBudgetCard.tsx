@@ -14,7 +14,7 @@ const CategorizedBudgetCard: FC<CategorizedBudgetCardProps> = ({
     <Card shadow={'sm'} id='budget-card' key={id}>
       <div>
         <p id='name'>{name}</p>
-        <p id='amount'>{budget}</p>
+        <p id='amount'>{budget.toFixed(2)}</p>
       </div>
       <div id='actions'>
         <Edit size={20} id='edit' className='action-btn' strokeWidth={1.5} />
