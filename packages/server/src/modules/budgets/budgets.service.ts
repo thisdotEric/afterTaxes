@@ -30,17 +30,27 @@ export class BudgetsService {
     /**
      * Compute the total budget from the given month and year
      */
-    const totalBudget = budgets.reduce((prev, curr) => {
-      return { amount: prev.amount + curr.amount };
-    }).amount;
+    const totalBudget = budgets.reduce(
+      (prev, curr) => {
+        return { amount: prev.amount + curr.amount };
+      },
+      {
+        amount: 0,
+      }
+    ).amount;
 
     /**
      * Compute the total budget allocated (into different categories)
      * from the given month and year
      */
-    const totalAllocated = categorized_budgets.reduce((prev, curr) => {
-      return { ...prev, budget: prev.budget + curr.budget };
-    }).budget;
+    const totalAllocated = categorized_budgets.reduce(
+      (prev, curr) => {
+        return { ...prev, budget: prev.budget + curr.budget };
+      },
+      {
+        budget: 0,
+      }
+    ).budget;
 
     return {
       total: this.roundOff(totalBudget),
