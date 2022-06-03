@@ -7,9 +7,10 @@ interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   name: string;
   withIcon?: boolean;
+  disable?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ onClick, name }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ onClick, name, disable }: ButtonProps) => {
   return (
     <MantineButton
       radius={10}
@@ -17,6 +18,7 @@ const Button: FC<ButtonProps> = ({ onClick, name }: ButtonProps) => {
       classNames={{ root: 'root-btn' }}
       // onClick={onClick}
       type='submit'
+      disabled={disable}
     >
       {name}
     </MantineButton>

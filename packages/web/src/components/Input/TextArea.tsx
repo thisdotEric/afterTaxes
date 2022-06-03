@@ -6,12 +6,18 @@ import { Notes } from 'tabler-icons-react';
 interface TextAreaProps {
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement> | undefined;
   label: string;
+  value: string;
 }
 
-const TextArea: FC<TextAreaProps> = ({ label, onChange }: TextAreaProps) => {
+const TextArea: FC<TextAreaProps> = ({
+  label,
+  onChange,
+  value,
+}: TextAreaProps) => {
   return (
     <MantineTextArea
       label={label}
+      value={value}
       classNames={{
         label: 'input-label',
       }}

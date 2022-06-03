@@ -6,6 +6,9 @@ import { CurrencyDollar } from 'tabler-icons-react';
 interface NumberInputProps {
   label: string;
   onChange?: (value: number | undefined) => void;
+  value: number;
+  disabled?: boolean;
+  errror?: string;
 }
 
 const NumberInput: FC<NumberInputProps> = (props: NumberInputProps) => {

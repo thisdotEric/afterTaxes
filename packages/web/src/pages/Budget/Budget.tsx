@@ -88,6 +88,10 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       <AddBudgetModal
         opened={openAddFundsModal}
         setOpened={setOpenAddFundsModal}
+        remainingBudget={budgetBreakdown.unallocated}
+        onSubmit={async () => {
+          await fetchBudgetPageValues();
+        }}
       />
 
       <div id='allocated-budgets-actions'>
