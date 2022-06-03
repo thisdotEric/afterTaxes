@@ -5,6 +5,7 @@ import { NumberInput, TextInput } from '../../../components/Input';
 import type { RequiredModalProps } from '../../../components/Modal/SharedModal';
 import { Button } from '../../../components/Button';
 import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
+import axios from 'axios';
 
 interface CreateCategorizedBudgetModalProps extends RequiredModalProps {
   remainingBudget: number;
@@ -27,8 +28,22 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
       >
         <FormWrapper>
           <form
-            onSubmit={async () => {
+            onSubmit={async (e) => {
+              e.preventDefault();
+
+              await axios.post(
+                'http://localhost:3000/api/v1/budgets/categorized-budget',
+                {
+                  categorized_budget: {
+                    budget: 6000.5,
+                    name: 'Tuition Fee',
+                    category: 'TUITION_CONTRIBUTION',
+                  },
+                }
+              );
+
               await onSubmit();
+              setOpened(false);
             }}
           >
             <NumberInput

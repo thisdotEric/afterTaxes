@@ -48,6 +48,26 @@ export class BudgetsController {
     return reply.code(201).send(request.body);
   }
 
+  @POST('/categorized-budget')
+  public async createNewCategorizedBudget(
+    request: FastifyRequest<{
+      Body: {
+        categorized_budget: {
+          budget: number;
+          name: string;
+          category: string;
+        };
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const { categorized_budget } = request.body;
+
+    await this.budgetService.createCategorizedBudget(categorized_budget);
+
+    return reply.code(201).send('Ok');
+  }
+
   @GET('/:year/:month/categories')
   public async getCategorizedBudgets(
     request: FastifyRequest<{

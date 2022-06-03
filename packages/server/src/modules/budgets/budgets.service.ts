@@ -1,5 +1,5 @@
 import { Service } from 'fastify-decorators';
-import { BudgetsRepository } from './budgets.repository';
+import { BudgetsRepository, CategorizedBudget } from './budgets.repository';
 import { IBudget } from './budgets.repository';
 
 export interface BudgetBreakdown {
@@ -50,5 +50,11 @@ export class BudgetsService {
 
   async getCategorizedBudgets(month: number, year: number) {
     return this.budgetRepository.getCategorizedBudgets(month, year);
+  }
+
+  async createCategorizedBudget(
+    categorized_budget: Omit<CategorizedBudget, 'id'>
+  ) {
+    return this.budgetRepository.createCategorizedBudget(categorized_budget);
   }
 }

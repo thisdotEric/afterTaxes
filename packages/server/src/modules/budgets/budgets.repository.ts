@@ -51,7 +51,7 @@ export class BudgetsRepository {
     const budget_rows = await this.knex
       .db()
       .raw(
-        `select * from ${CATEGORIZED_BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year}`
+        `select * from ${CATEGORIZED_BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} order by budget desc`
       );
 
     /**
@@ -67,5 +67,17 @@ export class BudgetsRepository {
     );
 
     return categorized_budgets;
+  }
+
+  async createCategorizedBudget({
+    budget,
+    category,
+    name,
+  }: Omit<CategorizedBudget, 'id'>) {
+    await this.knex.db()(CATEGORIZED_BUDGET).insert({
+      budget,
+      name,
+      budget_type: category,
+    });
   }
 }

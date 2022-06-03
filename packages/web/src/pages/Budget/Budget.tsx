@@ -112,7 +112,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
         opened={openCreateBudgetModal}
         setOpened={setOpenCreateBudgetModal}
         onSubmit={async () => {
-          console.log(1);
+          await fetchBudgetPageValues();
         }}
       />
 
