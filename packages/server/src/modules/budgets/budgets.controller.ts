@@ -47,4 +47,24 @@ export class BudgetsController {
 
     return reply.code(201).send(request.body);
   }
+
+  @GET('/:year/:month/categories')
+  public async getCategorizedBudgets(
+    request: FastifyRequest<{
+      Params: {
+        year: number;
+        month: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const { month, year } = request.params;
+
+    const categorized_budgets = await this.budgetService.getCategorizedBudgets(
+      month,
+      year
+    );
+
+    return reply.code(201).send(categorized_budgets);
+  }
 }

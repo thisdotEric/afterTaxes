@@ -11,7 +11,7 @@ export interface IBudget {
 }
 
 export interface CategorizedBudget {
-  id?: number;
+  id: number;
   category: string;
   name: string;
   budget: number;

@@ -47,4 +47,8 @@ export class BudgetsService {
       unallocated: this.roundOff(totalBudget - totalAllocated),
     };
   }
+
+  async getCategorizedBudgets(month: number, year: number) {
+    return this.budgetRepository.getCategorizedBudgets(month, year);
+  }
 }

@@ -1,18 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSetHeader } from '../../hooks';
-import { Timeline, Text, Card, Button } from '@mantine/core';
+import { Card, Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
-import { Edit, Minus, Plus, Trash } from 'tabler-icons-react';
-import {
-  BudgetCards,
-  BudgetHeaderWrapper,
-  BudgetText,
-  BudgetWrapper,
-} from './Budget.styles';
-import BudgetTimeline from '../../components/Budget/BudgetTimeline';
+import { Edit, Trash } from 'tabler-icons-react';
+import { BudgetCards, BudgetWrapper } from './Budget.styles';
 import { useModals } from '@mantine/modals';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import axios from 'axios';
+import BudgetHeader from '../../components/Budget/BudgetHeader';
+import CategorizedBudgetCard from '../../components/Budget/CategorizedBudgetCard';
 
 interface BudgetProps {}
 
@@ -23,13 +19,14 @@ export interface IBudgetTimeline {
   deductFunds?: boolean;
 }
 
-interface Budget {
-  budget_id: number;
+export interface CategorizedBudget {
+  id: number;
   name: string;
-  amount: number;
+  budget: number;
+  category: string;
 }
 
-interface BudgetBreakdown {
+export interface BudgetBreakdown {
   total: number;
   unallocated: number;
 }
@@ -45,13 +42,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     unallocated: 0,
   });
 
-  const [budgets, setBudgets] = useState<Budget[]>([
-    {
-      amount: 100,
-      budget_id: 1,
-      name: 'JOhn',
-    },
-  ]);
+  const [budgets, setBudgets] = useState<CategorizedBudget[]>([]);
   const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
 
   const modals = useModals();
@@ -64,18 +55,22 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       labels: { confirm: 'Remove Budget', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () =>
-        setBudgets((old) => old.filter((b) => b.budget_id != budget_id)),
+        setBudgets((old) => old.filter((b) => b.id != budget_id)),
     });
 
   const fetchBudgetPageValues = async () => {
     const { data } = await axios.get(
       'http://localhost:3000/api/v1/budgets/2022/06'
     );
-
     setBudgetBreakdown({
       total: data.total,
       unallocated: data.unallocated,
     });
+
+    const { data: categorized_budget } = await axios.get(
+      'http://localhost:3000/api/v1/budgets/2022/06/categories'
+    );
+    setBudgets(categorized_budget);
   };
 
   useEffect(() => {
@@ -84,22 +79,10 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
 
   return (
     <BudgetWrapper>
-      {/* <BudgetTimeline timeline={budgetTimeline} /> */}
-
-      <BudgetHeaderWrapper>
-        <BudgetText>
-          Total Monthly Budget: <span>{budgetBreakdown.total}</span>
-        </BudgetText>
-        <BudgetText>
-          Unallocated Budget:{' '}
-          <span>
-            {budgetBreakdown.unallocated} <span>(20%)</span>
-          </span>
-        </BudgetText>
-        <Button size='xs' onClick={() => setOpenAddFundsModal(true)}>
-          Add funds
-        </Button>
-      </BudgetHeaderWrapper>
+      <BudgetHeader
+        budgetBreakdown={budgetBreakdown}
+        openAddFundsModal={setOpenAddFundsModal}
+      />
 
       {/* Modal */}
       <AddBudgetModal
@@ -115,30 +98,10 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       </div>
 
       <BudgetCards>
-        {budgets.map(({ amount, name, budget_id }) => (
-          <Card shadow={'sm'} id='budget-card' key={budget_id}>
-            <div>
-              <p id='name'>{name}</p>
-              <p id='amount'>{amount.toFixed(2)}</p>
-            </div>
-            <div id='actions'>
-              <Edit
-                size={20}
-                id='edit'
-                className='action-btn'
-                strokeWidth={1.5}
-              />
-              &nbsp;
-              <Trash
-                size={20}
-                id='delete'
-                className='action-btn'
-                onClick={() => openConfirmModal(budget_id)}
-                strokeWidth={1.5}
-              />
-            </div>
-          </Card>
-        ))}
+        {budgets &&
+          budgets.map((budget) => (
+            <CategorizedBudgetCard categorizedBudget={budget} />
+          ))}
       </BudgetCards>
     </BudgetWrapper>
   );
