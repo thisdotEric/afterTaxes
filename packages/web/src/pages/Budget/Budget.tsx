@@ -12,6 +12,7 @@ import {
 import BudgetTimeline from '../../components/Budget/BudgetTimeline';
 import { useModals } from '@mantine/modals';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
+import axios from 'axios';
 
 interface BudgetProps {}
 
@@ -28,49 +29,32 @@ interface Budget {
   amount: number;
 }
 
+interface BudgetBreakdown {
+  total: number;
+  unallocated: number;
+}
+
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   useSetHeader('Budget', {
     year,
     month,
   });
 
-  const [budget, setBudget] = useState<Budget[]>([
+  const [budgetBreakdown, setBudgetBreakdown] = useState<BudgetBreakdown>({
+    total: 100.0,
+    unallocated: 20,
+  });
+
+  const [budgets, setBudgets] = useState<Budget[]>([
     {
-      budget_id: 0,
-      name: 'Transportation',
-      amount: 300,
-    },
-    {
+      amount: 100,
       budget_id: 1,
-      name: 'Food',
-      amount: 1000,
-    },
-    {
-      budget_id: 2,
-      name: 'Personal Hygiene',
-      amount: 300,
-    },
-    {
-      budget_id: 3,
-      name: 'Tech',
-      amount: 1000,
-    },
-    {
-      budget_id: 4,
-      name: 'Savings',
-      amount: 300,
-    },
-    {
-      budget_id: 5,
-      name: 'Buffer',
-      amount: 1000,
+      name: 'JOhn',
     },
   ]);
-
-  const modals = useModals();
-
   const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
 
+  const modals = useModals();
   const openConfirmModal = (budget_id: number) =>
     modals.openConfirmModal({
       title: 'Confirm remove budget?',
@@ -79,12 +63,27 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       },
       labels: { confirm: 'Remove Budget', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () =>
-        setBudget((old) => old.filter((b) => b.budget_id != budget_id)),
+      onConfirm: async () => {
+        setBudgets((old) => old.filter((b) => b.budget_id != budget_id));
+        await fetchBudgetPageValues();
+      },
     });
 
+  const fetchBudgetPageValues = async () => {
+    const { data, status } = await axios.get(
+      'http://localhost:3000/api/v1/budgets/2022/06'
+    );
+
+    console.log(data.year, status);
+
+    setBudgetBreakdown({
+      total: data.year,
+      unallocated: data.month,
+    });
+  };
+
   useEffect(() => {
-    console.log('Hello');
+    fetchBudgetPageValues();
   }, []);
 
   return (
@@ -93,12 +92,12 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
 
       <BudgetHeaderWrapper>
         <BudgetText>
-          Total Monthly Budget: <span>1000.50</span>
+          Total Monthly Budget: <span>{budgetBreakdown.total}</span>
         </BudgetText>
         <BudgetText>
           Unallocated Budget:{' '}
           <span>
-            89.25 <span>(20%)</span>
+            {budgetBreakdown.unallocated} <span>(20%)</span>
           </span>
         </BudgetText>
         <Button size='xs' onClick={() => setOpenAddFundsModal(true)}>
@@ -120,7 +119,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       </div>
 
       <BudgetCards>
-        {budget.map(({ amount, name, budget_id }) => (
+        {budgets.map(({ amount, name, budget_id }) => (
           <Card shadow={'sm'} id='budget-card' key={budget_id}>
             <div>
               <p id='name'>{name}</p>

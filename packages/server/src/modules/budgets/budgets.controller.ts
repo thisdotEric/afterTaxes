@@ -7,9 +7,22 @@ import { Controller, POST, GET } from 'fastify-decorators';
 export class BudgetsController {
   constructor(private readonly budgetService: BudgetsService) {}
 
-  @GET('/')
-  public async getBudgets(request: FastifyRequest, reply: FastifyReply) {
-    return reply.code(200).send(request.body);
+  @GET('/:year/:month')
+  public async getBudget(
+    request: FastifyRequest<{
+      Params: {
+        year: number;
+        month: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const { year, month } = request.params;
+
+    return reply.code(200).send({
+      year,
+      month,
+    });
   }
 
   @POST('/')
