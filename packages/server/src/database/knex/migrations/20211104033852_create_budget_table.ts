@@ -11,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
         .primary()
         .defaultTo(0)
         .unique();
-      table.float('amount').notNullable().unsigned();
+      table.float('amount').notNullable();
       table.text('description').nullable();
 
       table.timestamps(true, true);
