@@ -8,7 +8,7 @@ interface NumberInputProps {
   onChange?: (value: number | undefined) => void;
   value: number;
   disabled?: boolean;
-  errror?: string;
+  error?: string;
 }
 
 const NumberInput: FC<NumberInputProps> = (props: NumberInputProps) => {
