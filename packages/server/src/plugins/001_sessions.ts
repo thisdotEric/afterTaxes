@@ -7,7 +7,7 @@ import configs from '@database/knex/knexfile';
 import { SESSIONS } from '@database/constants';
 import connectKnex from 'connect-session-knex';
 
-const SESSION_TTL = 6.048e5; // 7 day in seconds
+const SESSION_TTL = 604800000; // 7 day in seconds
 
 /**
  * Plugin that sets up session authentication
