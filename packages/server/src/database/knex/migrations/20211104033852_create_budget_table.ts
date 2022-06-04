@@ -1,6 +1,10 @@
 import { Knex } from 'knex';
-import { BUDGET, CATEGORIZED_BUDGET, USERS } from '../../constants/tables';
-import { BUDGET_TYPES } from '../../constants/budgets';
+import {
+  BUDGET,
+  CATEGORIZED_BUDGET,
+  USERS,
+  BUDGET_TYPES,
+} from '../../constants/tables';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
@@ -30,11 +34,16 @@ export async function up(knex: Knex): Promise<void> {
         .unique()
         .primary()
         .defaultTo(0);
-      table.enum('budget_type', Object.values(BUDGET_TYPES)).defaultTo('daily');
       table.string('name').notNullable();
       table.float('budget').unsigned();
 
       table.timestamps(true, true);
+      table.integer('budget_type_id').notNullable();
+      table
+        .foreign('budget_type_id')
+        .references('budget_type_id')
+        .inTable(BUDGET_TYPES)
+        .onDelete('CASCADE');
 
       table.integer('user_id').notNullable().unsigned();
       table
