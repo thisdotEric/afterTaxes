@@ -21,6 +21,11 @@ export class SessionsController {
     const user = await this.sessionsService.login({ email, password });
 
     if (user) {
+      /**
+       * Store the current user to the session object
+       */
+      request.session.user = user;
+
       return reply.code(200).send(user);
     } else return reply.code(401).send('Logged in failed');
   }

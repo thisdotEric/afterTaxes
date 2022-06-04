@@ -29,7 +29,6 @@ export default fp(
       secret: `${process.env.SESSION_SECRET}`,
       cookieName: 'sid',
       store,
-      saveUninitialized: false,
       cookie: {
         path: '/',
         secure: process.env.NODE_ENV === 'production',

@@ -1,9 +1,8 @@
-import React, { FC, useContext, useReducer, useRef, useState } from 'react';
+import React, { FC, useContext, useReducer, useState } from 'react';
 import { LoginWrapper, RememberMe } from './Login.styles';
 import { SubmitButton } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context';
-import type { ILoggedInUser } from '@aftertaxes/commons';
 import { github } from '../../assets';
 import { TextInput, PasswordInput } from '../../components/Input';
 import axios from 'axios';
@@ -71,7 +70,10 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
             /**
              * Set the currently logged in user
              */
-            setUser(user);
+            setUser({
+              email: user.email,
+              fullname: user.fullname,
+            });
 
             navigate('/dashboard');
           } catch (error) {

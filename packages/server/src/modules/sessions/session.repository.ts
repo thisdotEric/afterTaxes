@@ -9,6 +9,7 @@ export interface LoginDetails {
 }
 
 export interface User {
+  user_id: number;
   email: string;
   fullname: string;
 }
@@ -44,7 +45,7 @@ export class SessionRepository {
       const user = (
         await this.knex
           .db()(USERS)
-          .select('first_name', 'middle_name', 'last_name', 'email')
+          .select('user_id', 'first_name', 'middle_name', 'last_name', 'email')
           .where({ email })
           .limit(1)
       )[0];
@@ -53,6 +54,7 @@ export class SessionRepository {
        * Get the currently logged in user
        */
       const current_user: User = {
+        user_id: user.user_id,
         email: user.email,
         fullname: `${user.first_name} ${user.middle_name} ${user.last_name}`,
       };
