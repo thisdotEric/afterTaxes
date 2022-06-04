@@ -10,10 +10,6 @@ const ProtectedRoutes: FC<
 > = ({}: ProtectedRoutesProps) => {
   const { user, setUser } = useContext(UserContext);
 
-  /**
-   * Fetch the valid current user from the server
-   * in order to pass the protected route
-   */
   const fetchUser = async () => {
     const { data } = await axios.get('users/me');
 
@@ -21,8 +17,17 @@ const ProtectedRoutes: FC<
   };
 
   useEffect(() => {
+    /**
+     * Fetch the current user from the server
+     */
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
 
   return user !== null ? <Outlet /> : <Navigate to='/signin' />;
 };
