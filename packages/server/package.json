@@ -29,7 +29,8 @@
   ],
   "dependencies": {
     "@aftertaxes/commons": "1.0.0",
-    "@mgcrea/fastify-session": "^0.15.0",
+    "@fastify/session": "^8.2.0",
+    "connect-session-knex": "^3.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "fastify": "^3.27.4",
@@ -37,7 +38,6 @@
     "fastify-cookie": "^5.5.0",
     "fastify-cors": "^6.0.2",
     "fastify-decorators": "^3.11.0",
-    "fastify-session-knex-store": "^0.1.4",
     "fastify-zod": "^1.0.0-rc10",
     "knex": "^0.95.13",
     "pg": "^8.7.1",
