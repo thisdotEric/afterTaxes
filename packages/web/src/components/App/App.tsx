@@ -1,5 +1,10 @@
 import React, { FC, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
 import { UserContext } from '../../context';
@@ -26,6 +31,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<Layout />}>
+              <Route path='' element={<Navigate to={'/dashboard'} />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='expenses'>
                 <Route path='' element={<Expenses />} />
