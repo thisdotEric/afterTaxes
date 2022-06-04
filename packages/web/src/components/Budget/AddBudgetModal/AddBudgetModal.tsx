@@ -1,11 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import './AddBudgetModal.css';
-import { Modal } from '@mantine/core';
-import { ModalWrapper } from './AddBudgetModal.styles';
 import { primarybg } from '../../../components/styles/colors';
 import { NumberInput, TextArea } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import axios from 'axios';
+import { axios } from '../../../utils';
 import SharedModalWrapper from '../../../components/Modal';
 import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
 
@@ -42,7 +40,7 @@ const AddBudgetModal: FC<AddBudgetModalProps> = ({
           onSubmit={async (e) => {
             e.preventDefault();
 
-            await axios.post('http://localhost:3000/api/v1/budgets', {
+            await axios.post('budgets', {
               budget: {
                 amount,
                 description,
