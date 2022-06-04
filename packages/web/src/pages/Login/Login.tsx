@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context';
 import { github } from '../../assets';
 import { TextInput, PasswordInput } from '../../components/Input';
-import axios from 'axios';
+import { axios } from '../../utils';
 interface LoginProps {}
 
 interface LoginState {
@@ -62,10 +62,7 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
           else setError('');
 
           try {
-            const { data: user } = await axios.post(
-              'http://localhost:3000/api/v1/sessions',
-              state
-            );
+            const { data: user } = await axios.post('sessions', state);
 
             /**
              * Set the currently logged in user
