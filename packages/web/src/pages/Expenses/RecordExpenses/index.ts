@@ -1,1 +1,1 @@
-export { default as RecordExpenses } from './RecordExpenses';
+export { default as RecordExpensesModal } from './RecordExpenses';

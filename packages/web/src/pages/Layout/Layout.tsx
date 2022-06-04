@@ -1,28 +1,29 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import { SideNavWrapper, MainContentWrapper } from './Layout.styles';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import {
+  SideNavWrapper,
+  MainContentWrapper,
+  HeaderWrapper,
+} from './Layout.styles';
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
 import { AppLogo } from '../../components/App/AppLogo';
-import { PopUp } from '../../components/PopUp';
-import { PopUpContext, IPopUp } from '../../context';
+import { month, year, day, IDate } from '../../constants/date';
+import { DateComponent as DateComponent } from '../../components/Date';
+import { HeaderContext, HeaderContextValue } from '../../context';
 
 interface LayoutProps {}
 
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
-  const [popUp, setPopUp] = useState<IPopUp | null>({
-    message: '',
-    type: 'success',
-    show: false,
+  const [header, setHeader] = useState<HeaderContextValue>({
+    headerTitle: 'Dashboard',
+    date: {
+      month,
+      year,
+    },
   });
 
-  const popUpValue = useMemo(() => ({ popUp, setPopUp }), [popUp, setPopUp]);
-
-  useEffect(() => {
-    document.title = 'Dashboard';
-  }, []);
-
   return (
-    <>
+    <HeaderContext.Provider value={{ header, setHeader }}>
       <SideNavWrapper>
         <div>
           <AppLogo />
@@ -30,14 +31,20 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
         </div>
       </SideNavWrapper>
 
-      <PopUpContext.Provider value={popUpValue}>
-        <MainContentWrapper>
-          <PopUp />
+      <MainContentWrapper>
+        <HeaderWrapper>
+          <DateComponent
+            month={header ? header.date!.month : month}
+            year={header ? header.date!.year : year}
+            date={header?.date!.day}
+          />
 
-          <Outlet />
-        </MainContentWrapper>
-      </PopUpContext.Provider>
-    </>
+          <p id='header-title'>&nbsp; {header!.headerTitle}</p>
+        </HeaderWrapper>
+
+        <Outlet />
+      </MainContentWrapper>
+    </HeaderContext.Provider>
   );
 };
 

@@ -1,7 +1,6 @@
-import React, { FC, useEffect } from 'react';
-import { Date } from '../../components/Date';
+import React, { FC, useContext, useEffect } from 'react';
 import expensesOverview from '../../data';
-import { month, year, day } from '../../constants/date';
+import { day, year, month } from '../../constants/date';
 import {
   CalendarGrid,
   CalendarGridDate,
@@ -9,20 +8,29 @@ import {
   ExpensesOverview,
 } from './Dashboard.styles';
 import { useNavigate } from 'react-router-dom';
+import { HeaderContext } from '../../context';
 
 interface DashboardProps {}
 
 const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
   const navigate = useNavigate();
 
+  const { setHeader } = useContext(HeaderContext);
+
   useEffect(() => {
     document.title = 'Expenses';
+
+    setHeader({
+      headerTitle: 'Daily Budget Dashboard',
+      date: {
+        month,
+        year,
+      },
+    });
   }, []);
 
   return (
     <div>
-      <Date month={month} year={year} />
-
       <CalendarGrid>
         {expensesOverview.map((item, index) => (
           <CalendarGridDate

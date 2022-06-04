@@ -2,25 +2,28 @@ import React, { FC, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
-import ProtectedRoutes from './ProtectedRoutes';
 import { UserContext } from '../../context';
 import { Login } from '../../pages/Login';
 import type { ILoggedInUser } from '@aftertaxes/commons';
-import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
 import { Dashboard } from '../../pages/Dashboard';
-import { IDate, month, day, year } from '../../constants/date';
 import { UserProfile } from '../../pages/UserProfile';
+import ProtectedRoutes from '../App/ProtectedRoutes';
+import { Group, Button } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
+import Budget from '../../pages/Budget';
 
 interface AppProps {}
 
 const App: FC<AppProps> = ({}: AppProps) => {
-  const [user, setUser] = useState<ILoggedInUser | null>(null);
-  const [currentDate, setCurrentDate] = useState<IDate>({ day, month, year });
-
-  const value = useMemo(
-    () => ({ user, setUser, currentDate, setCurrentDate }),
-    [user, setUser, currentDate, setCurrentDate]
+  /**
+   * TODO: retrieve current user from the backend
+   */
+  const userData = localStorage.getItem('user');
+  const [user, setUser] = useState<ILoggedInUser | null>(
+    userData ? JSON.parse(userData) : null
   );
+
+  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
     <UserContext.Provider value={value}>
@@ -29,12 +32,23 @@ const App: FC<AppProps> = ({}: AppProps) => {
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<Layout />}>
               <Route path='dashboard' element={<Dashboard />} />
-              <Route path='expenses' element={<Expenses />} />
-              <Route path='reports' element={<RecordExpenses />} />
+              <Route path='expenses'>
+                <Route path='' element={<Expenses />} />
+              </Route>
+              <Route path='budget'>
+                <Route path='' element={<Budget />} />
+              </Route>
+              <Route
+                path='reports'
+                element={
+                  <>
+                    <p>Reports</p>
+                  </>
+                }
+              />
               <Route path='profile' element={<UserProfile />} />
             </Route>
           </Route>
-
           <Route path='/signin' element={<Login />} />
         </Routes>
       </Router>

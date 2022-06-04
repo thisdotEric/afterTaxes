@@ -14,11 +14,6 @@ export const LoginWrapper = styled.div`
   flex-direction: column;
   background-color: ${primarybg};
   height: 100vh;
-  width: 100%;
-
-  form {
-    width: 320px;
-  }
 
   form input[type='checkbox'] {
     cursor: pointer;
@@ -60,6 +55,7 @@ export const RememberMe = styled.div`
   align-items: center;
   height: 20px;
   margin-left: 10px;
+  margin-top: 10px;
 
   p {
     color: ${white};

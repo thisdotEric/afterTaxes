@@ -2,6 +2,10 @@ name: afterTaxes CI
 on:
   push:
     branches: [main]
+    paths:
+      - '!backup/**'
+      - '!README.md'
+      - '!LICENSE'
   pull_request:
     branches: [main]
 
@@ -12,10 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
-        run: yarn install
-      # - name: Run Test
-      #   env:
-      #     API_PATH: /api/v1
-      #   run: yarn test:server
+        run: yarn install --frozen-locfile
+      - name: Build the commons packages
+        run: yarn build:commons
+      - name: Run Test
+        env:
+          API_PATH: /api/v1
+        run: yarn test:server
       - name: Build both server and web application
         run: yarn build && yarn build:web

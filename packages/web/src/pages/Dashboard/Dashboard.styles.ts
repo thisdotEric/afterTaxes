@@ -66,6 +66,7 @@ export const ExpensesOverview = styled.div<Props>`
   flex-direction: column;
   flex: 1;
   padding-left: 10px;
+  font-size: 14px;
 
   ${({ isToday }) => {
     return isToday && 'font-weight: bold;';

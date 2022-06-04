@@ -10,7 +10,7 @@ export async function seed(knex: Knex): Promise<void> {
   // Insert a test user
   await knex(DbNames.USERS).insert([
     {
-      user_id: '8c96a9df-958a-48da-be3d-38a237d2efc7',
+      user_id: 1,
       first_name: 'Jason',
       middle_name: 'Nathan',
       last_name: 'Conte',

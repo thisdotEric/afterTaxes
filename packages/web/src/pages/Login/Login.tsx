@@ -1,13 +1,11 @@
 import React, { FC, useContext, useReducer, useRef, useState } from 'react';
 import { LoginWrapper, RememberMe } from './Login.styles';
-import { SubmitButton, TextInput } from '../../components/Form';
+import { SubmitButton } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
-import graphql from '../../graphql/request';
-import { loginMutation } from '../../graphql/mutations';
 import { UserContext } from '../../context';
 import type { ILoggedInUser } from '@aftertaxes/commons';
 import { github } from '../../assets';
-
+import { TextInput, PasswordInput } from '../../components/Input';
 interface LoginProps {}
 
 interface LoginState {
@@ -40,8 +38,8 @@ function loginReducer(state: LoginState, action: LoginAction): LoginState {
 const Login: FC<LoginProps> = ({}: LoginProps) => {
   const [checkBoxState, setCheckBoxState] = useState<boolean>(false);
   const [state, dispatch] = useReducer(loginReducer, {
-    email: 'siguenza089@gmail.com',
-    password: 'password',
+    email: '',
+    password: '',
   });
   const [error, setError] = useState<string | null>();
 
@@ -63,38 +61,33 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const authenticatedUser = await graphql.request<TData, LoginState>(
-            loginMutation,
-            state
-          );
+          // const authenticatedUser = await graphql.request<TData, LoginState>(
+          //   loginMutation,
+          //   state
+          // );
 
-          /**
-           * Set the currently logged in user
-           */
-          setUser(authenticatedUser.login);
+          // /**
+          //  * Set the currently logged in user
+          //  */
+          setUser({
+            email: 'siguenzajohneric@gmail.com',
+            fullname: 'John Eric Siguenza',
+          });
 
           navigate('/dashboard');
         }}
       >
         <TextInput
-          type='email'
-          name='email'
           label='Email'
-          value={state.email}
-          required={true}
-          title='Email'
+          type='email'
           onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
             setError(null);
           }}
         />
-        <TextInput
-          type='password'
-          name='password'
-          title='Password'
+
+        <PasswordInput
           label='Password'
-          value={state.password}
-          required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
             setError(null);

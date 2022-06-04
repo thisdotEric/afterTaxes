@@ -1,7 +1,7 @@
 {
   "name": "@aftertaxes/server",
   "version": "1.0.0",
-  "description": "GraphQL backend for a personalized income tracker application",
+  "description": "REST API backend for a personalized income tracker application",
   "author": "John Eric Siguenza <siguenzajohneric@gmail.com>",
   "license": "MIT",
   "main": "dist/server.js",
@@ -10,6 +10,7 @@
     "npm": "8.x"
   },
   "scripts": {
+    "dev2": "fastify start ./src/server.ts",
     "dev": "cross-env NODE_ENV=development tsnd -r tsconfig-paths/register --respawn --transpile-only ./src/server.ts",
     "pretty": "npx prettier --write .",
     "knex": "npx knex --knexfile src/database/knex/knexfile.ts",
@@ -18,7 +19,7 @@
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
     "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --coverage --detectOpenHandles --forceExit"
   },
   "keywords": [
     "graphql",
@@ -28,31 +29,28 @@
   ],
   "dependencies": {
     "@aftertaxes/commons": "1.0.0",
-    "@googleapis/drive": "^2.0.2",
-    "connect-session-knex": "^2.1.1",
+    "@mgcrea/fastify-session": "^0.15.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "fastify": "^3.24.0",
-    "fastify-autoload": "^3.10.0",
+    "fastify": "^3.27.4",
+    "fastify-autoload": "^3.11.0",
     "fastify-cookie": "^5.5.0",
     "fastify-cors": "^6.0.2",
-    "fastify-session": "^5.2.1",
-    "graphql": "^15.6.1",
+    "fastify-decorators": "^3.11.0",
+    "fastify-session-knex-store": "^0.1.4",
+    "fastify-zod": "^1.0.0-rc10",
     "knex": "^0.95.13",
-    "mercurius": "^8.9.1",
-    "mercurius-upload": "^2.0.0",
     "pg": "^8.7.1",
     "redis": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.4",
-    "type-graphql": "^1.1.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "zod": "^3.14.4"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.6",
     "@types/pg": "^8.6.1",
-    "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
     "jest": "^27.4.5",
     "prettier": "^2.4.1",
@@ -60,7 +58,6 @@
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.11.0",
-    "typedi": "^0.10.0",
     "typescript": "^4.4.4"
   }
 }

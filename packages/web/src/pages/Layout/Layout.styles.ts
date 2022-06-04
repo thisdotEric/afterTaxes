@@ -5,7 +5,21 @@ export const MainContentWrapper = styled.div`
   background-color: ${primarybg};
   padding-left: 250px;
   padding-top: 5px;
+  padding-right: 20px;
   min-height: 100vh;
+`;
+
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  #header-title {
+    font-size: 20px;
+    padding: 20px 0px;
+    font-weight: bold;
+    color: white;
+  }
 `;
 
 export const SideNavWrapper = styled.div`
