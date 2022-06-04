@@ -38,7 +38,7 @@ interface ActionList {
 }
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
-  useSetHeader('Expenses List', { year, month });
+  useSetHeader('Expenses List', 'Expenses', { year, month });
 
   // Modal state variables
   const [opened, setOpened] = useState(false);

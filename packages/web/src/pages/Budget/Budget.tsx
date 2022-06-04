@@ -32,7 +32,7 @@ export interface BudgetBreakdown {
 }
 
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
-  useSetHeader('Budget', {
+  useSetHeader('Budget', 'Budget', {
     year,
     month,
   });
