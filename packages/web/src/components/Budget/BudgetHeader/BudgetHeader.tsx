@@ -25,12 +25,12 @@ const BudgetHeader: FC<BudgetHeaderProps> = ({
     budgetBreakdown && (
       <BudgetHeaderWrapper>
         <BudgetText>
-          Total Monthly Budget: <span>{budgetBreakdown.total}</span>
+          Total Monthly Budget: <span>{budgetBreakdown.total.toFixed(2)}</span>
         </BudgetText>
         <BudgetText>
           Unallocated Budget:{' '}
           <span>
-            {budgetBreakdown.unallocated}{' '}
+            {budgetBreakdown.unallocated.toFixed(2)}{' '}
             <span>({unAllocatedPercentage}%)</span>
           </span>
         </BudgetText>
