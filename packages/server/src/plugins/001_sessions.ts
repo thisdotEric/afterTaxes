@@ -5,6 +5,7 @@ import fastifyCookie from 'fastify-cookie';
 import KnexStore from 'fastify-session-knex-store';
 import { knex } from 'knex';
 import configs from '@database/knex/knexfile';
+import { SESSIONS } from '@database/constants';
 
 const SESSION_TTL = 6.048e5; // 7 day in seconds
 
@@ -22,7 +23,8 @@ export default fp(
     const store = new KnexStore({
       client: knex(configs[`${process.env.NODE_ENV}`]),
       ttl: SESSION_TTL,
-      table: 'sessions',
+      table: SESSIONS,
+      prefix: '',
     });
 
     fastify.register(fastifySession, {
