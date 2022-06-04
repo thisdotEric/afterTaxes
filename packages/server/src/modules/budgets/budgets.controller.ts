@@ -97,4 +97,21 @@ export class BudgetsController {
 
     return reply.code(201).send(categorized_budgets);
   }
+
+  @GET('/categories')
+  public async getAllBudgetTypes(
+    request: FastifyRequest<{
+      Params: {
+        year: number;
+        month: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+
+    const budgetTypes = await this.budgetService.getAllBudgetTypes(user_id);
+
+    return reply.code(201).send(budgetTypes);
+  }
 }

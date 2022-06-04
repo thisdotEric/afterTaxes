@@ -1,6 +1,7 @@
 import { Service } from 'fastify-decorators';
 import { BudgetsRepository, CategorizedBudget } from './budgets.repository';
 import { IBudget } from './budgets.repository';
+import { BudgetTypesRepository } from './budgetTypes.repository';
 
 export interface BudgetBreakdown {
   total: number;
@@ -9,7 +10,10 @@ export interface BudgetBreakdown {
 
 @Service()
 export class BudgetsService {
-  constructor(private readonly budgetRepository: BudgetsRepository) {}
+  constructor(
+    private readonly budgetRepository: BudgetsRepository,
+    private readonly budgetTypesRepo: BudgetTypesRepository
+  ) {}
 
   async add(user_id: number, budget: IBudget) {
     await this.budgetRepository.add(user_id, budget);
@@ -75,5 +79,9 @@ export class BudgetsService {
       user_id,
       categorized_budget
     );
+  }
+
+  async getAllBudgetTypes(user_id: number) {
+    return this.budgetTypesRepo.getAllBudgetTypes(user_id);
   }
 }
