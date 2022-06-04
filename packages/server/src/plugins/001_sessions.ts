@@ -36,6 +36,7 @@ export default fp(
         path: '/',
         secure: process.env.NODE_ENV === 'production',
         maxAge: SESSION_TTL,
+        httpOnly: process.env.NODE_ENV === 'production',
       },
     });
 
