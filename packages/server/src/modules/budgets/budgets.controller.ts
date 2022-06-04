@@ -18,8 +18,10 @@ export class BudgetsController {
     reply: FastifyReply
   ) {
     const { year, month } = request.params;
+    const user_id = request.session.user!.user_id;
 
     const budgetBreakdown = await this.budgetService.getBudgetBreakdown(
+      user_id,
       month,
       year
     );
@@ -39,7 +41,9 @@ export class BudgetsController {
     const { budget } = request.body;
 
     try {
-      await this.budgetService.add(budget);
+      const user_id = request.session.user!.user_id;
+
+      await this.budgetService.add(user_id, budget);
       console.log(budget);
     } catch (error: any) {
       return reply.code(400).send(error);
@@ -62,8 +66,12 @@ export class BudgetsController {
     reply: FastifyReply
   ) {
     const { categorized_budget } = request.body;
+    const user_id = request.session.user!.user_id;
 
-    await this.budgetService.createCategorizedBudget(categorized_budget);
+    await this.budgetService.createCategorizedBudget(
+      user_id,
+      categorized_budget
+    );
 
     return reply.code(201).send('Ok');
   }
@@ -79,8 +87,10 @@ export class BudgetsController {
     reply: FastifyReply
   ) {
     const { month, year } = request.params;
+    const user_id = request.session.user!.user_id;
 
     const categorized_budgets = await this.budgetService.getCategorizedBudgets(
+      user_id,
       month,
       year
     );

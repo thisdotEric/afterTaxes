@@ -9,6 +9,8 @@ interface TextInputProps {
   required?: boolean;
   type?: 'email' | 'text';
   disabled?: boolean;
+  value: string;
+  error?: string;
 }
 
 const TextInput: FC<TextInputProps> = (props: TextInputProps) => {

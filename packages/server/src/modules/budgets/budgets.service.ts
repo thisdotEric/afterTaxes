@@ -11,8 +11,8 @@ export interface BudgetBreakdown {
 export class BudgetsService {
   constructor(private readonly budgetRepository: BudgetsRepository) {}
 
-  async add(budget: IBudget) {
-    await this.budgetRepository.add(budget);
+  async add(user_id: number, budget: IBudget) {
+    await this.budgetRepository.add(user_id, budget);
   }
 
   private roundOff(value: number): number {
@@ -20,12 +20,17 @@ export class BudgetsService {
   }
 
   async getBudgetBreakdown(
+    user_id: number,
     month: number,
     year: number
   ): Promise<BudgetBreakdown> {
-    const budgets = await this.budgetRepository.getBudgets(month, year);
+    const budgets = await this.budgetRepository.getBudgets(
+      user_id,
+      month,
+      year
+    );
     const categorized_budgets =
-      await this.budgetRepository.getCategorizedBudgets(month, year);
+      await this.budgetRepository.getCategorizedBudgets(user_id, month, year);
 
     /**
      * Compute the total budget from the given month and year
@@ -58,13 +63,17 @@ export class BudgetsService {
     };
   }
 
-  async getCategorizedBudgets(month: number, year: number) {
-    return this.budgetRepository.getCategorizedBudgets(month, year);
+  async getCategorizedBudgets(user_id: number, month: number, year: number) {
+    return this.budgetRepository.getCategorizedBudgets(user_id, month, year);
   }
 
   async createCategorizedBudget(
+    user_id: number,
     categorized_budget: Omit<CategorizedBudget, 'id'>
   ) {
-    return this.budgetRepository.createCategorizedBudget(categorized_budget);
+    return this.budgetRepository.createCategorizedBudget(
+      user_id,
+      categorized_budget
+    );
   }
 }

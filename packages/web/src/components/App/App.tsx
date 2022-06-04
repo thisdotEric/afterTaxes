@@ -1,5 +1,10 @@
 import React, { FC, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
 import { UserContext } from '../../context';
@@ -8,16 +13,11 @@ import type { ILoggedInUser } from '@aftertaxes/commons';
 import { Dashboard } from '../../pages/Dashboard';
 import { UserProfile } from '../../pages/UserProfile';
 import ProtectedRoutes from '../App/ProtectedRoutes';
-import { Group, Button } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import Budget from '../../pages/Budget';
 
 interface AppProps {}
 
 const App: FC<AppProps> = ({}: AppProps) => {
-  /**
-   * TODO: retrieve current user from the backend
-   */
   const userData = localStorage.getItem('user');
   const [user, setUser] = useState<ILoggedInUser | null>(
     userData ? JSON.parse(userData) : null
@@ -31,6 +31,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<Layout />}>
+              <Route path='' element={<Navigate to={'/dashboard'} />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='expenses'>
                 <Route path='' element={<Expenses />} />

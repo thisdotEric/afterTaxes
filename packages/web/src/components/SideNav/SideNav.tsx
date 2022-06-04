@@ -9,6 +9,7 @@ import {
   Logout,
   ReportAnalytics,
 } from 'tabler-icons-react';
+import { axios } from '../../utils';
 
 interface SideNavProps {}
 
@@ -60,8 +61,10 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
         link.isSignout ? (
           <form
             key={index}
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
+
+              await axios.delete('sessions');
 
               setUser(null);
 

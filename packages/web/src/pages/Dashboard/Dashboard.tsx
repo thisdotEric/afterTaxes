@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext } from 'react';
 import expensesOverview from '../../data';
 import { day, year, month } from '../../constants/date';
 import {
@@ -9,25 +9,17 @@ import {
 } from './Dashboard.styles';
 import { useNavigate } from 'react-router-dom';
 import { HeaderContext } from '../../context';
+import { useSetHeader } from '../../hooks';
 
 interface DashboardProps {}
 
 const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
   const navigate = useNavigate();
 
-  const { setHeader } = useContext(HeaderContext);
-
-  useEffect(() => {
-    document.title = 'Expenses';
-
-    setHeader({
-      headerTitle: 'Daily Budget Dashboard',
-      date: {
-        month,
-        year,
-      },
-    });
-  }, []);
+  useSetHeader('Daily Budget Dashboard', 'Dashboard', {
+    year,
+    month,
+  });
 
   return (
     <div>

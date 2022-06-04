@@ -21,11 +21,15 @@ export interface CategorizedBudget {
 export class BudgetsRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
 
-  async getBudgets(month: number, year: number): Promise<IBudget[]> {
+  async getBudgets(
+    user_id: number,
+    month: number,
+    year: number
+  ): Promise<IBudget[]> {
     const budget_rows = await this.knex
       .db()
       .raw(
-        `select * from ${BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year}`
+        `select * from ${BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} and user_id = ${user_id}`
       );
 
     /**
@@ -40,18 +44,21 @@ export class BudgetsRepository {
     return budgets;
   }
 
-  async add(budget: IBudget): Promise<void> {
-    await this.knex.db()(BUDGET).insert(budget);
+  async add(user_id: number, budget: IBudget): Promise<void> {
+    await this.knex
+      .db()(BUDGET)
+      .insert({ ...budget, user_id });
   }
 
   async getCategorizedBudgets(
+    user_id: number,
     month: number,
     year: number
   ): Promise<CategorizedBudget[]> {
     const budget_rows = await this.knex
       .db()
       .raw(
-        `select * from ${CATEGORIZED_BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} order by budget desc`
+        `select * from ${CATEGORIZED_BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} and user_id = ${user_id} order by budget desc`
       );
 
     /**
@@ -69,15 +76,15 @@ export class BudgetsRepository {
     return categorized_budgets;
   }
 
-  async createCategorizedBudget({
-    budget,
-    category,
-    name,
-  }: Omit<CategorizedBudget, 'id'>) {
+  async createCategorizedBudget(
+    user_id: number,
+    { budget, category, name }: Omit<CategorizedBudget, 'id'>
+  ) {
     await this.knex.db()(CATEGORIZED_BUDGET).insert({
       budget,
       name,
       budget_type: category,
+      user_id,
     });
   }
 }

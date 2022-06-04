@@ -9,6 +9,7 @@ import * as fastify from 'fastify';
 
 declare module 'fastify' {
   interface User {
+    user_id: number;
     email: string;
     fullname: string;
   }

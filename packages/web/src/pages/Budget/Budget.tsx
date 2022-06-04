@@ -1,12 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSetHeader } from '../../hooks';
-import { Card, Button } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
-import { Edit, Trash } from 'tabler-icons-react';
 import { BudgetCards, BudgetWrapper } from './Budget.styles';
 import { useModals } from '@mantine/modals';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
-import axios from 'axios';
+import { axios } from '../../utils';
 import BudgetHeader from '../../components/Budget/BudgetHeader';
 import CategorizedBudgetCard from '../../components/Budget/CategorizedBudgetCard';
 import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategorizedBudgetModal';
@@ -33,7 +32,7 @@ export interface BudgetBreakdown {
 }
 
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
-  useSetHeader('Budget', {
+  useSetHeader('Budget', 'Budget', {
     year,
     month,
   });
@@ -49,6 +48,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     useState<boolean>(false);
 
   const modals = useModals();
+
   const openConfirmModal = (budget_id: number) =>
     modals.openConfirmModal({
       title: 'Confirm remove budget?',
@@ -62,16 +62,14 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     });
 
   const fetchBudgetPageValues = async () => {
-    const { data } = await axios.get(
-      'http://localhost:3000/api/v1/budgets/2022/06'
-    );
+    const { data } = await axios.get('budgets/2022/06');
     setBudgetBreakdown({
       total: data.total,
       unallocated: data.unallocated,
     });
 
     const { data: categorized_budget } = await axios.get(
-      'http://localhost:3000/api/v1/budgets/2022/06/categories'
+      'budgets/2022/06/categories'
     );
     setBudgets(categorized_budget);
   };
