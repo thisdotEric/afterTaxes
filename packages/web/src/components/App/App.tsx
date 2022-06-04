@@ -8,16 +8,11 @@ import type { ILoggedInUser } from '@aftertaxes/commons';
 import { Dashboard } from '../../pages/Dashboard';
 import { UserProfile } from '../../pages/UserProfile';
 import ProtectedRoutes from '../App/ProtectedRoutes';
-import { Group, Button } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import Budget from '../../pages/Budget';
 
 interface AppProps {}
 
 const App: FC<AppProps> = ({}: AppProps) => {
-  /**
-   * TODO: retrieve current user from the backend
-   */
   const userData = localStorage.getItem('user');
   const [user, setUser] = useState<ILoggedInUser | null>(
     userData ? JSON.parse(userData) : null
