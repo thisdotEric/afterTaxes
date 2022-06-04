@@ -6,6 +6,7 @@ import { UserContext } from '../../context';
 import type { ILoggedInUser } from '@aftertaxes/commons';
 import { github } from '../../assets';
 import { TextInput, PasswordInput } from '../../components/Input';
+import axios from 'axios';
 interface LoginProps {}
 
 interface LoginState {
@@ -16,10 +17,6 @@ interface LoginState {
 interface LoginAction {
   type: 'email' | 'password';
   payload: string;
-}
-
-interface TData {
-  login: ILoggedInUser;
 }
 
 function loginReducer(state: LoginState, action: LoginAction): LoginState {
@@ -38,10 +35,10 @@ function loginReducer(state: LoginState, action: LoginAction): LoginState {
 const Login: FC<LoginProps> = ({}: LoginProps) => {
   const [checkBoxState, setCheckBoxState] = useState<boolean>(false);
   const [state, dispatch] = useReducer(loginReducer, {
-    email: '',
-    password: '',
+    email: 'jason.conte@gmail.com',
+    password: 'password',
   });
-  const [error, setError] = useState<string | null>();
+  const [error, setError] = useState<string>('');
 
   const { setUser } = useContext(UserContext);
 
@@ -61,36 +58,43 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          // const authenticatedUser = await graphql.request<TData, LoginState>(
-          //   loginMutation,
-          //   state
-          // );
+          if (state.email === '' || state.password === '')
+            setError('Invalid email or password.');
+          else setError('');
 
-          // /**
-          //  * Set the currently logged in user
-          //  */
-          setUser({
-            email: 'siguenzajohneric@gmail.com',
-            fullname: 'John Eric Siguenza',
-          });
+          try {
+            const { data: user } = await axios.post(
+              'http://localhost:3000/api/v1/sessions',
+              state
+            );
 
-          navigate('/dashboard');
+            /**
+             * Set the currently logged in user
+             */
+            setUser(user);
+
+            navigate('/dashboard');
+          } catch (error) {
+            setError('Invalid email or password.');
+          }
         }}
       >
         <TextInput
           label='Email'
           type='email'
+          value={state.email}
           onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
-            setError(null);
+            setError('');
           }}
         />
 
         <PasswordInput
           label='Password'
+          value={state.password}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
-            setError(null);
+            setError('');
           }}
         />
 

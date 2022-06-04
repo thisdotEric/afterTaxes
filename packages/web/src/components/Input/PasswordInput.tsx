@@ -6,6 +6,8 @@ import { PasswordInput as MantinePasswordInput } from '@mantine/core';
 interface PasswordInputProps {
   label: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
+  value: string;
+  error?: string;
 }
 
 const PasswordInput: FC<PasswordInputProps> = (props: PasswordInputProps) => {
