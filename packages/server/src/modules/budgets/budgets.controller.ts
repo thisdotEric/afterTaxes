@@ -3,6 +3,12 @@ import { BudgetsService } from './budgets.service';
 import { BudgetInput } from './budgets.schema';
 import { Controller, POST, GET } from 'fastify-decorators';
 
+interface RemainingBudget {
+  categorized_budget_id: number;
+  remainingBudget: number;
+  name: string;
+}
+
 @Controller('/budgets')
 export class BudgetsController {
   constructor(private readonly budgetService: BudgetsService) {}
@@ -113,5 +119,38 @@ export class BudgetsController {
     const budgetTypes = await this.budgetService.getAllBudgetTypes(user_id);
 
     return reply.code(201).send(budgetTypes);
+  }
+
+  @GET('/:year/:month/remaining')
+  public async getRemainingBudget(
+    request: FastifyRequest<{
+      Params: {
+        year: number;
+        month: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+
+    const remainingBudgets: RemainingBudget[] = [
+      {
+        categorized_budget_id: 1,
+        name: 'MP2',
+        remainingBudget: 200,
+      },
+      {
+        categorized_budget_id: 2,
+        name: 'Ponds',
+        remainingBudget: 200,
+      },
+      {
+        categorized_budget_id: 3,
+        name: 'Food',
+        remainingBudget: 9,
+      },
+    ];
+
+    return reply.code(201).send(remainingBudgets);
   }
 }

@@ -1,18 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, GET } from 'fastify-decorators';
-import { ExpensesInput } from '.';
-
-export interface ExpensesHistory {
-  id: number;
-  date: Date | string;
-  name: string;
-  description?: string;
-  amount: number;
-  budgetType: string;
-}
+import { ExpensesService } from './expenses.service';
+import { ExpensesInput } from './expenses.schema';
 
 @Controller('/expenses')
 export class ExpensesController {
+  constructor(private readonly expensesService: ExpensesService) {}
+
   @GET('/')
   async addNewExpenses(
     request: FastifyRequest<{
@@ -30,30 +24,19 @@ export class ExpensesController {
   @GET('/:year/:month')
   async getListOfExpenses(
     request: FastifyRequest<{
-      Params: { year: number; month: string };
+      Params: { year: number; month: number };
     }>,
     reply: FastifyReply
   ) {
-    console.log(request.params.month);
+    const user_id = request.session.user!.user_id;
+    const { year, month } = request.params;
 
-    const data: ExpensesHistory[] = [
-      {
-        id: 1,
-        name: 'Spotify Premium',
-        amount: 150.5,
-        budgetType: 'Tech',
-        date: '13',
-      },
-      {
-        id: 2,
-        name: 'Angels Burger',
-        amount: 30,
-        budgetType: 'Food',
-        date: '15',
-        description: 'Snack after long rally',
-      },
-    ];
+    const expenses = await this.expensesService.getAllExpenses(
+      user_id,
+      month,
+      year
+    );
 
-    return reply.code(200).send(data);
+    return reply.code(200).send(expenses);
   }
 }
