@@ -1,4 +1,7 @@
-import { ExpensesComputationService, ExpensesHistory } from './expenses';
+import {
+  ExpensesComputationService,
+  ExpensesHistory,
+} from '../../src/business/expenses/expenses';
 
 describe('Expenses Computation Service', () => {
   let expensesHistory: ExpensesHistory[];
@@ -7,23 +10,31 @@ describe('Expenses Computation Service', () => {
     expensesHistory = [
       {
         amount: 100,
-        category: 1,
+        budget_id: 1,
         name: 'Foood',
+        budgetName: '',
+        id: 1,
       },
       {
         amount: 23,
-        category: 2,
+        budget_id: 2,
         name: 'Tech',
+        budgetName: '',
+        id: 1,
       },
       {
         amount: 12,
-        category: 1,
+        budget_id: 1,
         name: 'Friday night',
+        budgetName: '',
+        id: 1,
       },
       {
         amount: 100,
-        category: 1,
+        budget_id: 1,
         name: 'Lunch',
+        budgetName: '',
+        id: 1,
       },
     ];
   });
@@ -31,9 +42,8 @@ describe('Expenses Computation Service', () => {
   it('should compute the total expenses grouped by budget category', () => {
     const expensesComputation = new ExpensesComputationService();
 
-    let expected = new Map<number, number>();
-    expected.set(1, 212);
-    expected.set(2, 23);
+    const expected = new Map<number, number>();
+    expected.set(1, 212).set(2, 23);
 
     const actual =
       expensesComputation.computeTotalExpensesPerCategory(expensesHistory);
