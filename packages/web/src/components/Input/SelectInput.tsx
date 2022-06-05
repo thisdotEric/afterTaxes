@@ -9,11 +9,13 @@ interface DropdownData {
 }
 interface SelectInputProps {
   data: DropdownData[];
+  onChange?: (value: string | null) => void;
 }
 
-const SelectInput: FC<SelectInputProps> = ({ data }: SelectInputProps) => {
+const SelectInput: FC<SelectInputProps> = (props: SelectInputProps) => {
   return (
     <Select
+      {...props}
       id='user-input'
       classNames={{
         label: 'input-label',
@@ -21,13 +23,13 @@ const SelectInput: FC<SelectInputProps> = ({ data }: SelectInputProps) => {
         item: 'action-item',
         wrapper: 'action-root',
       }}
-      defaultValue={data[0].value}
+      defaultValue={props.data[0].value}
       className='select-input'
       label='Budget Category'
       rightSection={<ChevronDown size={14} />}
       rightSectionWidth={30}
       placeholder='Budget Category'
-      data={data}
+      data={props.data}
     />
   );
 };

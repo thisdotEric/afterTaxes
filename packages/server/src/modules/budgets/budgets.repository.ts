@@ -1,4 +1,4 @@
-import { BUDGET, CATEGORIZED_BUDGET } from '@database/constants';
+import { BUDGET, CATEGORIZED_BUDGET, BUDGET_TYPES } from '@database/constants';
 import KnexQueryBuilder from '@database/knex/knexDatabase';
 import { Service } from 'fastify-decorators';
 
@@ -12,7 +12,7 @@ export interface IBudget {
 
 export interface CategorizedBudget {
   id: number;
-  category: string;
+  category: number;
   name: string;
   budget: number;
 }
@@ -55,11 +55,11 @@ export class BudgetsRepository {
     month: number,
     year: number
   ): Promise<CategorizedBudget[]> {
-    const budget_rows = await this.knex
-      .db()
-      .raw(
-        `select * from ${CATEGORIZED_BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} and user_id = ${user_id} order by budget desc`
-      );
+    let sql = `select * from ${CATEGORIZED_BUDGET} cb join ${BUDGET_TYPES} bt on cb.budget_type_id = bt.budget_type_id 
+    where EXTRACT(MONTH FROM cb.created_at) = ${month} and EXTRACT(YEAR FROM cb.created_at) = ${year} 
+    and cb.user_id = ${user_id} order by budget desc`;
+
+    const budget_rows = await this.knex.db().raw(sql);
 
     /**
      * Map the returned rows into an IBudget array
@@ -73,6 +73,8 @@ export class BudgetsRepository {
       })
     );
 
+    console.log(categorized_budgets);
+
     return categorized_budgets;
   }
 
@@ -83,7 +85,7 @@ export class BudgetsRepository {
     await this.knex.db()(CATEGORIZED_BUDGET).insert({
       budget,
       name,
-      budget_type: category,
+      budget_type_id: category,
       user_id,
     });
   }

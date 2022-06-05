@@ -59,7 +59,7 @@ export class BudgetsController {
         categorized_budget: {
           budget: number;
           name: string;
-          category: string;
+          category: number;
         };
       };
     }>,
