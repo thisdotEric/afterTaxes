@@ -11,10 +11,10 @@ export async function up(knex: Knex): Promise<void> {
       .primary()
       .defaultTo(0);
 
-    table.date('date').notNullable();
     table.string('name').notNullable();
     table.float('amount').notNullable().unsigned();
     table.string('description').nullable();
+    table.timestamps(true, true);
 
     table.integer('user_id').notNullable();
     table
