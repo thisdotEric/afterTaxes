@@ -11,7 +11,7 @@ export interface IExpenses {
 
 export interface ExpensesHistory {
   id: number;
-  date: Date;
+  date?: Date;
   name: string;
   description?: string;
   amount: number;
@@ -23,15 +23,26 @@ export interface ExpensesHistory {
 export class ExpensesRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
 
-  async add(entity: IExpenses): Promise<boolean> {
+  async addNewExpenses(
+    user_id: number,
+    {
+      name,
+      amount,
+      budget_id,
+      description,
+      date,
+    }: Omit<ExpensesHistory, 'id' | 'budgetName'>
+  ): Promise<void> {
     await this.knex
       .db()(EXPENSES)
       .insert({
-        ...entity,
-        savings_id: 1,
+        name,
+        amount,
+        description,
+        created_at: date ? date : new Date(),
+        categorized_budget_id: budget_id,
+        user_id,
       });
-
-    return true;
   }
 
   async getAllExpenses(

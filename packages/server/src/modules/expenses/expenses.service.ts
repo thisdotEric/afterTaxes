@@ -1,12 +1,16 @@
-import { ExpensesRepository, IExpenses } from '@modules/expenses';
+import { ExpensesRepository } from '@modules/expenses';
 import { Service } from 'fastify-decorators';
+import { ExpensesHistory } from './expenses.repository';
 
 @Service()
 export class ExpensesService {
   constructor(private readonly expensesRepository: ExpensesRepository) {}
 
-  async add(entity: IExpenses) {
-    return this.expensesRepository.add(entity);
+  async addNewExpense(
+    user_id: number,
+    newExpense: Omit<ExpensesHistory, 'id' | 'budgetName'>
+  ) {
+    return this.expensesRepository.addNewExpenses(user_id, newExpense);
   }
 
   async getAllExpenses(user_id: number, month: number, year: number) {

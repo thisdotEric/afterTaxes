@@ -1,22 +1,25 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET } from 'fastify-decorators';
+import { Controller, GET, POST } from 'fastify-decorators';
 import { ExpensesService } from './expenses.service';
-import { ExpensesInput } from './expenses.schema';
+// import { ExpensesInput } from './expenses.schema';
+import { ExpensesHistory } from './expenses.repository';
 
 @Controller('/expenses')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
-  @GET('/')
+  @POST('/')
   async addNewExpenses(
     request: FastifyRequest<{
-      Body: ExpensesInput;
+      Body: Omit<ExpensesHistory, 'id' | 'budgetName'>;
     }>,
     reply: FastifyReply
   ) {
-    const expenses = request.body;
+    const newExpense = request.body;
 
-    console.log(expenses);
+    const user_id = request.session.user!.user_id;
+
+    await this.expensesService.addNewExpense(user_id, newExpense);
 
     return reply.code(201).send('New expenses saved');
   }
