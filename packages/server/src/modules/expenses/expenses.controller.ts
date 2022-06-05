@@ -1,8 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, GET, POST } from 'fastify-decorators';
 import { ExpensesService } from './expenses.service';
-// import { ExpensesInput } from './expenses.schema';
-import { ExpensesHistory } from './expenses.repository';
+import { ExpensesHistory } from '@aftertaxes/commons';
 
 @Controller('/expenses')
 export class ExpensesController {

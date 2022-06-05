@@ -1,22 +1,13 @@
 import KnexQueryBuilder from '@database/knex/knexDatabase';
 import { CATEGORIZED_BUDGET, EXPENSES } from '@database/constants';
 import { Service } from 'fastify-decorators';
+import { ExpensesHistory } from '@aftertaxes/commons';
 
 export interface IExpenses {
   name: string;
   description: string;
   amount: number;
   date: Date;
-}
-
-export interface ExpensesHistory {
-  id: number;
-  date?: Date;
-  name: string;
-  description?: string;
-  amount: number;
-  budget_id: string;
-  budgetName: string;
 }
 
 @Service()

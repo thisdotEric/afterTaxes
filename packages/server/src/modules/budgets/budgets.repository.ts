@@ -1,20 +1,12 @@
 import { BUDGET, CATEGORIZED_BUDGET, BUDGET_TYPES } from '@database/constants';
 import KnexQueryBuilder from '@database/knex/knexDatabase';
 import { Service } from 'fastify-decorators';
-
-// budget_type: keyof typeof BUDGET_TYPES | string;
+import { CategorizedBudget } from '@aftertaxes/commons';
 
 export interface IBudget {
   amount: number;
   description?: string;
   created_at?: Date;
-}
-
-export interface CategorizedBudget {
-  id: number;
-  category: number;
-  name: string;
-  budget: number;
 }
 
 @Service()
@@ -67,25 +59,23 @@ export class BudgetsRepository {
     const categorized_budgets: CategorizedBudget[] = budget_rows.rows.map(
       (r: any) => ({
         id: r.categorized_budget_id,
-        category: r.budget_type,
+        budget_type_id: r.budget_type_id,
         name: r.name,
         budget: r.budget,
       })
     );
-
-    console.log(categorized_budgets);
 
     return categorized_budgets;
   }
 
   async createCategorizedBudget(
     user_id: number,
-    { budget, category, name }: Omit<CategorizedBudget, 'id'>
+    { budget, budget_type_id, name }: Omit<CategorizedBudget, 'id'>
   ) {
     await this.knex.db()(CATEGORIZED_BUDGET).insert({
       budget,
       name,
-      budget_type_id: category,
+      budget_type_id,
       user_id,
     });
   }

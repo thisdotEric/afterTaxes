@@ -1,7 +1,14 @@
+import { ExpensesRepository } from '@modules/expenses';
 import { Service } from 'fastify-decorators';
-import { BudgetsRepository, CategorizedBudget } from './budgets.repository';
+import { BudgetsRepository } from './budgets.repository';
 import { IBudget } from './budgets.repository';
 import { BudgetTypesRepository } from './budgetTypes.repository';
+import {
+  ExpensesComputationService,
+  BudgetComputationService,
+  CategorizedBudget,
+  RemainingBudget,
+} from '@aftertaxes/commons';
 
 export interface BudgetBreakdown {
   total: number;
@@ -12,7 +19,8 @@ export interface BudgetBreakdown {
 export class BudgetsService {
   constructor(
     private readonly budgetRepository: BudgetsRepository,
-    private readonly budgetTypesRepo: BudgetTypesRepository
+    private readonly budgetTypesRepo: BudgetTypesRepository,
+    private readonly expensesRepo: ExpensesRepository
   ) {}
 
   async add(user_id: number, budget: IBudget) {
@@ -83,5 +91,34 @@ export class BudgetsService {
 
   async getAllBudgetTypes(user_id: number) {
     return this.budgetTypesRepo.getAllBudgetTypes(user_id);
+  }
+
+  async getRemainingBudgetPerCategory(
+    user_id: number,
+    month: number,
+    year: number
+  ): Promise<RemainingBudget[]> {
+    const allExpenses = await this.expensesRepo.getAllExpenses(
+      user_id,
+      month,
+      year
+    );
+
+    const expensesComputation = new ExpensesComputationService();
+    const budgetComputation = new BudgetComputationService();
+
+    const map =
+      expensesComputation.computeTotalExpensesPerCategory(allExpenses);
+
+    const categorized_budget =
+      await this.budgetRepository.getCategorizedBudgets(user_id, month, year);
+
+    const remainingBudgets =
+      budgetComputation.computeRemainingBalancePerCategory(
+        map,
+        categorized_budget
+      );
+
+    return remainingBudgets;
   }
 }

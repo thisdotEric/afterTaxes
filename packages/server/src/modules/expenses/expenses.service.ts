@@ -1,6 +1,6 @@
 import { ExpensesRepository } from '@modules/expenses';
 import { Service } from 'fastify-decorators';
-import { ExpensesHistory } from './expenses.repository';
+import { ExpensesHistory } from '@aftertaxes/commons';
 
 @Service()
 export class ExpensesService {
