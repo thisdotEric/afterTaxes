@@ -1,5 +1,4 @@
 import React, { FC, useReducer } from 'react';
-import './RecordExpenses.css';
 import {
   TextInput,
   NumberInput,
@@ -9,10 +8,10 @@ import {
 } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
+import type { RequiredModalProps } from '../../../components/Modal/SharedModal';
+import SharedModal from '../../../components/Modal/SharedModal';
 
-interface RecordExpensesProps {
-  setModalState: () => void;
-}
+interface RecordExpensesProps extends RequiredModalProps {}
 
 interface ExpensesState {
   name: string;
@@ -52,7 +51,9 @@ function expensesReducer(
 }
 
 const RecordExpenses: FC<RecordExpensesProps> = ({
-  setModalState,
+  onSubmit,
+  opened,
+  setOpened,
 }: RecordExpensesProps) => {
   const [expensesState, dispatch] = useReducer(expensesReducer, initialState);
 
@@ -72,48 +73,50 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   };
 
   return (
-    <FormWrapper>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
+    <SharedModal
+      opened={opened}
+      onClose={() => setOpened(false)}
+      title='Add new expense item'
+    >
+      <FormWrapper>
+        <form onSubmit={handleSubmit}>
+          <DatePicker label='Expense Date' date={new Date()} />
 
-          runDispatch('reset', '');
-          setModalState();
-        }}
-      >
-        <DatePicker label='Expense Date' date={new Date()} />
+          <TextInput
+            label='Expense Name'
+            value=''
+            onChange={(e) => {
+              console.log(e.target.value);
+            }}
+          />
 
-        <TextInput
-          label='Expense Name'
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
-        />
+          <BudgetDropDown
+            onChange={(budgetType) => {
+              console.log(budgetType);
+            }}
+          />
 
-        <BudgetDropDown
-          onChange={(budgetType) => {
-            console.log(budgetType);
-          }}
-        />
+          <NumberInput
+            value={0}
+            label='Expense Amount'
+            onChange={(e) => {
+              console.log(e);
+            }}
+          />
 
-        <NumberInput
-          label='Expense Amount'
-          onChange={(e) => {
-            console.log(e);
-          }}
-        />
+          <TextArea
+            value='2'
+            label='Additional Description'
+            onChange={(e) => {
+              runDispatch('description', e.target.value);
+              console.log(e.target.value);
+            }}
+          />
 
-        <TextArea
-          label='Additional Description'
-          onChange={(e) => {
-            runDispatch('description', e.target.value);
-            console.log(e.target.value);
-          }}
-        />
-
-        <Button name='Save Expense' />
-      </form>
-    </FormWrapper>
+          <Button name='Save Expense' />
+        </form>
+      </FormWrapper>
+    </SharedModal>
   );
 };
 

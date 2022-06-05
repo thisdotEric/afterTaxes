@@ -1,5 +1,4 @@
-import React, { FC, useMemo } from 'react';
-import './Expenses.css';
+import React, { FC } from 'react';
 import { Button, Table, TextInput } from '@mantine/core';
 import { Column, useTable } from 'react-table';
 import { ExpensesTableWrapper, TableWrapper } from './Expenses.styles';
@@ -56,7 +55,7 @@ const ExpensesTable: FC<ExpensesTableProps> = ({
             {rows.map((row) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} id={row.id}>
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>

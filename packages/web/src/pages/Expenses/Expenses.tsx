@@ -1,24 +1,15 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
-import './Expenses.css';
 import { Button, Menu, Modal } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
 import { RecordExpensesModal } from './RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
-import { HeaderContext } from '../../context';
 import { expensesColumns } from './expenses.columns';
 import ExpensesTable from './ExpensesTable';
 import { useSetHeader } from '../../hooks';
 import { year, month } from '../../constants/date';
-import { SelectInput } from '../../components/Input';
 import type { Column } from 'react-table';
-import {
-  ChevronDown,
-  Dots,
-  Edit,
-  ExternalLink,
-  Trash,
-} from 'tabler-icons-react';
+import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
 
 interface ExpensesProps {}
 
@@ -125,29 +116,19 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         />
       )}
 
-      <Modal
+      <RecordExpensesModal
         opened={opened}
-        classNames={{
-          modal: 'input-modal',
-          title: 'modal-title',
-          body: 'input-modal',
-          close: 'modal-close',
-        }}
-        onClose={() => setOpened(false)}
-        title='Add new expense item'
-      >
-        <RecordExpensesModal
-          setModalState={() => {
-            setOpened(false);
+        setOpened={setOpened}
+        onSubmit={async () => {
+          console.log('');
 
-            setTimeout(() => {
-              showNotification(
-                getNotificationProps('New expense item added', 'success')
-              );
-            }, 100);
-          }}
-        />
-      </Modal>
+          setTimeout(() => {
+            showNotification(
+              getNotificationProps('New expense item added', 'success')
+            );
+          }, 100);
+        }}
+      />
     </ExpensesPageWrapper>
   );
 };
