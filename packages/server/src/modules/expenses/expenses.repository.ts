@@ -50,14 +50,14 @@ export class ExpensesRepository {
         .where(`${EXPENSES}.user_id`, user_id)
         .whereRaw(`EXTRACT(month from ${EXPENSES}.created_at) = '${month}'`)
         .andWhereRaw(`EXTRACT(year from ${EXPENSES}.created_at) = '${year}'`)
-        .orderByRaw(`${EXPENSES}.created_at desc`)
+        .orderByRaw(`${EXPENSES}.updated_at desc`)
         .select('*', 'expenses.name', 'cb.name as cbName');
 
       const allExpenses: ExpensesHistory[] = allExpenses_row.map((r: any) => {
         return {
           id: r.expenses_id,
           name: r.name,
-          date: new Date(r.created_at),
+          date: new Date(r.updated_at),
           amount: r.amount,
           description: r.description,
           budget_id: r.categorized_budget_id,
