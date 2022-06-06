@@ -24,6 +24,7 @@ export interface CategorizedBudget {
   name: string;
   budget: number;
   category: string;
+  budget_type_id: number;
 }
 
 export interface BudgetBreakdown {
@@ -72,6 +73,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       'budgets/2022/06/categories'
     );
     setBudgets(categorized_budget);
+    console.log(categorized_budget);
   };
 
   useEffect(() => {

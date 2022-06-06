@@ -6,6 +6,7 @@ export const expensesColumns = [
   {
     Header: 'DATE',
     accessor: 'date',
+    Cell: (row) => <p>{new Date(row.value).getDate()}</p>,
   },
   {
     Header: 'AMOUNT',
@@ -24,7 +25,7 @@ export const expensesColumns = [
     },
   },
   {
-    Header: 'BUDGET TYPE',
-    accessor: 'budgetType',
+    Header: 'BUDGET NAME',
+    accessor: 'budgetName',
   },
 ] as Column<ExpensesHistory>[];

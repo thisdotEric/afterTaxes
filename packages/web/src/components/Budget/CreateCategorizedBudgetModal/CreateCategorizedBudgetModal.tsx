@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { CreateBudgetModalWrapper } from './CreateCategorizedBudgetModal.styles';
 import SharedModal from '../../../components/Modal';
 import { NumberInput, SelectInput, TextInput } from '../../../components/Input';
@@ -21,6 +21,7 @@ const defaultState: Omit<CategorizedBudget, 'id'> = {
   budget: 0,
   category: 'FOOD',
   name: '',
+  budget_type_id: 0,
 };
 
 const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
@@ -64,10 +65,12 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
             onSubmit={async (e) => {
               e.preventDefault();
 
-              console.log(categorized_budget);
-
               await axios.post('budgets/categorized-budget', {
-                categorized_budget,
+                categorized_budget: {
+                  budget: categorized_budget.budget,
+                  name: categorized_budget.name,
+                  budget_type_id: categorized_budget.budget_type_id,
+                },
               });
 
               await onSubmit();
@@ -83,9 +86,12 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
 
             <SelectInput
               data={budgetCategories}
-              onChange={(value) =>
-                setBudget({ ...categorized_budget, category: value! })
-              }
+              onChange={(value) => {
+                setBudget({
+                  ...categorized_budget,
+                  budget_type_id: parseInt(value!),
+                });
+              }}
             />
 
             <NumberInput

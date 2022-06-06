@@ -10,16 +10,18 @@ import { useSetHeader } from '../../hooks';
 import { year, month } from '../../constants/date';
 import type { Column } from 'react-table';
 import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
+import { axios } from '../../utils';
 
 interface ExpensesProps {}
 
 export interface ExpensesHistory {
   id: number;
-  date: Date | string;
+  date: Date;
   name: string;
   description?: string;
   amount: number;
-  budgetType: string;
+  budget_id: string;
+  budgetName: string;
 }
 
 interface ActionList {
@@ -52,8 +54,9 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   ]);
 
   const fetchData = async () => {
-    const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
-    const data = await res.json();
+    const { data } = await axios.get('expenses/2022/06');
+
+    console.log(data);
 
     setRows(data);
   };
@@ -121,6 +124,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         setOpened={setOpened}
         onSubmit={async () => {
           console.log('');
+
+          await fetchData();
 
           setTimeout(() => {
             showNotification(
