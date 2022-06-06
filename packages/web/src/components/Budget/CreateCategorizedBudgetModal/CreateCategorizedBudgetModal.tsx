@@ -97,14 +97,10 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
             <NumberInput
               label='Amount'
               value={categorized_budget.budget}
-              error={
-                categorized_budget.budget > remainingBudget
-                  ? `Budget has exceeded ${remainingBudget} limit.`
-                  : ''
-              }
               onChange={(value) =>
                 setBudget({ ...categorized_budget, budget: value! })
               }
+              max={remainingBudget}
             />
 
             <TextInput
