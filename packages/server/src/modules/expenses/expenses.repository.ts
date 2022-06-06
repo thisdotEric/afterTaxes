@@ -60,7 +60,7 @@ export class ExpensesRepository {
           date: new Date(r.created_at),
           amount: r.amount,
           description: r.description,
-          budget_id: r.budget_type_id,
+          budget_id: r.categorized_budget_id,
           budgetName: r.cbName,
         };
       });
