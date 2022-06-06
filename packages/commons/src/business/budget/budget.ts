@@ -17,13 +17,11 @@ export class BudgetComputationService {
   ): Map<number, number> {
     const totalBudget = new Map<number, number>();
 
-    for (let { budget_type_id, budget } of budgets) {
+    for (let { id, budget } of budgets) {
       const prevAmount: number =
-        totalBudget.get(budget_type_id) === undefined
-          ? 0
-          : (totalBudget.get(budget_type_id) as number);
+        totalBudget.get(id) === undefined ? 0 : (totalBudget.get(id) as number);
 
-      totalBudget.set(budget_type_id, prevAmount + budget);
+      totalBudget.set(id, prevAmount + budget);
     }
 
     return totalBudget;
@@ -44,11 +42,13 @@ export class BudgetComputationService {
 
       const remainingBudget = totalBudget - totalExpenses;
 
-      remainingBudgets.push({
-        budget_id: key,
-        name: budgets.filter((b) => b.budget_type_id === key)[0].name,
-        remainingBudget,
-      });
+      if (remainingBudget > 0) {
+        remainingBudgets.push({
+          budget_id: key,
+          name: budgets.filter((b) => b.id === key)[0].name,
+          remainingBudget,
+        });
+      }
     });
 
     return remainingBudgets;
