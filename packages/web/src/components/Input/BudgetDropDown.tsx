@@ -33,10 +33,14 @@ const SelectItem = forwardRef<HTMLDivElement, BudgetItemProps>(
 
 interface BudgetDropDownProps {
   onChange: (value: string | null) => void;
+  setCurrentValue: React.Dispatch<React.SetStateAction<number>>;
+  error?: React.ReactNode;
 }
 
 const BudgetDropDown: FC<BudgetDropDownProps> = ({
   onChange,
+  setCurrentValue,
+  error,
 }: BudgetDropDownProps) => {
   const [remainingBudgets, setRemainingBudgets] = useState<BudgetItemProps[]>(
     []
@@ -65,7 +69,14 @@ const BudgetDropDown: FC<BudgetDropDownProps> = ({
   return (
     <Select
       autoComplete='off'
-      onChange={onChange}
+      error={error}
+      onChange={(value) => {
+        onChange(value);
+
+        const current = remainingBudgets.filter((r) => r.value === value)[0]
+          .remainingBudget;
+        setCurrentValue(current);
+      }}
       label='Budget Type'
       placeholder='Pick one'
       itemComponent={SelectItem}
