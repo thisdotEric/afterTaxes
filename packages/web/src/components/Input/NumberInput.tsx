@@ -8,7 +8,8 @@ interface NumberInputProps {
   onChange?: (value: number | undefined) => void;
   value: number;
   disabled?: boolean;
-  error?: string;
+  error?: React.ReactNode;
+  max?: number | undefined;
 }
 
 const NumberInput: FC<NumberInputProps> = (props: NumberInputProps) => {
@@ -22,6 +23,7 @@ const NumberInput: FC<NumberInputProps> = (props: NumberInputProps) => {
       icon={<CurrencyDollar stroke='white' size={20} strokeWidth={1} />}
       hideControls
       precision={2}
+      autoComplete='off'
       min={0}
     />
   );
