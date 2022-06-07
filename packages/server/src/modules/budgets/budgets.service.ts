@@ -82,7 +82,37 @@ export class BudgetsService {
   }
 
   async getCategorizedBudgets(user_id: number, month: number, year: number) {
-    return this.budgetRepository.getCategorizedBudgets(user_id, month, year);
+    const budgets = await this.budgetRepository.getCategorizedBudgets(
+      user_id,
+      month,
+      year
+    );
+
+    // Compute for the remaining budgets per catergory
+    const remainingBudgets = await this.computeRemainingBudgets(
+      user_id,
+      month,
+      year
+    );
+
+    const withRemainingBudgets = budgets.map(b => {
+      let remainingBudget = 0;
+
+      try {
+        remainingBudget = remainingBudgets.filter(
+          ({ budget_id }) => budget_id == b.id
+        )[0].remainingBudget;
+      } catch (error) {
+        remainingBudget = 0;
+      }
+
+      return {
+        ...b,
+        remainingBudget,
+      };
+    });
+
+    return withRemainingBudgets;
   }
 
   async createCategorizedBudget(
@@ -104,28 +134,7 @@ export class BudgetsService {
     month: number,
     year: number
   ): Promise<RemainingBudget[]> {
-    const allExpenses = await this.expensesRepo.getAllExpenses(
-      user_id,
-      month,
-      year
-    );
-
-    const expensesComputation = new ExpensesComputationService();
-    const budgetComputation = new BudgetComputationService();
-
-    const map =
-      expensesComputation.computeTotalExpensesPerCategory(allExpenses);
-
-    const categorized_budget =
-      await this.budgetRepository.getCategorizedBudgets(user_id, month, year);
-
-    const remainingBudgets =
-      budgetComputation.computeRemainingBalancePerCategory(
-        map,
-        categorized_budget
-      );
-
-    return remainingBudgets;
+    return this.computeRemainingBudgets(user_id, month, year);
   }
 
   async transferBudget(user_id: number, transferBudgetInfo: ITransferBudget) {
@@ -156,5 +165,34 @@ export class BudgetsService {
     );
 
     await Promise.all([updateSourceBudget, updateDestinationBudget]);
+  }
+
+  private async computeRemainingBudgets(
+    user_id: number,
+    month: number,
+    year: number
+  ): Promise<RemainingBudget[]> {
+    const allExpenses = await this.expensesRepo.getAllExpenses(
+      user_id,
+      month,
+      year
+    );
+
+    const expensesComputation = new ExpensesComputationService();
+    const budgetComputation = new BudgetComputationService();
+
+    const map =
+      expensesComputation.computeTotalExpensesPerCategory(allExpenses);
+
+    const categorized_budget =
+      await this.budgetRepository.getCategorizedBudgets(user_id, month, year);
+
+    const remainingBudgets =
+      budgetComputation.computeRemainingBalancePerCategory(
+        map,
+        categorized_budget
+      );
+
+    return remainingBudgets;
   }
 }
