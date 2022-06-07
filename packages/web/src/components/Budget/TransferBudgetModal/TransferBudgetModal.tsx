@@ -1,50 +1,33 @@
 import SharedModal from '../../Modal';
 import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import type { RequiredModalProps } from '../../Modal/SharedModal';
 import { NumberInput, SelectInput, TextInput } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { ConfirmationTransfer } from './TransferBudgetModal.styles';
 import { axios } from '../../../utils';
+import type { SourceBudgetCategory } from '../../../pages/Budget';
 
-interface TransferBudgetModalProps extends RequiredModalProps {
-  fromBudgetName: string;
-  fromBudgetId: number;
-  remainingBudget: number;
+export interface DestinationBudgets {
+  label: string;
+  value: string;
 }
 
-interface ITransferBudget {
-  from: number;
-  to: number;
-  amount: number;
-  fromLabel?: string;
-  toLabel?: string;
+interface TransferBudgetModalProps extends RequiredModalProps {
+  sourceBudget: SourceBudgetCategory;
+  destinationBudgets: DestinationBudgets[];
 }
 
 const TransferBudgetModal: FC<TransferBudgetModalProps> = ({
   opened,
   setOpened,
   onSubmit,
-  fromBudgetName,
-  remainingBudget,
-  fromBudgetId,
+  destinationBudgets,
+  sourceBudget: { remainingBudget, name, id },
 }: TransferBudgetModalProps) => {
-  const [transferBudget, setTransferBudget] = useState<ITransferBudget>({
-    from: fromBudgetId,
-    to: 0,
-    amount: 0,
-  });
-
-  const fetchDestinationBudgets = async () => {
-    // const { data: categorized_budget } = await axios.get(
-    //   'budgets/2022/06/categories'
-    // );
-    // console.log(categorized_budget);
-  };
-
-  useEffect(() => {
-    fetchDestinationBudgets();
-  }, []);
+  const [amount, setAmount] = useState(0);
+  const [destinationBudgetID, setDestinationBudgetID] = useState(0);
+  const [label, setLabel] = useState('');
 
   return (
     <SharedModal
@@ -59,47 +42,48 @@ const TransferBudgetModal: FC<TransferBudgetModalProps> = ({
           onSubmit={async (e) => {
             e.preventDefault();
 
-            console.log(transferBudget);
+            await axios.patch('budgets/transfer', {
+              from: id,
+              to: destinationBudgetID,
+              amount,
+            });
 
-            // await onSubmit();
+            setOpened(false);
+            await onSubmit();
           }}
         >
-          <TextInput value={fromBudgetName} disabled label='From' />
+          <TextInput value={name} disabled label='From' />
           <NumberInput
-            label={`${fromBudgetName} remaining budget`}
+            label={`${name} remaining budget`}
             value={remainingBudget}
             disabled
           />
 
           <SelectInput
             label='Transfer to'
-            data={[
-              {
-                label: 'Crypto',
-                value: '1',
-              },
-              {
-                label: 'Food',
-                value: '2',
-              },
-            ]}
-            onChange={(value: any) => {
-              console.log(value);
+            data={destinationBudgets}
+            onChange={(value) => {
+              setDestinationBudgetID(parseInt(value!));
+              setLabel(
+                destinationBudgets.filter((b) => b.value === value)[0].label
+              );
             }}
           />
 
           <NumberInput
             label='Amount'
-            value={remainingBudget}
+            value={amount}
             onChange={(value) => {
-              setTransferBudget({ ...transferBudget, amount: value! });
+              if (value === undefined) setAmount(0);
+              else setAmount(value!);
+              console.log(value);
             }}
             max={remainingBudget}
           />
 
           <ConfirmationTransfer>
-            <span>P30.55</span> will be transferred to{' '}
-            <span id='destination-budget'>Lunch budget</span>.
+            <span>&#x20B1;{amount}</span> will be transferred to{' '}
+            <span id='destination-budget'>{label} budget</span>.
           </ConfirmationTransfer>
 
           <Button name='Transfer budget' />

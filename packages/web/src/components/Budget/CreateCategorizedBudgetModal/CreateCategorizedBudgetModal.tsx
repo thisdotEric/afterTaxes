@@ -86,6 +86,7 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
 
             <SelectInput
               data={budgetCategories}
+              label='Budget Category'
               onChange={(value) => {
                 setBudget({
                   ...categorized_budget,
