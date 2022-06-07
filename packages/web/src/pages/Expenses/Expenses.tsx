@@ -5,12 +5,12 @@ import { RecordExpensesModal } from './RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
 import { expensesColumns } from './expenses.columns';
-import ExpensesTable from './ExpensesTable';
 import { useSetHeader } from '../../hooks';
 import { year, month } from '../../constants/date';
 import type { Column } from 'react-table';
 import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
 import { axios } from '../../utils';
+import TableComponent from '../../components/Table';
 
 interface ExpensesProps {}
 
@@ -112,10 +112,13 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   return (
     <ExpensesPageWrapper>
       {rows && (
-        <ExpensesTable
+        <TableComponent
           columns={columns}
           data={data}
-          action={() => setOpened(true)}
+          action={{
+            name: 'Add new expense',
+            event: () => setOpened(true),
+          }}
         />
       )}
 
@@ -123,8 +126,6 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         opened={opened}
         setOpened={setOpened}
         onSubmit={async () => {
-          console.log('');
-
           await fetchData();
 
           setTimeout(() => {

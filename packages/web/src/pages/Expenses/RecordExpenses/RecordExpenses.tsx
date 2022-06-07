@@ -56,6 +56,8 @@ function expensesReducer(
       return { ...state, budget_id: parseFloat(action.payload) };
     case 'description':
       return { ...state, description: action.payload };
+    case 'date':
+      return { ...state, date: action.payload };
     case 'reset':
       return initialState;
     default:
@@ -75,7 +77,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   const [amountError, setAmountError] = useState('');
   const [budgetError, setBudgetError] = useState('');
 
-  const runDispatch = (type: ActionType, payload: string) => {
+  const runDispatch = (type: ActionType, payload: any) => {
     dispatch({
       type,
       payload,
@@ -141,23 +143,13 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     >
       <FormWrapper>
         <form onSubmit={handleSubmit}>
-          {/* <DatePicker
+          <DatePicker
             label='Expense Date'
             value={expensesState.date}
             date={expensesState.date}
-            onChange={(date) => console.log(date)}
-          /> */}
-
-          <TextInput
-            label='Expense Name'
-            value={expensesState.name}
-            onChange={(e) => {
-              if (e.target.value === '') setNameError('Name is empty');
-              else setNameError('');
-
-              runDispatch('name', e.target.value);
+            onChange={(date) => {
+              runDispatch('date', date);
             }}
-            error={nameError}
           />
 
           <BudgetDropDown
@@ -170,6 +162,18 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
             }}
             error={budgetError}
             setCurrentValue={setCurrentMaxAmount}
+          />
+
+          <TextInput
+            label='Expense Name'
+            value={expensesState.name}
+            onChange={(e) => {
+              if (e.target.value === '') setNameError('Name is empty');
+              else setNameError('');
+
+              runDispatch('name', e.target.value);
+            }}
+            error={nameError}
           />
 
           <NumberInput
