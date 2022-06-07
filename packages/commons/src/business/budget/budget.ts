@@ -9,6 +9,7 @@ export interface CategorizedBudget {
   name: string;
   budget: number;
   budget_type_id: number;
+  remainingBudget?: number;
 }
 
 export class BudgetComputationService {
