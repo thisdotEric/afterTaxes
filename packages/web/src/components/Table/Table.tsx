@@ -1,20 +1,41 @@
 import React, { FC } from 'react';
-import { Table } from '@mantine/core';
+import { Button, Table, TextInput } from '@mantine/core';
 import { useTable } from 'react-table';
 import { TableWrapper } from './Table.styles';
-import { ArrowNarrowLeft, ArrowNarrowRight } from 'tabler-icons-react';
+import { ArrowNarrowLeft, ArrowNarrowRight, Search } from 'tabler-icons-react';
 
 interface TableProps {
   columns: any;
   data: any;
+  action?: {
+    name: string;
+    event: () => void;
+  };
 }
 
-const TableComponent: FC<TableProps> = ({ columns, data }: TableProps) => {
+const TableComponent: FC<TableProps> = ({
+  columns,
+  data,
+  action,
+}: TableProps) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
   return (
     <TableWrapper>
+      <div className='table-actions'>
+        <TextInput
+          icon={<Search size={15} />}
+          size='xs'
+          id='table-search'
+          placeholder='Search'
+        />
+
+        <Button id='action' onClick={() => action?.event()}>
+          {action?.name}
+        </Button>
+      </div>
+
       <Table {...getTableProps()} fontSize={'xs'} id='main-table'>
         <thead>
           {headerGroups.map((headerGroup) => (
