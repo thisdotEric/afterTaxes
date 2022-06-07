@@ -10,6 +10,7 @@ interface DropdownData {
 interface SelectInputProps {
   data: DropdownData[];
   onChange?: (value: string | null) => void;
+  label: string;
 }
 
 const SelectInput: FC<SelectInputProps> = (props: SelectInputProps) => {
@@ -23,9 +24,7 @@ const SelectInput: FC<SelectInputProps> = (props: SelectInputProps) => {
         item: 'action-item',
         wrapper: 'action-root',
       }}
-      defaultValue={props.data[0].value}
       className='select-input'
-      label='Budget Category'
       rightSection={<ChevronDown size={14} />}
       rightSectionWidth={30}
       placeholder='Budget Category'
