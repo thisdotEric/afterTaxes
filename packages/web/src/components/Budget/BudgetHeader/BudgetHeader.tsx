@@ -1,10 +1,9 @@
 import type { BudgetBreakdown } from '../../../pages/Budget';
 import React, { FC, useMemo } from 'react';
-import {
-  BudgetHeaderWrapper,
-  BudgetText,
-} from '../../../pages/Budget/Budget.styles';
-import { Button } from '@mantine/core';
+import { BudgetHeaderWrapper, BudgetText } from './BudgetHeader.styles';
+import { Button, UnstyledButton } from '@mantine/core';
+import { History } from 'tabler-icons-react';
+import { Link } from 'react-router-dom';
 
 interface BudgetHeaderProps {
   budgetBreakdown: BudgetBreakdown;
@@ -24,9 +23,16 @@ const BudgetHeader: FC<BudgetHeaderProps> = ({
   return (
     budgetBreakdown && (
       <BudgetHeaderWrapper>
-        <BudgetText>
-          Total Monthly Budget: <span>{budgetBreakdown.total.toFixed(2)}</span>
-        </BudgetText>
+        <div id='budget'>
+          <BudgetText>
+            Total Monthly Budget:{' '}
+            <span>{budgetBreakdown.total.toFixed(2)}</span>
+          </BudgetText>
+          &nbsp;&nbsp;
+          <UnstyledButton component={Link} to={'/budget/history'}>
+            <History stroke='white' size={16} />
+          </UnstyledButton>
+        </div>
         <BudgetText>
           Unallocated Budget:{' '}
           <span>
