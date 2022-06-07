@@ -13,7 +13,7 @@ interface CategorizedBudgetCardProps {
 }
 
 const CategorizedBudgetCard: FC<CategorizedBudgetCardProps> = ({
-  categorizedBudget: { budget, id, name },
+  categorizedBudget: { budget, id, name, remainingBudget },
   openTransferBudgetModal,
   setSourceBudget,
 }: CategorizedBudgetCardProps) => {
@@ -23,25 +23,29 @@ const CategorizedBudgetCard: FC<CategorizedBudgetCardProps> = ({
         <div>
           <p id='name'>{name}</p>
           <p id='amount'>{budget.toFixed(2)}</p>
-          <p id='remaining'>{budget.toFixed(2)}</p>
+          <p id='remaining' className={remainingBudget == 0 ? 'none' : ''}>
+            {remainingBudget.toFixed(2)}
+          </p>
         </div>
         <div id='actions'>
-          <ArrowsLeftRight
-            size={15}
-            stroke='white'
-            id='transfer'
-            className='action-btn'
-            strokeWidth={1.5}
-            onClick={() => {
-              setSourceBudget({
-                id,
-                name,
-                remainingBudget: budget,
-              });
+          {remainingBudget != 0 && (
+            <ArrowsLeftRight
+              size={15}
+              stroke='white'
+              id='transfer'
+              className='action-btn'
+              strokeWidth={1.5}
+              onClick={() => {
+                setSourceBudget({
+                  id,
+                  name,
+                  remainingBudget,
+                });
 
-              openTransferBudgetModal(true);
-            }}
-          />
+                openTransferBudgetModal(true);
+              }}
+            />
+          )}
           &nbsp;
           <Edit size={20} id='edit' className='action-btn' strokeWidth={1.5} />
           &nbsp;

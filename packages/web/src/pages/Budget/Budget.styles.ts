@@ -99,5 +99,9 @@ export const BudgetCards = styled.div`
       padding-top: 3px;
       color: gray;
     }
+
+    .none {
+      text-decoration: line-through;
+    }
   }
 `;
