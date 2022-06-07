@@ -79,4 +79,29 @@ export class BudgetsRepository {
       user_id,
     });
   }
+
+  async getBudget(
+    user_id: number,
+    budget_id: number
+  ): Promise<CategorizedBudget> {
+    const budget = (
+      await this.knex
+        .db()(CATEGORIZED_BUDGET)
+        .where({ user_id, categorized_budget_id: budget_id })
+        .select('*')
+    )[0] as CategorizedBudget;
+
+    return budget;
+  }
+
+  async updateBudget(
+    user_id: number,
+    budget: number,
+    budget_id: number
+  ): Promise<void> {
+    await this.knex
+      .db()(CATEGORIZED_BUDGET)
+      .update({ budget })
+      .where({ user_id, categorized_budget_id: budget_id });
+  }
 }

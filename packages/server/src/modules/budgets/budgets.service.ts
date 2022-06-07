@@ -15,6 +15,12 @@ export interface BudgetBreakdown {
   unallocated: number;
 }
 
+interface ITransferBudget {
+  from: number;
+  to: number;
+  amount: number;
+}
+
 @Service()
 export class BudgetsService {
   constructor(
@@ -120,5 +126,35 @@ export class BudgetsService {
       );
 
     return remainingBudgets;
+  }
+
+  async transferBudget(user_id: number, transferBudgetInfo: ITransferBudget) {
+    const fromBudget = await this.budgetRepository.getBudget(
+      user_id,
+      transferBudgetInfo.from
+    );
+
+    const destinationBudget = await this.budgetRepository.getBudget(
+      user_id,
+      transferBudgetInfo.to
+    );
+
+    const newSourceAmount = fromBudget.budget - transferBudgetInfo.amount;
+    const newDestinationBudgetAmount =
+      destinationBudget.budget + transferBudgetInfo.amount;
+
+    const updateSourceBudget = this.budgetRepository.updateBudget(
+      user_id,
+      newSourceAmount,
+      transferBudgetInfo.from
+    );
+
+    const updateDestinationBudget = this.budgetRepository.updateBudget(
+      user_id,
+      newDestinationBudgetAmount,
+      transferBudgetInfo.to
+    );
+
+    await Promise.all([updateSourceBudget, updateDestinationBudget]);
   }
 }

@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { BudgetsService } from './budgets.service';
 import { BudgetInput } from './budgets.schema';
-import { Controller, POST, GET } from 'fastify-decorators';
+import { Controller, POST, GET, PATCH } from 'fastify-decorators';
 
 @Controller('/budgets')
 export class BudgetsController {
@@ -137,5 +137,41 @@ export class BudgetsController {
       );
 
     return reply.code(200).send(remainingBudgets);
+  }
+
+  @GET('/:year/:month/history')
+  public async getBudgetHistory(
+    request: FastifyRequest<{
+      Params: {
+        year: number;
+        month: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+
+    const { month, year } = request.params;
+
+    return reply.code(200).send([user_id, month, year]);
+  }
+
+  @PATCH('/transfer')
+  public async transferBudget(
+    request: FastifyRequest<{
+      Body: {
+        from: number;
+        to: number;
+        amount: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+
+    const transferBudgetInfo = request.body;
+    await this.budgetService.transferBudget(user_id, transferBudgetInfo);
+
+    return reply.code(200).send('Ok');
   }
 }
