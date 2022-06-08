@@ -1,22 +1,36 @@
 import React, { FC } from 'react';
 import './Button.css';
 import { Button as MantineButton } from '@mantine/core';
-import { DeviceFloppy } from 'tabler-icons-react';
+import { ArrowsLeftRight, DeviceFloppy, Trash } from 'tabler-icons-react';
+
+type SubmitType = 'save' | 'delete' | 'transfer';
 
 interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   name: string;
   withIcon?: boolean;
   disable?: boolean;
+  submitType?: SubmitType;
 }
 
-const Button: FC<ButtonProps> = ({ onClick, name, disable }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({
+  name,
+  disable,
+  submitType = 'save',
+}: ButtonProps) => {
   return (
     <MantineButton
       radius={10}
-      leftIcon={<DeviceFloppy strokeWidth={1} size={20} />}
-      classNames={{ root: 'root-btn' }}
-      // onClick={onClick}
+      leftIcon={
+        submitType === 'delete' ? (
+          <Trash strokeWidth={1} size={20} />
+        ) : submitType === 'transfer' ? (
+          <ArrowsLeftRight strokeWidth={1} size={20} />
+        ) : (
+          <DeviceFloppy strokeWidth={1} size={20} />
+        )
+      }
+      classNames={{ root: submitType }}
       type='submit'
       disabled={disable}
     >
