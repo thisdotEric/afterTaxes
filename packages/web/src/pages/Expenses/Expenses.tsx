@@ -11,6 +11,7 @@ import type { Column } from 'react-table';
 import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
 import { axios } from '../../utils';
 import TableComponent from '../../components/Table';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 interface ExpensesProps {}
 
@@ -38,6 +39,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   const [openedEditModal, setOpenedEditModal] = useState(false);
   const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
     useState(false);
+  const [currentRowId, setCurrentRowId] = useState<number>();
 
   const [rows, setRows] = useState<ExpensesHistory[]>([]);
   const [actions] = useState<ActionList[]>([
@@ -55,15 +57,12 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   const fetchData = async () => {
     const { data } = await axios.get('expenses/2022/06');
-
-    console.log(data);
-
     setRows(data);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const actionDropdownOnclick = (action: string) => {
+    if (action === 'delete') setOpenedConfirmDeleteModal(true);
+  };
 
   // Memoized table rows and columns
   const data = useMemo<ExpensesHistory[]>(() => rows, [rows, setRows]);
@@ -93,10 +92,9 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 {actions.map(({ value, label, icon }) => (
                   <Menu.Item
                     icon={icon}
-                    onClick={async () => {
-                      console.log(value, row.value);
-
-                      await fetchData();
+                    onClick={() => {
+                      setCurrentRowId(row.row.original.id);
+                      actionDropdownOnclick(value);
                     }}
                   >
                     {label}
@@ -109,6 +107,10 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       ] as Column<ExpensesHistory>[],
     []
   );
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <ExpensesPageWrapper>
@@ -135,6 +137,20 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
             );
           }, 100);
         }}
+      />
+
+      <ConfirmModal
+        opened={openedConfirmDeleteModal}
+        setOpened={setOpenedConfirmDeleteModal}
+        onSubmit={async () => {
+          console.log(currentRowId);
+
+          await axios.delete(`expenses/${currentRowId}`);
+
+          await fetchData();
+        }}
+        modalTitle='Confirm delete expense item?'
+        confirmMessage='Delete'
       />
     </ExpensesPageWrapper>
   );
