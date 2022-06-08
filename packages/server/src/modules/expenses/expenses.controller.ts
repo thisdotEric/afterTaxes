@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET, POST } from 'fastify-decorators';
+import { Controller, DELETE, GET, POST } from 'fastify-decorators';
 import { ExpensesService } from './expenses.service';
 import { ExpensesHistory } from '@aftertaxes/commons';
 
@@ -21,6 +21,21 @@ export class ExpensesController {
     await this.expensesService.addNewExpense(user_id, newExpense);
 
     return reply.code(201).send('New expenses saved');
+  }
+
+  @DELETE('/:expenseId')
+  async deleteExpense(
+    request: FastifyRequest<{
+      Params: { expenseId: number };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const expenses_id = request.params.expenseId;
+
+    await this.expensesService.deleteExpensesItem(user_id, expenses_id);
+
+    return reply.code(200).send('Ok');
   }
 
   @GET('/:year/:month')

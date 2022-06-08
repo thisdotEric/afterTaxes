@@ -36,6 +36,10 @@ export class ExpensesRepository {
       });
   }
 
+  async deleteExpensesItem(user_id: number, expenses_id: number) {
+    await this.knex.db()(EXPENSES).where({ user_id, expenses_id }).delete();
+  }
+
   async getAllExpenses(
     user_id: number,
     month: number,
