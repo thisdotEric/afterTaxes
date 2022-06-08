@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import { Button, Menu, Modal } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
-import { RecordExpensesModal } from './RecordExpenses';
+import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
 import { expensesColumns } from './expenses.columns';

@@ -5,11 +5,11 @@ import {
   TextArea,
   DatePicker,
   BudgetDropDown,
-} from '../../../components/Input';
-import { Button } from '../../../components/Button';
-import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
-import type { RequiredModalProps } from '../../../components/Modal/SharedModal';
-import SharedModal from '../../../components/Modal/SharedModal';
+} from '../../Input';
+import { Button } from '../../Button';
+import { FormWrapper } from '../../styles/FormWrapper.styles';
+import type { RequiredModalProps } from '../../Modal/SharedModal';
+import SharedModal from '../../Modal/SharedModal';
 import { axios } from '../../../utils';
 
 interface RecordExpensesProps extends RequiredModalProps {}
