@@ -71,6 +71,10 @@ export const BudgetCards = styled.div`
     #delete {
       color: ${red};
     }
+
+    .hidden {
+      opacity: 0;
+    }
   }
 
   #budget-card {

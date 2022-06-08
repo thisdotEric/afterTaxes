@@ -13,7 +13,6 @@ export interface IFundsHistory {
   amount: number;
   description: string;
   date: Date;
-  deductFunds?: boolean;
 }
 
 interface FundsHistoryProps {}
@@ -23,7 +22,7 @@ const FundsHistory: FC<FundsHistoryProps> = ({}: FundsHistoryProps) => {
 
   const [fundsHistory, setFundsHistory] = useState<IFundsHistory[]>([
     {
-      amount: 200,
+      amount: 12,
       date: new Date(),
       description: 'sdfbsdf',
     },
@@ -48,10 +47,9 @@ const FundsHistory: FC<FundsHistoryProps> = ({}: FundsHistoryProps) => {
       description: 'sdfbsdf',
     },
     {
-      amount: 20.23,
+      amount: -20.23,
       date: new Date(),
       description: 'Galing sa utang',
-      deductFunds: true,
     },
     {
       amount: 200,
@@ -59,12 +57,12 @@ const FundsHistory: FC<FundsHistoryProps> = ({}: FundsHistoryProps) => {
       description: 'sdfbsdf',
     },
     {
-      amount: 20.23,
+      amount: 2,
       date: new Date(),
       description: 'Galing sa utang',
     },
     {
-      amount: 200,
+      amount: 95.22,
       date: new Date(),
       description: 'sdfbsdf',
     },
@@ -94,10 +92,10 @@ const FundsHistory: FC<FundsHistoryProps> = ({}: FundsHistoryProps) => {
           accessor: 'amount',
           Cell: (row) => (
             <p>
-              {row.row.original.deductFunds ? (
-                <span id='down'>- {row.value}</span>
+              {row.value < 0 ? (
+                <span id='down'>{row.value.toFixed(2)}</span>
               ) : (
-                <span id='up'>+ {row.value}</span>
+                <span id='up'>+{row.value.toFixed(2)}</span>
               )}
             </p>
           ),

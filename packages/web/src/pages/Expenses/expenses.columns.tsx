@@ -25,7 +25,7 @@ export const expensesColumns = [
     },
   },
   {
-    Header: 'BUDGET NAME',
+    Header: 'CATEGORY',
     accessor: 'budgetName',
   },
 ] as Column<ExpensesHistory>[];

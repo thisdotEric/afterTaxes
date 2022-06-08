@@ -28,24 +28,22 @@ const CategorizedBudgetCard: FC<CategorizedBudgetCardProps> = ({
           </p>
         </div>
         <div id='actions'>
-          {remainingBudget != 0 && (
-            <ArrowsLeftRight
-              size={15}
-              stroke='white'
-              id='transfer'
-              className='action-btn'
-              strokeWidth={1.5}
-              onClick={() => {
-                setSourceBudget({
-                  id,
-                  name,
-                  remainingBudget,
-                });
+          <ArrowsLeftRight
+            size={15}
+            stroke='white'
+            id='transfer'
+            className={`action-btn ${remainingBudget == 0 && 'hidden'}`}
+            strokeWidth={1.5}
+            onClick={() => {
+              setSourceBudget({
+                id,
+                name,
+                remainingBudget,
+              });
 
-                openTransferBudgetModal(true);
-              }}
-            />
-          )}
+              openTransferBudgetModal(true);
+            }}
+          />
           &nbsp;
           <Edit size={20} id='edit' className='action-btn' strokeWidth={1.5} />
           &nbsp;

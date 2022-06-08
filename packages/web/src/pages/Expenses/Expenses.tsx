@@ -75,6 +75,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         {
           Header: 'ACTIONS',
           accessor: 'id',
+          disableSortBy: true,
           Cell: (row) => {
             return (
               <Menu

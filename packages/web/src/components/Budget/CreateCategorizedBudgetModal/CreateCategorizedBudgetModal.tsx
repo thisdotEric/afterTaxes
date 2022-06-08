@@ -17,7 +17,12 @@ interface InputData {
   value: string;
 }
 
-const defaultState: Omit<CategorizedBudget, 'id'> = {
+export type CategorizedBudgetObj = Omit<
+  CategorizedBudget,
+  'id' | 'remainingBudget'
+>;
+
+const defaultState: CategorizedBudgetObj = {
   budget: 0,
   category: 'FOOD',
   name: '',
@@ -31,7 +36,7 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
   remainingBudget,
 }: CreateCategorizedBudgetModalProps) => {
   const [categorized_budget, setBudget] =
-    useState<Omit<CategorizedBudget, 'id'>>(defaultState);
+    useState<CategorizedBudgetObj>(defaultState);
 
   const [budgetCategories, setBudgetCategories] = useState<InputData[]>([]);
 

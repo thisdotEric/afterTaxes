@@ -11,6 +11,7 @@ interface SelectInputProps {
   data: DropdownData[];
   onChange?: (value: string | null) => void;
   label: string;
+  error?: React.ReactNode;
 }
 
 const SelectInput: FC<SelectInputProps> = (props: SelectInputProps) => {
