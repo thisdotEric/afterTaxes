@@ -1,4 +1,10 @@
-import { green, lightgreen, secondarybg } from '../../components/styles/colors';
+import {
+  green,
+  grey,
+  lightgreen,
+  primarybg,
+  secondarybg,
+} from '../../components/styles/colors';
 import styled from 'styled-components';
 
 export const TableWrapper = styled.div`
@@ -42,40 +48,6 @@ export const TableWrapper = styled.div`
     }
   }
 
-  #tbl-footer {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    padding-top: 15px;
-
-    #pagination {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      p {
-        color: white;
-        font-size: 13px;
-
-        span {
-          font-weight: bold;
-          font-size: 15px;
-        }
-      }
-
-      button {
-        padding: 0px 7px;
-        background-color: ${green};
-        border: none;
-        border-radius: 10px;
-
-        &:hover {
-          background-color: ${lightgreen};
-        }
-      }
-    }
-  }
-
   #main-table {
     width: 100%;
     border-collapse: collapse;
@@ -98,6 +70,10 @@ export const TableWrapper = styled.div`
         align-items: flex-start;
         justify-content: left;
       }
+
+      #hidden-icon {
+        opacity: 0;
+      }
     }
 
     tbody tr td {
@@ -114,6 +90,49 @@ export const TableWrapper = styled.div`
       &:hover {
         background-color: ${secondarybg};
       }
+    }
+  }
+`;
+
+export const TableFooter = styled.div`
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding-top: 15px;
+`;
+
+export const TableFooterPaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    color: white;
+    font-size: 13px;
+
+    span {
+      font-weight: bold;
+      font-size: 15px;
+    }
+  }
+
+  #paginate-btn {
+    padding: 0px 5px;
+    height: 20px;
+    background-color: ${green};
+    border: none;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: ${lightgreen};
+    }
+
+    &:disabled {
+      background: gray;
+    }
+
+    #paginate-arrow:hover {
+      stroke-width: 2.5px;
     }
   }
 `;

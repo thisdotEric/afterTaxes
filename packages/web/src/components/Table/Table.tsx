@@ -1,12 +1,26 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Table, TextInput } from '@mantine/core';
-import { useTable } from 'react-table';
-import { TableWrapper } from './Table.styles';
-import { ArrowNarrowLeft, ArrowNarrowRight, Search } from 'tabler-icons-react';
+import {
+  useGlobalFilter,
+  usePagination,
+  useSortBy,
+  useTable,
+} from 'react-table';
+import { TableFooter, TableWrapper } from './Table.styles';
+import {
+  ArrowDown,
+  ArrowNarrowLeft,
+  ArrowNarrowRight,
+  ArrowUp,
+  ChevronsLeft,
+  Search,
+} from 'tabler-icons-react';
+import TablePagination from './TablePagination';
 
 interface TableProps {
   columns: any;
   data: any;
+  pageSize?: number;
   action?: {
     name: string;
     event: () => void;
@@ -17,9 +31,35 @@ const TableComponent: FC<TableProps> = ({
   columns,
   data,
   action,
+  pageSize = 10,
 }: TableProps) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    state,
+    setGlobalFilter,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    gotoPage,
+    pageCount,
+    pageOptions,
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageSize },
+    },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
+
+  const { globalFilter, pageIndex } = state;
 
   return (
     <TableWrapper>
@@ -27,6 +67,8 @@ const TableComponent: FC<TableProps> = ({
         <TextInput
           icon={<Search size={15} />}
           size='xs'
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
           id='table-search'
           placeholder='Search'
         />
@@ -41,16 +83,29 @@ const TableComponent: FC<TableProps> = ({
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  <span>
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <ArrowDown strokeWidth={3} size={12} color='#15c45e' />
+                      ) : (
+                        <ArrowUp strokeWidth={3} size={12} color='#15c45e' />
+                      )
+                    ) : (
+                      <ArrowUp strokeWidth={3} size={12} id='hidden-icon' />
+                    )}
+                  </span>
+                </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} id={row.id}>
+              <tr {...row.getRowProps()} key={row.id}>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
@@ -62,22 +117,18 @@ const TableComponent: FC<TableProps> = ({
         </tbody>
       </Table>
       <hr />
-      <div id='tbl-footer'>
-        <div id='pagination'>
-          <p>
-            Page <span>10</span> of <span>15</span> &nbsp;
-          </p>
-          <div>
-            <button>
-              <ArrowNarrowLeft size={16} />
-            </button>
-            &nbsp;
-            <button>
-              <ArrowNarrowRight size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
+      <TableFooter>
+        <TablePagination
+          canNextPage={canNextPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          gotoPage={gotoPage}
+          pageCount={pageCount}
+          pageIndex={pageIndex}
+          length={pageOptions.length}
+        />
+      </TableFooter>
     </TableWrapper>
   );
 };
