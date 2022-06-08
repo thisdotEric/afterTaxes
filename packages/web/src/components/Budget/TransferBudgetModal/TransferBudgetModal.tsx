@@ -131,7 +131,7 @@ const TransferBudgetModal: FC<TransferBudgetModalProps> = ({
             transferred to <span id='destination-budget'>{label} budget</span>.
           </ConfirmationTransfer>
 
-          <Button name='Transfer budget' />
+          <Button name='Transfer budget' submitType='transfer' />
         </form>
       </FormWrapper>
     </SharedModal>
