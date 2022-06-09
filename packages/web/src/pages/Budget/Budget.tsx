@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useSetHeader } from '../../hooks';
 import { Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
@@ -9,26 +9,29 @@ import { axios } from '../../utils';
 import BudgetHeader from '../../components/Budget/BudgetHeader';
 import CategorizedBudgetCard from '../../components/Budget/CategorizedBudgetCard';
 import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategorizedBudgetModal';
+import TransferBudgetModal from '../../components/Budget/TransferBudgetModal';
+import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/TransferBudgetModal';
 
 interface BudgetProps {}
-
-export interface IBudgetTimeline {
-  amount: number;
-  description: string;
-  date: Date;
-  deductFunds?: boolean;
-}
 
 export interface CategorizedBudget {
   id: number;
   name: string;
   budget: number;
   category: string;
+  budget_type_id: number;
+  remainingBudget: number;
 }
 
 export interface BudgetBreakdown {
   total: number;
   unallocated: number;
+}
+
+export interface SourceBudgetCategory {
+  remainingBudget: number;
+  name: string;
+  id: number;
 }
 
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
@@ -46,8 +49,26 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
   const [openCreateBudgetModal, setOpenCreateBudgetModal] =
     useState<boolean>(false);
+  const [openTransferBudget, setOpenTransferBudget] = useState(false);
+  const [sourceBudget, setSourceBudget] = useState<SourceBudgetCategory>({
+    id: 0,
+    name: '',
+    remainingBudget: 0,
+  });
 
   const modals = useModals();
+
+  // Remove the originating budget from the destination budget
+  const destinationBudgets = useMemo<DestinationBudgets[]>(
+    () =>
+      budgets
+        .filter(({ id }) => id != sourceBudget.id)
+        .map(({ name, id }) => ({
+          label: name,
+          value: `${id}`,
+        })),
+    [sourceBudget.id]
+  );
 
   const openConfirmModal = (budget_id: number) =>
     modals.openConfirmModal({
@@ -86,7 +107,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       />
 
       <div id='allocated-budgets-actions'>
-        <p>Allocated Budgets</p>
+        <p>Monthly Allocated Budgets</p>
         <Button
           id='create-new-budget'
           size='xs'
@@ -117,9 +138,23 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       <BudgetCards>
         {budgets &&
           budgets.map((budget) => (
-            <CategorizedBudgetCard categorizedBudget={budget} />
+            <CategorizedBudgetCard
+              categorizedBudget={budget}
+              openTransferBudgetModal={setOpenTransferBudget}
+              setSourceBudget={setSourceBudget}
+            />
           ))}
       </BudgetCards>
+
+      <TransferBudgetModal
+        sourceBudget={sourceBudget}
+        destinationBudgets={destinationBudgets}
+        onSubmit={async () => {
+          await fetchBudgetPageValues();
+        }}
+        opened={openTransferBudget}
+        setOpened={setOpenTransferBudget}
+      />
     </BudgetWrapper>
   );
 };

@@ -2,6 +2,7 @@ const USERS = 'users';
 const JOBS = 'jobs';
 const SALARY = 'salary';
 const BUDGET = 'budget';
+const BUDGET_TYPES = 'budget_types';
 const CATEGORIZED_BUDGET = 'categorized_budget';
 const EXPENSES = 'expenses';
 const EXPENSES_RECEIPTS = 'expenses_receipts';
@@ -16,6 +17,7 @@ export {
   JOBS,
   SALARY,
   BUDGET,
+  BUDGET_TYPES,
   CATEGORIZED_BUDGET,
   EXPENSES,
   EXPENSES_RECEIPTS,

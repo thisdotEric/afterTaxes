@@ -1,15 +1,33 @@
+import { ExpensesRepository } from '@modules/expenses';
 import { Service } from 'fastify-decorators';
-import { BudgetsRepository, CategorizedBudget } from './budgets.repository';
+import { BudgetsRepository } from './budgets.repository';
 import { IBudget } from './budgets.repository';
+import { BudgetTypesRepository } from './budgetTypes.repository';
+import {
+  ExpensesComputationService,
+  BudgetComputationService,
+  CategorizedBudget,
+  RemainingBudget,
+} from '@aftertaxes/commons';
 
 export interface BudgetBreakdown {
   total: number;
   unallocated: number;
 }
 
+interface ITransferBudget {
+  from: number;
+  to: number;
+  amount: number;
+}
+
 @Service()
 export class BudgetsService {
-  constructor(private readonly budgetRepository: BudgetsRepository) {}
+  constructor(
+    private readonly budgetRepository: BudgetsRepository,
+    private readonly budgetTypesRepo: BudgetTypesRepository,
+    private readonly expensesRepo: ExpensesRepository
+  ) {}
 
   async add(user_id: number, budget: IBudget) {
     await this.budgetRepository.add(user_id, budget);
@@ -64,7 +82,37 @@ export class BudgetsService {
   }
 
   async getCategorizedBudgets(user_id: number, month: number, year: number) {
-    return this.budgetRepository.getCategorizedBudgets(user_id, month, year);
+    const budgets = await this.budgetRepository.getCategorizedBudgets(
+      user_id,
+      month,
+      year
+    );
+
+    // Compute for the remaining budgets per catergory
+    const remainingBudgets = await this.computeRemainingBudgets(
+      user_id,
+      month,
+      year
+    );
+
+    const withRemainingBudgets = budgets.map(b => {
+      let remainingBudget = 0;
+
+      try {
+        remainingBudget = remainingBudgets.filter(
+          ({ budget_id }) => budget_id == b.id
+        )[0].remainingBudget;
+      } catch (error) {
+        remainingBudget = 0;
+      }
+
+      return {
+        ...b,
+        remainingBudget,
+      };
+    });
+
+    return withRemainingBudgets;
   }
 
   async createCategorizedBudget(
@@ -75,5 +123,76 @@ export class BudgetsService {
       user_id,
       categorized_budget
     );
+  }
+
+  async getAllBudgetTypes(user_id: number) {
+    return this.budgetTypesRepo.getAllBudgetTypes(user_id);
+  }
+
+  async getRemainingBudgetPerCategory(
+    user_id: number,
+    month: number,
+    year: number
+  ): Promise<RemainingBudget[]> {
+    return this.computeRemainingBudgets(user_id, month, year);
+  }
+
+  async transferBudget(user_id: number, transferBudgetInfo: ITransferBudget) {
+    const fromBudget = await this.budgetRepository.getBudget(
+      user_id,
+      transferBudgetInfo.from
+    );
+
+    const destinationBudget = await this.budgetRepository.getBudget(
+      user_id,
+      transferBudgetInfo.to
+    );
+
+    const newSourceAmount = fromBudget.budget - transferBudgetInfo.amount;
+    const newDestinationBudgetAmount =
+      destinationBudget.budget + transferBudgetInfo.amount;
+
+    const updateSourceBudget = this.budgetRepository.updateBudget(
+      user_id,
+      newSourceAmount,
+      transferBudgetInfo.from
+    );
+
+    const updateDestinationBudget = this.budgetRepository.updateBudget(
+      user_id,
+      newDestinationBudgetAmount,
+      transferBudgetInfo.to
+    );
+
+    await Promise.all([updateSourceBudget, updateDestinationBudget]);
+  }
+
+  private async computeRemainingBudgets(
+    user_id: number,
+    month: number,
+    year: number
+  ): Promise<RemainingBudget[]> {
+    const allExpenses = await this.expensesRepo.getAllExpenses(
+      user_id,
+      month,
+      year
+    );
+
+    const expensesComputation = new ExpensesComputationService();
+    const budgetComputation = new BudgetComputationService();
+
+    const map =
+      expensesComputation.computeTotalExpensesPerCategory(allExpenses);
+
+    const categorized_budget =
+      await this.budgetRepository.getCategorizedBudgets(user_id, month, year);
+
+    const remainingBudgets =
+      budgetComputation.computeRemainingBalancePerCategory(
+        map,
+        categorized_budget
+      );
+
+    return remainingBudgets;
   }
 }

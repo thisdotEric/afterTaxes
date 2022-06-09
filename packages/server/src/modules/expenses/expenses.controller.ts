@@ -1,59 +1,59 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET } from 'fastify-decorators';
-import { ExpensesInput } from '.';
-
-export interface ExpensesHistory {
-  id: number;
-  date: Date | string;
-  name: string;
-  description?: string;
-  amount: number;
-  budgetType: string;
-}
+import { Controller, DELETE, GET, POST } from 'fastify-decorators';
+import { ExpensesService } from './expenses.service';
+import { ExpensesHistory } from '@aftertaxes/commons';
 
 @Controller('/expenses')
 export class ExpensesController {
-  @GET('/')
+  constructor(private readonly expensesService: ExpensesService) {}
+
+  @POST('/')
   async addNewExpenses(
     request: FastifyRequest<{
-      Body: ExpensesInput;
+      Body: Omit<ExpensesHistory, 'id' | 'budgetName'>;
     }>,
     reply: FastifyReply
   ) {
-    const expenses = request.body;
+    const newExpense = request.body;
 
-    console.log(expenses);
+    const user_id = request.session.user!.user_id;
+
+    await this.expensesService.addNewExpense(user_id, newExpense);
 
     return reply.code(201).send('New expenses saved');
+  }
+
+  @DELETE('/:expenseId')
+  async deleteExpense(
+    request: FastifyRequest<{
+      Params: { expenseId: number };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const expenses_id = request.params.expenseId;
+
+    await this.expensesService.deleteExpensesItem(user_id, expenses_id);
+
+    return reply.code(200).send('Ok');
   }
 
   @GET('/:year/:month')
   async getListOfExpenses(
     request: FastifyRequest<{
-      Params: { year: number; month: string };
+      Params: { year: number; month: number };
     }>,
     reply: FastifyReply
   ) {
-    console.log(request.params.month);
+    const user_id = request.session.user!.user_id;
+    const { year, month } = request.params;
 
-    const data: ExpensesHistory[] = [
-      {
-        id: 1,
-        name: 'Spotify Premium',
-        amount: 150.5,
-        budgetType: 'Tech',
-        date: '13',
-      },
-      {
-        id: 2,
-        name: 'Angels Burger',
-        amount: 30,
-        budgetType: 'Food',
-        date: '15',
-        description: 'Snack after long rally',
-      },
-    ];
+    const expenses = await this.expensesService.getAllExpenses(
+      user_id,
+      month,
+      year
+    );
 
-    return reply.code(200).send(data);
+    return reply.code(200).send(expenses);
   }
 }

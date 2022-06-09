@@ -18,6 +18,10 @@
   width: 100px;
 }
 
+.select-input {
+  margin-bottom: 10px;
+}
+
 #user-input:-webkit-autofill,
 #user-input:-webkit-autofill:hover,
 #user-input:-webkit-autofill:focus,

@@ -1,15 +1,33 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { CreateBudgetModalWrapper } from './CreateCategorizedBudgetModal.styles';
 import SharedModal from '../../../components/Modal';
-import { NumberInput, TextInput } from '../../../components/Input';
+import { NumberInput, SelectInput, TextInput } from '../../../components/Input';
 import type { RequiredModalProps } from '../../../components/Modal/SharedModal';
 import { Button } from '../../../components/Button';
 import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
 import { axios } from '../../../utils';
+import type { CategorizedBudget } from '../../../pages/Budget';
 
 interface CreateCategorizedBudgetModalProps extends RequiredModalProps {
   remainingBudget: number;
 }
+
+interface InputData {
+  label: string;
+  value: string;
+}
+
+export type CategorizedBudgetObj = Omit<
+  CategorizedBudget,
+  'id' | 'remainingBudget'
+>;
+
+const defaultState: CategorizedBudgetObj = {
+  budget: 0,
+  category: 'FOOD',
+  name: '',
+  budget_type_id: 0,
+};
 
 const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
   opened,
@@ -17,11 +35,32 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
   onSubmit,
   remainingBudget,
 }: CreateCategorizedBudgetModalProps) => {
+  const [categorized_budget, setBudget] =
+    useState<CategorizedBudgetObj>(defaultState);
+
+  const [budgetCategories, setBudgetCategories] = useState<InputData[]>([]);
+
+  const fetchBudgetTypes = async () => {
+    const { data } = await axios.get('budgets/categories');
+
+    setBudgetCategories(() => {
+      return data.map((c: any) => ({
+        value: c.budget_type_id,
+        label: c.type,
+      }));
+    });
+  };
+
+  useEffect(() => {
+    fetchBudgetTypes();
+  }, []);
+
   return (
     <CreateBudgetModalWrapper>
       <SharedModal
         opened={opened}
         onClose={() => {
+          setBudget(defaultState);
           setOpened(false);
         }}
         title='Create a categorized budget'
@@ -33,13 +72,14 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
 
               await axios.post('budgets/categorized-budget', {
                 categorized_budget: {
-                  budget: 6000.5,
-                  name: 'Tuition Fee',
-                  category: 'TUITION_CONTRIBUTION',
+                  budget: categorized_budget.budget,
+                  name: categorized_budget.name,
+                  budget_type_id: categorized_budget.budget_type_id,
                 },
               });
 
               await onSubmit();
+              setBudget(defaultState);
               setOpened(false);
             }}
           >
@@ -48,8 +88,34 @@ const CreateCategorizedBudgetModal: FC<CreateCategorizedBudgetModalProps> = ({
               value={remainingBudget}
               disabled
             />
-            <NumberInput label='Amount' value={15} />
-            <TextInput label='Name' value='' />
+
+            <SelectInput
+              data={budgetCategories}
+              label='Budget Category'
+              onChange={(value) => {
+                setBudget({
+                  ...categorized_budget,
+                  budget_type_id: parseInt(value!),
+                });
+              }}
+            />
+
+            <NumberInput
+              label='Amount'
+              value={categorized_budget.budget}
+              onChange={(value) =>
+                setBudget({ ...categorized_budget, budget: value! })
+              }
+              max={remainingBudget}
+            />
+
+            <TextInput
+              label='Name'
+              value={categorized_budget.name}
+              onChange={(e) =>
+                setBudget({ ...categorized_budget, name: e.target.value })
+              }
+            />
 
             <Button name='Create new Budget' />
           </form>

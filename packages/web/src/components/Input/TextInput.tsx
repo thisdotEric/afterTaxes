@@ -21,6 +21,7 @@ const TextInput: FC<TextInputProps> = (props: TextInputProps) => {
         label: 'input-label',
       }}
       id='user-input'
+      autoComplete='off'
       disabled={props.disabled}
       icon={
         props.type === 'email' ? (

@@ -1,34 +1,28 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
-import './Expenses.css';
 import { Button, Menu, Modal } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
-import { RecordExpensesModal } from './RecordExpenses';
+import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
-import { HeaderContext } from '../../context';
 import { expensesColumns } from './expenses.columns';
-import ExpensesTable from './ExpensesTable';
 import { useSetHeader } from '../../hooks';
 import { year, month } from '../../constants/date';
-import { SelectInput } from '../../components/Input';
 import type { Column } from 'react-table';
-import {
-  ChevronDown,
-  Dots,
-  Edit,
-  ExternalLink,
-  Trash,
-} from 'tabler-icons-react';
+import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
+import { axios } from '../../utils';
+import TableComponent from '../../components/Table';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 interface ExpensesProps {}
 
 export interface ExpensesHistory {
   id: number;
-  date: Date | string;
+  date: Date;
   name: string;
   description?: string;
   amount: number;
-  budgetType: string;
+  budget_id: string;
+  budgetName: string;
 }
 
 interface ActionList {
@@ -45,6 +39,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   const [openedEditModal, setOpenedEditModal] = useState(false);
   const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
     useState(false);
+  const [currentRowId, setCurrentRowId] = useState<number>();
 
   const [rows, setRows] = useState<ExpensesHistory[]>([]);
   const [actions] = useState<ActionList[]>([
@@ -61,15 +56,13 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   ]);
 
   const fetchData = async () => {
-    const res = await fetch('http://localhost:3000/api/v1/expenses/2022/Jan');
-    const data = await res.json();
-
+    const { data } = await axios.get('expenses/2022/06');
     setRows(data);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const actionDropdownOnclick = (action: string) => {
+    if (action === 'delete') setOpenedConfirmDeleteModal(true);
+  };
 
   // Memoized table rows and columns
   const data = useMemo<ExpensesHistory[]>(() => rows, [rows, setRows]);
@@ -81,6 +74,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         {
           Header: 'ACTIONS',
           accessor: 'id',
+          disableSortBy: true,
           Cell: (row) => {
             return (
               <Menu
@@ -98,10 +92,9 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 {actions.map(({ value, label, icon }) => (
                   <Menu.Item
                     icon={icon}
-                    onClick={async () => {
-                      console.log(value, row.value);
-
-                      await fetchData();
+                    onClick={() => {
+                      setCurrentRowId(row.row.original.id);
+                      actionDropdownOnclick(value);
                     }}
                   >
                     {label}
@@ -115,39 +108,50 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     []
   );
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <ExpensesPageWrapper>
       {rows && (
-        <ExpensesTable
+        <TableComponent
           columns={columns}
           data={data}
-          action={() => setOpened(true)}
+          action={{
+            name: 'Add new expense',
+            event: () => setOpened(true),
+          }}
         />
       )}
 
-      <Modal
+      <RecordExpensesModal
         opened={opened}
-        classNames={{
-          modal: 'input-modal',
-          title: 'modal-title',
-          body: 'input-modal',
-          close: 'modal-close',
-        }}
-        onClose={() => setOpened(false)}
-        title='Add new expense item'
-      >
-        <RecordExpensesModal
-          setModalState={() => {
-            setOpened(false);
+        setOpened={setOpened}
+        onSubmit={async () => {
+          await fetchData();
 
-            setTimeout(() => {
-              showNotification(
-                getNotificationProps('New expense item added', 'success')
-              );
-            }, 100);
-          }}
-        />
-      </Modal>
+          setTimeout(() => {
+            showNotification(
+              getNotificationProps('New expense item added', 'success')
+            );
+          }, 100);
+        }}
+      />
+
+      <ConfirmModal
+        opened={openedConfirmDeleteModal}
+        setOpened={setOpenedConfirmDeleteModal}
+        onSubmit={async () => {
+          console.log(currentRowId);
+
+          await axios.delete(`expenses/${currentRowId}`);
+
+          await fetchData();
+        }}
+        modalTitle='Confirm delete expense item?'
+        confirmMessage='Delete'
+      />
     </ExpensesPageWrapper>
   );
 };

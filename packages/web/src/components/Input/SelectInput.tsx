@@ -9,22 +9,27 @@ interface DropdownData {
 }
 interface SelectInputProps {
   data: DropdownData[];
+  onChange?: (value: string | null) => void;
+  label: string;
+  error?: React.ReactNode;
 }
 
-const SelectInput: FC<SelectInputProps> = ({ data }: SelectInputProps) => {
+const SelectInput: FC<SelectInputProps> = (props: SelectInputProps) => {
   return (
     <Select
-      id='action-input'
+      {...props}
+      id='user-input'
       classNames={{
         label: 'input-label',
         dropdown: 'action-dropdown',
         item: 'action-item',
         wrapper: 'action-root',
       }}
+      className='select-input'
       rightSection={<ChevronDown size={14} />}
       rightSectionWidth={30}
-      placeholder='Action'
-      data={data}
+      placeholder='Budget Category'
+      data={props.data}
     />
   );
 };

@@ -26,7 +26,9 @@ export default {
     /* Example: Bundle your final build: */
     // "bundle": true,
   },
-  packageOptions: {},
+  packageOptions: {
+    knownEntrypoints: ['react-is', '@emotion/memoize'],
+  },
   devOptions: {},
   buildOptions: {},
 };

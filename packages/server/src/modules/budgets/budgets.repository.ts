@@ -1,20 +1,12 @@
-import { BUDGET, CATEGORIZED_BUDGET } from '@database/constants';
+import { BUDGET, CATEGORIZED_BUDGET, BUDGET_TYPES } from '@database/constants';
 import KnexQueryBuilder from '@database/knex/knexDatabase';
 import { Service } from 'fastify-decorators';
-
-// budget_type: keyof typeof BUDGET_TYPES | string;
+import { CategorizedBudget } from '@aftertaxes/commons';
 
 export interface IBudget {
   amount: number;
   description?: string;
   created_at?: Date;
-}
-
-export interface CategorizedBudget {
-  id: number;
-  category: string;
-  name: string;
-  budget: number;
 }
 
 @Service()
@@ -55,11 +47,11 @@ export class BudgetsRepository {
     month: number,
     year: number
   ): Promise<CategorizedBudget[]> {
-    const budget_rows = await this.knex
-      .db()
-      .raw(
-        `select * from ${CATEGORIZED_BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} and user_id = ${user_id} order by budget desc`
-      );
+    let sql = `select * from ${CATEGORIZED_BUDGET} cb join ${BUDGET_TYPES} bt on cb.budget_type_id = bt.budget_type_id 
+    where EXTRACT(MONTH FROM cb.created_at) = ${month} and EXTRACT(YEAR FROM cb.created_at) = ${year} 
+    and cb.user_id = ${user_id} order by budget desc`;
+
+    const budget_rows = await this.knex.db().raw(sql);
 
     /**
      * Map the returned rows into an IBudget array
@@ -67,7 +59,7 @@ export class BudgetsRepository {
     const categorized_budgets: CategorizedBudget[] = budget_rows.rows.map(
       (r: any) => ({
         id: r.categorized_budget_id,
-        category: r.budget_type,
+        budget_type_id: r.budget_type_id,
         name: r.name,
         budget: r.budget,
       })
@@ -78,13 +70,38 @@ export class BudgetsRepository {
 
   async createCategorizedBudget(
     user_id: number,
-    { budget, category, name }: Omit<CategorizedBudget, 'id'>
+    { budget, budget_type_id, name }: Omit<CategorizedBudget, 'id'>
   ) {
     await this.knex.db()(CATEGORIZED_BUDGET).insert({
       budget,
       name,
-      budget_type: category,
+      budget_type_id,
       user_id,
     });
+  }
+
+  async getBudget(
+    user_id: number,
+    budget_id: number
+  ): Promise<CategorizedBudget> {
+    const budget = (
+      await this.knex
+        .db()(CATEGORIZED_BUDGET)
+        .where({ user_id, categorized_budget_id: budget_id })
+        .select('*')
+    )[0] as CategorizedBudget;
+
+    return budget;
+  }
+
+  async updateBudget(
+    user_id: number,
+    budget: number,
+    budget_id: number
+  ): Promise<void> {
+    await this.knex
+      .db()(CATEGORIZED_BUDGET)
+      .update({ budget })
+      .where({ user_id, categorized_budget_id: budget_id });
   }
 }

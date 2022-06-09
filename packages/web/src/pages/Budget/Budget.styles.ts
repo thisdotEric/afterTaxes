@@ -42,45 +42,6 @@ export const BudgetWrapper = styled.div`
   }
 `;
 
-export const BudgetHeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: ${secondarybg};
-
-  #total-budget {
-    color: white;
-    font-weight: bold;
-
-    span {
-      font-size: 16px;
-      font-weight: bold;
-      color: ${green};
-
-      span {
-        font-size: 15px;
-      }
-    }
-  }
-`;
-
-export const BudgetText = styled.p`
-  color: white;
-  font-weight: bold;
-
-  span {
-    font-size: 16px;
-    font-weight: bold;
-    color: ${green};
-
-    span {
-      font-size: 15px;
-    }
-  }
-`;
-
 export const BudgetCards = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -110,6 +71,10 @@ export const BudgetCards = styled.div`
     #delete {
       color: ${red};
     }
+
+    .hidden {
+      opacity: 0;
+    }
   }
 
   #budget-card {
@@ -131,6 +96,16 @@ export const BudgetCards = styled.div`
     #amount {
       color: ${green};
       font-weight: bold;
+    }
+
+    #remaining {
+      font-weight: bold;
+      padding-top: 3px;
+      color: gray;
+    }
+
+    .none {
+      text-decoration: line-through;
     }
   }
 `;

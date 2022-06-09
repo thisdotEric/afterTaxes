@@ -1,6 +1,6 @@
-import { Modal, ModalProps } from '@mantine/core';
 import React, { FC } from 'react';
-import { SharedModalWrapper } from './SharedModal.styles';
+import './SharedModal.css';
+import { Modal, ModalProps } from '@mantine/core';
 
 export interface RequiredModalProps {
   opened: boolean;
@@ -14,19 +14,17 @@ interface SharedModalProps extends ModalProps {
 
 const SharedModal: FC<SharedModalProps> = (props: SharedModalProps) => {
   return (
-    <SharedModalWrapper>
-      <Modal
-        {...props}
-        classNames={{
-          modal: 'input-modal',
-          title: 'modal-title',
-          body: 'input-modal',
-          close: 'modal-close',
-        }}
-      >
-        {props.children}
-      </Modal>
-    </SharedModalWrapper>
+    <Modal
+      {...props}
+      classNames={{
+        modal: 'input-modal',
+        title: 'modal-title',
+        body: 'input-modal',
+        close: 'modal-close',
+      }}
+    >
+      {props.children}
+    </Modal>
   );
 };
 

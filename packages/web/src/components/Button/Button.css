@@ -1,8 +1,19 @@
-.root-btn {
-  background-color: #0a9645;
+.save,
+.transfer {
+  background-color: #0a8a3f;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-.root-btn:hover {
-  background-color: #0a8a3f;
+.save:hover,
+transfer:hover {
+  background-color: #0c7237;
+}
+
+.delete {
+  background-color: #e43f3f;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.delete:hover {
+  background-color: #fe4949;
 }

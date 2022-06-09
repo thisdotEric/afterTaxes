@@ -6,15 +6,23 @@ import { Calendar } from 'tabler-icons-react';
 interface DatePickerProps {
   label: string;
   date: Date;
+  onChange?: (value: Date | null) => void;
+  value?: Date | null | undefined;
 }
 
-const DatePicker: FC<DatePickerProps> = ({ label, date }: DatePickerProps) => {
+const DatePicker: FC<DatePickerProps> = ({
+  label,
+  date,
+  onChange,
+  value,
+}: DatePickerProps) => {
   return (
     <MantineDatePicker
       styles={{
         dropdown: { backgroundColor: '#2e3139' },
       }}
       label={label}
+      value={value}
       placeholder='Pick date'
       defaultValue={date}
       firstDayOfWeek='sunday'
@@ -23,6 +31,7 @@ const DatePicker: FC<DatePickerProps> = ({ label, date }: DatePickerProps) => {
         arrow: 'arrow',
         dropdown: 'arrow',
       }}
+      onChange={onChange}
       id='user-input'
       icon={<Calendar size={20} strokeWidth={1} />}
     />
