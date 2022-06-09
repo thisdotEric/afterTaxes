@@ -163,9 +163,14 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
             await fetchData();
 
             setTimeout(() => {
-              showNotification(
-                getNotificationProps('New expense item added', 'success')
-              );
+              if (isEdit)
+                showNotification(
+                  getNotificationProps('One item updated', 'success')
+                );
+              else
+                showNotification(
+                  getNotificationProps('New expense item added', 'success')
+                );
             }, 100);
           }}
         />

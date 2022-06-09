@@ -85,6 +85,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   const [remainingBudgets, setRemainingBudgets] = useState<BudgetItemProps[]>(
     []
   );
+  const [currentRemainingBudget, setCurrentRemainingBudget] = useState(0);
 
   const [nameError, setNameError] = useState('');
   const [amountError, setAmountError] = useState('');
@@ -137,15 +138,16 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     e.preventDefault();
 
     if (allValuesFilledUp()) {
-      if (actionType.type === 'update') {
-        console.log(expensesState);
-      } else {
-        await axios.post('expenses', expensesState);
+      if (actionType.type === 'update')
+        await axios.put('expenses', {
+          id: actionType.currentRow?.id,
+          ...expensesState,
+        });
+      else await axios.post('expenses', expensesState);
 
-        clearStates();
-        setOpened(false);
-        await onSubmit();
-      }
+      clearStates();
+      setOpened(false);
+      await onSubmit();
     }
   };
 
@@ -162,12 +164,15 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
       });
     });
 
+    setCurrentMaxAmount(0);
+
     if (actionType.type === 'update') {
       const currentRemainingBudget = data.filter(
         (b: any) => b.name === actionType.currentRow?.budgetName
       )[0].remainingBudget;
 
       setCurrentMaxAmount(currentRemainingBudget);
+      setCurrentRemainingBudget(currentRemainingBudget);
     }
   };
 
@@ -222,7 +227,14 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
             }}
             error={budgetError}
             setCurrentValue={setCurrentMaxAmount}
-            placeholder={actionType.currentRow?.budgetName}
+            placeholder={`${
+              actionType.type === 'update'
+                ? `${
+                    actionType.currentRow?.budgetName
+                  } - ${currentRemainingBudget.toFixed(2)}`
+                : 'Budget Type'
+            }`}
+            disabled={actionType.type === 'update'}
           />
 
           <TextInput

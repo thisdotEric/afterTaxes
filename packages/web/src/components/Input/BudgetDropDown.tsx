@@ -39,6 +39,7 @@ interface BudgetDropDownProps {
   ref?: React.Ref<HTMLInputElement> | undefined;
   label?: React.ReactNode;
   placeholder?: string | undefined;
+  disabled?: boolean | undefined;
 }
 
 const BudgetDropDown: FC<BudgetDropDownProps> = (
