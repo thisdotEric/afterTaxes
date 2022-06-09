@@ -1,18 +1,18 @@
-import type { BudgetBreakdown } from '../../../pages/Budget';
+import type { BudgetActions, BudgetBreakdown } from '../../../pages/Budget';
 import React, { FC, useMemo } from 'react';
 import { BudgetHeaderWrapper, BudgetText } from './BudgetHeader.styles';
-import { Button, UnstyledButton } from '@mantine/core';
-import { History } from 'tabler-icons-react';
+import { Button, Menu, UnstyledButton } from '@mantine/core';
+import { ChevronDown, History } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 
 interface BudgetHeaderProps {
   budgetBreakdown: BudgetBreakdown;
-  openAddFundsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  actions: BudgetActions[];
 }
 
 const BudgetHeader: FC<BudgetHeaderProps> = ({
   budgetBreakdown,
-  openAddFundsModal,
+  actions,
 }: BudgetHeaderProps) => {
   const unAllocatedPercentage = useMemo(
     () =>
@@ -40,9 +40,25 @@ const BudgetHeader: FC<BudgetHeaderProps> = ({
             <span>({unAllocatedPercentage}%)</span>
           </span>
         </BudgetText>
-        <Button size='xs' onClick={() => openAddFundsModal(true)}>
-          Add funds
-        </Button>
+
+        <Menu
+          withArrow
+          control={
+            <Button
+              size='xs'
+              id='action-btn'
+              rightIcon={<ChevronDown size={12} />}
+            >
+              Actions
+            </Button>
+          }
+        >
+          {actions.map(({ label, icon, openModal }) => (
+            <Menu.Item icon={icon} onClick={() => openModal(true)}>
+              {label}
+            </Menu.Item>
+          ))}
+        </Menu>
       </BudgetHeaderWrapper>
     )
   );

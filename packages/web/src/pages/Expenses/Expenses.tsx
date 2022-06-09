@@ -25,7 +25,7 @@ export interface ExpensesHistory {
   budgetName: string;
 }
 
-interface ActionList {
+export interface ActionList {
   value: string;
   label: string;
   icon: JSX.Element;

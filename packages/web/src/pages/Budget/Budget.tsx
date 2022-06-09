@@ -11,6 +11,9 @@ import CategorizedBudgetCard from '../../components/Budget/CategorizedBudgetCard
 import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategorizedBudgetModal';
 import TransferBudgetModal from '../../components/Budget/TransferBudgetModal';
 import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/TransferBudgetModal';
+import type { ActionList } from '../../pages/Expenses/Expenses';
+import { Notes, Plus } from 'tabler-icons-react';
+import BudgetCategoriesModal from '../../components/Budget/BudgetCategoriesModal';
 
 interface BudgetProps {}
 
@@ -34,6 +37,10 @@ export interface SourceBudgetCategory {
   id: number;
 }
 
+export type BudgetActions = ActionList & {
+  openModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   useSetHeader('Budget', 'Budget', {
     year,
@@ -47,16 +54,33 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
 
   const [budgets, setBudgets] = useState<CategorizedBudget[]>([]);
   const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
+
   const [openCreateBudgetModal, setOpenCreateBudgetModal] =
     useState<boolean>(false);
   const [openTransferBudget, setOpenTransferBudget] = useState(false);
+  const [openBudgetCategoriesModal, setOpenBudgetCategoriesModal] =
+    useState(false);
+
   const [sourceBudget, setSourceBudget] = useState<SourceBudgetCategory>({
     id: 0,
     name: '',
     remainingBudget: 0,
   });
 
-  const modals = useModals();
+  const [actionsList] = useState<BudgetActions[]>([
+    {
+      label: 'Add funds',
+      icon: <Plus size={15} />,
+      value: 'addFunds',
+      openModal: setOpenAddFundsModal,
+    },
+    {
+      label: 'Budget categories',
+      icon: <Notes size={15} />,
+      value: 'viewAll',
+      openModal: setOpenBudgetCategoriesModal,
+    },
+  ]);
 
   // Remove the originating budget from the destination budget
   const destinationBudgets = useMemo<DestinationBudgets[]>(
@@ -69,18 +93,6 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
         })),
     [sourceBudget.id]
   );
-
-  const openConfirmModal = (budget_id: number) =>
-    modals.openConfirmModal({
-      title: 'Confirm remove budget?',
-      confirmProps: {
-        color: 'red',
-      },
-      labels: { confirm: 'Remove Budget', cancel: 'Cancel' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () =>
-        setBudgets((old) => old.filter((b) => b.id != budget_id)),
-    });
 
   const fetchBudgetPageValues = async () => {
     const { data } = await axios.get('budgets/2022/06');
@@ -101,10 +113,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
 
   return (
     <BudgetWrapper>
-      <BudgetHeader
-        budgetBreakdown={budgetBreakdown}
-        openAddFundsModal={setOpenAddFundsModal}
-      />
+      <BudgetHeader budgetBreakdown={budgetBreakdown} actions={actionsList} />
 
       <div id='allocated-budgets-actions'>
         <p>Monthly Allocated Budgets</p>
@@ -154,6 +163,14 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
         }}
         opened={openTransferBudget}
         setOpened={setOpenTransferBudget}
+      />
+
+      <BudgetCategoriesModal
+        opened={openBudgetCategoriesModal}
+        setOpened={setOpenBudgetCategoriesModal}
+        onSubmit={async () => {
+          await fetchBudgetPageValues();
+        }}
       />
     </BudgetWrapper>
   );
