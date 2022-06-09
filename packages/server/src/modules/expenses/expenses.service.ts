@@ -18,6 +18,17 @@ export class ExpensesService {
   }
 
   async deleteExpensesItem(user_id: number, expenses_id: number) {
-    return this.expensesRepository.deleteExpensesItem(user_id, expenses_id);
+    await this.expensesRepository.deleteExpensesItem(user_id, expenses_id);
+  }
+
+  async getSingleExpenseItem(user_id: number, expenses_id: number) {
+    return this.expensesRepository.getSingleExpenseItem(user_id, expenses_id);
+  }
+
+  async updateExpenseItem(
+    user_id: number,
+    expenseItem: Omit<ExpensesHistory, 'budgetName'>
+  ) {
+    return this.expensesRepository.updateExpenseItem(user_id, expenseItem);
   }
 }

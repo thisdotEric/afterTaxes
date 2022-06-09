@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, DELETE, GET, POST } from 'fastify-decorators';
+import { Controller, DELETE, GET, POST, PUT } from 'fastify-decorators';
 import { ExpensesService } from './expenses.service';
 import { ExpensesHistory } from '@aftertaxes/commons';
 
@@ -34,6 +34,39 @@ export class ExpensesController {
     const expenses_id = request.params.expenseId;
 
     await this.expensesService.deleteExpensesItem(user_id, expenses_id);
+
+    return reply.code(200).send('Ok');
+  }
+
+  @GET('/:expenseId')
+  async getSingleExpenseItem(
+    request: FastifyRequest<{
+      Params: { expenseId: number };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const expenses_id = request.params.expenseId;
+
+    const expenseItem = await this.expensesService.getSingleExpenseItem(
+      user_id,
+      expenses_id
+    );
+
+    return reply.code(200).send(expenseItem);
+  }
+
+  @PUT('/')
+  async updateExpenseItem(
+    request: FastifyRequest<{
+      Body: Omit<ExpensesHistory, 'budgetName'>;
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const expenseItem = request.body;
+
+    await this.expensesService.updateExpenseItem(user_id, expenseItem);
 
     return reply.code(200).send('Ok');
   }
