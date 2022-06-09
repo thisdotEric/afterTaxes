@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Button, Menu, Modal } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
 import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
@@ -31,15 +31,23 @@ interface ActionList {
   icon: JSX.Element;
 }
 
+export interface CurrentRow {
+  id: number;
+  budgetName: string;
+}
+
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   useSetHeader('Expenses List', 'Expenses', { year, month });
 
   // Modal state variables
   const [opened, setOpened] = useState(false);
-  const [openedEditModal, setOpenedEditModal] = useState(false);
   const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
     useState(false);
-  const [currentRowId, setCurrentRowId] = useState<number>();
+  const [currentRow, setCurrentRow] = useState<CurrentRow>({
+    id: 0,
+    budgetName: '',
+  });
+  const [isEdit, setIsEdit] = useState(false);
 
   const [rows, setRows] = useState<ExpensesHistory[]>([]);
   const [actions] = useState<ActionList[]>([
@@ -62,6 +70,10 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   const actionDropdownOnclick = (action: string) => {
     if (action === 'delete') setOpenedConfirmDeleteModal(true);
+    if (action === 'edit') {
+      setIsEdit(true);
+      setOpened(true);
+    }
   };
 
   // Memoized table rows and columns
@@ -93,7 +105,10 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                   <Menu.Item
                     icon={icon}
                     onClick={() => {
-                      setCurrentRowId(row.row.original.id);
+                      setCurrentRow({
+                        id: row.row.original.id,
+                        budgetName: row.row.original.budgetName,
+                      });
                       actionDropdownOnclick(value);
                     }}
                   >
@@ -125,27 +140,42 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         />
       )}
 
-      <RecordExpensesModal
-        opened={opened}
-        setOpened={setOpened}
-        onSubmit={async () => {
-          await fetchData();
+      {opened && (
+        <RecordExpensesModal
+          opened={opened}
+          setOpened={setOpened}
+          setIsEdit={setIsEdit}
+          actionType={
+            isEdit
+              ? {
+                  type: 'update',
+                  currentRow: {
+                    id: currentRow.id,
+                    budgetName: currentRow.budgetName,
+                  },
+                }
+              : {
+                  type: 'add',
+                }
+          }
+          onSubmit={async () => {
+            setIsEdit(false);
+            await fetchData();
 
-          setTimeout(() => {
-            showNotification(
-              getNotificationProps('New expense item added', 'success')
-            );
-          }, 100);
-        }}
-      />
+            setTimeout(() => {
+              showNotification(
+                getNotificationProps('New expense item added', 'success')
+              );
+            }, 100);
+          }}
+        />
+      )}
 
       <ConfirmModal
         opened={openedConfirmDeleteModal}
         setOpened={setOpenedConfirmDeleteModal}
         onSubmit={async () => {
-          console.log(currentRowId);
-
-          await axios.delete(`expenses/${currentRowId}`);
+          await axios.delete(`expenses/${currentRow.id}`);
 
           await fetchData();
         }}

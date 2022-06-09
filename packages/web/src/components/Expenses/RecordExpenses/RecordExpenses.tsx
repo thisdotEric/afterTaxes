@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useReducer, useState } from 'react';
+import React, { FC, useCallback, useEffect, useReducer, useState } from 'react';
 import {
   TextInput,
   NumberInput,
@@ -11,8 +11,16 @@ import { FormWrapper } from '../../styles/FormWrapper.styles';
 import type { RequiredModalProps } from '../../Modal/SharedModal';
 import SharedModal from '../../Modal/SharedModal';
 import { axios } from '../../../utils';
+import type { CurrentRow } from '../../../pages/Expenses/Expenses';
+import type { BudgetItemProps } from '../../../components/Input/BudgetDropDown';
 
-interface RecordExpensesProps extends RequiredModalProps {}
+interface RecordExpensesProps extends RequiredModalProps {
+  actionType?: {
+    type: 'add' | 'update';
+    currentRow?: CurrentRow;
+  };
+  setIsEdit?: (value: React.SetStateAction<boolean>) => void;
+}
 
 interface ExpensesState {
   name: string;
@@ -69,9 +77,14 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   onSubmit,
   opened,
   setOpened,
+  actionType = { type: 'add', currentRow: { id: 0, budgetName: '' } },
+  setIsEdit,
 }: RecordExpensesProps) => {
   const [expensesState, dispatch] = useReducer(expensesReducer, initialState);
   const [currentMaxAmount, setCurrentMaxAmount] = useState(0);
+  const [remainingBudgets, setRemainingBudgets] = useState<BudgetItemProps[]>(
+    []
+  );
 
   const [nameError, setNameError] = useState('');
   const [amountError, setAmountError] = useState('');
@@ -84,13 +97,13 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     });
   };
 
-  const clearStates = useCallback(() => {
+  const clearStates = () => {
     runDispatch('reset', '');
     setNameError('');
     setBudgetError('');
     setAmountError('');
     setCurrentMaxAmount(0);
-  }, []);
+  };
 
   const allValuesFilledUp = useCallback(() => {
     let withoutError = true;
@@ -124,22 +137,68 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     e.preventDefault();
 
     if (allValuesFilledUp()) {
-      await axios.post('expenses', expensesState);
+      if (actionType.type === 'update') {
+        console.log(expensesState);
+      } else {
+        await axios.post('expenses', expensesState);
 
-      clearStates();
-      setOpened(false);
-      await onSubmit();
+        clearStates();
+        setOpened(false);
+        await onSubmit();
+      }
     }
   };
+
+  const fetchRemainingBudgets = async () => {
+    const { data } = await axios.get('budgets/2022/06/remaining');
+
+    setRemainingBudgets(() => {
+      return data.map((d: any) => {
+        return {
+          label: d.name,
+          remainingBudget: d.remainingBudget,
+          value: d.budget_id,
+        };
+      });
+    });
+
+    if (actionType.type === 'update') {
+      const currentRemainingBudget = data.filter(
+        (b: any) => b.name === actionType.currentRow?.budgetName
+      )[0].remainingBudget;
+
+      setCurrentMaxAmount(currentRemainingBudget);
+    }
+  };
+
+  const fetchToBeUpdatedExpenseItem = async () => {
+    const { data } = await axios.get(`expenses/${actionType.currentRow?.id}`);
+
+    runDispatch('name', data.name);
+    runDispatch('description', data.description);
+    runDispatch('budget_id', data.budget_id);
+    runDispatch('amount', data.amount);
+
+    setCurrentMaxAmount((old) => {
+      return old + data.amount;
+    });
+  };
+
+  useEffect(() => {
+    fetchRemainingBudgets();
+
+    if (actionType.type === 'update') fetchToBeUpdatedExpenseItem();
+  }, []);
 
   return (
     <SharedModal
       opened={opened}
       onClose={() => {
+        setIsEdit && setIsEdit(false);
         clearStates();
         setOpened(false);
       }}
-      title='Add new expense item'
+      title={`${actionType.type === 'add' ? 'Add new' : 'Edit'} expense item`}
     >
       <FormWrapper>
         <form onSubmit={handleSubmit}>
@@ -153,6 +212,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
           />
 
           <BudgetDropDown
+            remainingBudgets={remainingBudgets}
             onChange={(budgetType) => {
               if (parseInt(budgetType!) <= 0)
                 setBudgetError('Did not select a budget type.');
@@ -162,6 +222,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
             }}
             error={budgetError}
             setCurrentValue={setCurrentMaxAmount}
+            placeholder={actionType.currentRow?.budgetName}
           />
 
           <TextInput
@@ -203,7 +264,9 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
             }}
           />
 
-          <Button name='Save Expense' />
+          <Button
+            name={`${actionType.type === 'add' ? 'Save' : 'Update'} Expense`}
+          />
         </form>
       </FormWrapper>
     </SharedModal>

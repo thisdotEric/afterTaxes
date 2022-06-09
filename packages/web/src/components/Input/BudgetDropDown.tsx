@@ -1,10 +1,9 @@
-import React, { FC, forwardRef, useEffect, useState } from 'react';
+import React, { FC, forwardRef } from 'react';
 import './Input.css';
 import { Group, Text, Select } from '@mantine/core';
 import { ChartPie } from 'tabler-icons-react';
-import { axios } from '../../utils';
 
-interface BudgetItemProps extends React.ComponentPropsWithoutRef<'div'> {
+export interface BudgetItemProps extends React.ComponentPropsWithoutRef<'div'> {
   label: string;
   remainingBudget: number;
   value: string;
@@ -32,55 +31,37 @@ const SelectItem = forwardRef<HTMLDivElement, BudgetItemProps>(
 );
 
 interface BudgetDropDownProps {
+  remainingBudgets: BudgetItemProps[];
   onChange: (value: string | null) => void;
   setCurrentValue: React.Dispatch<React.SetStateAction<number>>;
   error?: React.ReactNode;
+  value?: string | null | undefined;
+  ref?: React.Ref<HTMLInputElement> | undefined;
+  label?: React.ReactNode;
+  placeholder?: string | undefined;
 }
 
-const BudgetDropDown: FC<BudgetDropDownProps> = ({
-  onChange,
-  setCurrentValue,
-  error,
-}: BudgetDropDownProps) => {
-  const [remainingBudgets, setRemainingBudgets] = useState<BudgetItemProps[]>(
-    []
-  );
-
-  const fetchBudgetBreakdown = async () => {
-    const { data } = await axios.get('budgets/2022/06/remaining');
-
-    console.log(data);
-
-    setRemainingBudgets(() => {
-      return data.map((d: any) => {
-        return {
-          label: d.name,
-          remainingBudget: d.remainingBudget,
-          value: d.budget_id,
-        };
-      });
-    });
-  };
-
-  useEffect(() => {
-    fetchBudgetBreakdown();
-  }, []);
-
+const BudgetDropDown: FC<BudgetDropDownProps> = (
+  props: BudgetDropDownProps
+) => {
   return (
     <Select
+      {...props}
       autoComplete='off'
-      error={error}
       onChange={(value) => {
-        onChange(value);
+        props.onChange(value);
 
-        const current = remainingBudgets.filter((r) => r.value === value)[0]
-          .remainingBudget;
-        setCurrentValue(current);
+        const current = props.remainingBudgets.filter(
+          (r) => r.value === value
+        )[0].remainingBudget;
+        props.setCurrentValue(current);
       }}
       label='Budget Type'
-      placeholder='Pick one'
+      placeholder={
+        props.placeholder === undefined ? 'Budget Type' : props.placeholder
+      }
       itemComponent={SelectItem}
-      data={remainingBudgets}
+      data={props.remainingBudgets}
       searchable
       maxDropdownHeight={400}
       id='user-input'
