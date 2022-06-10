@@ -53,8 +53,8 @@ const BudgetHeader: FC<BudgetHeaderProps> = ({
             </Button>
           }
         >
-          {actions.map(({ label, icon, openModal }) => (
-            <Menu.Item icon={icon} onClick={() => openModal(true)}>
+          {actions.map(({ label, icon, action }) => (
+            <Menu.Item icon={icon} onClick={() => action()}>
               {label}
             </Menu.Item>
           ))}

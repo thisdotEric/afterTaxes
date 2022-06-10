@@ -15,6 +15,7 @@ import { UserProfile } from '../../pages/UserProfile';
 import ProtectedRoutes from '../App/ProtectedRoutes';
 import Budget from '../../pages/Budget';
 import FundsHistory from '../../pages/FundsHistory';
+import BudgetCategories from '../../pages/Budget/BudgetCategories';
 
 interface AppProps {}
 
@@ -40,6 +41,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
               <Route path='budget'>
                 <Route path='' element={<Budget />} />
                 <Route path='history' element={<FundsHistory />} />
+                <Route path='categories' element={<BudgetCategories />} />
               </Route>
               <Route
                 path='reports'

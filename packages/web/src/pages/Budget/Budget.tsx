@@ -3,7 +3,6 @@ import { useSetHeader } from '../../hooks';
 import { Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
 import { BudgetCards, BudgetWrapper } from './Budget.styles';
-import { useModals } from '@mantine/modals';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import { axios } from '../../utils';
 import BudgetHeader from '../../components/Budget/BudgetHeader';
@@ -13,7 +12,7 @@ import TransferBudgetModal from '../../components/Budget/TransferBudgetModal';
 import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/TransferBudgetModal';
 import type { ActionList } from '../../pages/Expenses/Expenses';
 import { Notes, Plus } from 'tabler-icons-react';
-import BudgetCategoriesModal from '../../components/Budget/BudgetCategoriesModal';
+import { useNavigate } from 'react-router-dom';
 
 interface BudgetProps {}
 
@@ -38,7 +37,7 @@ export interface SourceBudgetCategory {
 }
 
 export type BudgetActions = ActionList & {
-  openModal: React.Dispatch<React.SetStateAction<boolean>>;
+  action: () => void;
 };
 
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
@@ -67,18 +66,22 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     remainingBudget: 0,
   });
 
+  const navigate = useNavigate();
+
   const [actionsList] = useState<BudgetActions[]>([
     {
       label: 'Add funds',
       icon: <Plus size={15} />,
       value: 'addFunds',
-      openModal: setOpenAddFundsModal,
+      action: () => setOpenAddFundsModal(true),
     },
     {
       label: 'Budget categories',
       icon: <Notes size={15} />,
       value: 'viewAll',
-      openModal: setOpenBudgetCategoriesModal,
+      action: () => {
+        navigate('/budget/categories');
+      },
     },
   ]);
 
@@ -163,14 +166,6 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
         }}
         opened={openTransferBudget}
         setOpened={setOpenTransferBudget}
-      />
-
-      <BudgetCategoriesModal
-        opened={openBudgetCategoriesModal}
-        setOpened={setOpenBudgetCategoriesModal}
-        onSubmit={async () => {
-          await fetchBudgetPageValues();
-        }}
       />
     </BudgetWrapper>
   );
