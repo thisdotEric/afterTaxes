@@ -597,6 +597,19 @@
     safe-stable-stringify "^2.3.1"
     uid-safe "^2.1.5"
 
+"@fastify/static@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@fastify/static/-/static-5.0.0.tgz#7aa2527148da067f2a550ac4a585c0f6f0a188ec"
+  integrity sha512-GGltJkO0idXa7yCZ0PfdTZ6qokWDX/vigCvmRpjOU2A3jc93c9p+oHDvHmwHK60hwWoBEGqHjGofVyn3H1CjZg==
+  dependencies:
+    content-disposition "^0.5.3"
+    encoding-negotiator "^2.0.1"
+    fastify-plugin "^3.0.0"
+    glob "^7.1.4"
+    p-limit "^3.1.0"
+    readable-stream "^3.4.0"
+    send "^0.17.1"
+
 "@gar/promisify@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
@@ -5197,6 +5210,7 @@ fastify-plugin@^3.0.0:
   integrity sha512-ZdCvKEEd92DNLps5n0v231Bha8bkz1DjnPP/aEz37rz/q42Z5JVLmgnqR4DYuNn3NXAO3IDCPyRvgvxtJ4Ym4w==
 
 fastify-static@^4.0.0:
+  name fastify-static-deprecated
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/fastify-static/-/fastify-static-4.6.1.tgz#687131da76f1d4391fb8b47f71ea2118cdc85803"
   integrity sha512-vy7N28U4AMhuOim12ZZWHulEE6OQKtzZbHgiB8Zj4llUuUQXPka0WHAQI3njm1jTCx4W6fixUHfpITxweMtAIA==

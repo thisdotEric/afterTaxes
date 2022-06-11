@@ -48,6 +48,7 @@
     "zod": "^3.14.4"
   },
   "devDependencies": {
+    "@fastify/static": "5.0.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.6",
     "@types/pg": "^8.6.1",
