@@ -16,6 +16,7 @@ import ProtectedRoutes from '../App/ProtectedRoutes';
 import Budget from '../../pages/Budget';
 import FundsHistory from '../../pages/FundsHistory';
 import BudgetCategories from '../../pages/Budget/BudgetCategories';
+import NotFoundPage from '../../pages/404';
 
 interface AppProps {}
 
@@ -55,6 +56,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
             </Route>
           </Route>
           <Route path='/signin' element={<Login />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </Router>
     </UserContext.Provider>
