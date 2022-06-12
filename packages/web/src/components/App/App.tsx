@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from 'react-router-dom';
 import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
@@ -17,6 +18,7 @@ import Budget from '../../pages/Budget';
 import FundsHistory from '../../pages/FundsHistory';
 import BudgetCategories from '../../pages/Budget/BudgetCategories';
 import NotFoundPage from '../../pages/404';
+import { AnimatePresence } from 'framer-motion';
 
 interface AppProps {}
 
@@ -27,11 +29,12 @@ const App: FC<AppProps> = ({}: AppProps) => {
   );
 
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const location = useLocation();
 
   return (
     <UserContext.Provider value={value}>
-      <Router>
-        <Routes>
+      <AnimatePresence exitBeforeEnter>
+        <Routes key={location.pathname} location={location}>
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<Layout />}>
               <Route path='' element={<Navigate to={'/dashboard'} />} />
@@ -58,7 +61,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
           <Route path='/signin' element={<Login />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
-      </Router>
+      </AnimatePresence>
     </UserContext.Provider>
   );
 };

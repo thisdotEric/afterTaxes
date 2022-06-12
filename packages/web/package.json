@@ -20,6 +20,7 @@
     "@mantine/notifications": "^4.2.2",
     "axios": "^0.27.2",
     "dayjs": "^1.11.1",
+    "framer-motion": "^6.3.11",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
