@@ -153,7 +153,13 @@ export class BudgetsController {
 
     const { month, year } = request.params;
 
-    return reply.code(200).send([user_id, month, year]);
+    const fundsHistory = await this.budgetService.getAddedFundsHistory(
+      user_id,
+      month,
+      year
+    );
+
+    return reply.code(200).send(fundsHistory);
   }
 
   @PATCH('/transfer')

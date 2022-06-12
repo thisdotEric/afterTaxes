@@ -21,7 +21,7 @@ export class BudgetsRepository {
     const budget_rows = await this.knex
       .db()
       .raw(
-        `select * from ${BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} and user_id = ${user_id}`
+        `select * from ${BUDGET} where EXTRACT(MONTH FROM created_at) = ${month} and EXTRACT(YEAR FROM created_at) = ${year} and user_id = ${user_id} order by created_at desc`
       );
 
     /**

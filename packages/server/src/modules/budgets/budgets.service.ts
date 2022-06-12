@@ -195,4 +195,8 @@ export class BudgetsService {
 
     return remainingBudgets;
   }
+
+  async getAddedFundsHistory(user_id: number, month: number, year: number) {
+    return this.budgetRepository.getBudgets(user_id, month, year);
+  }
 }
