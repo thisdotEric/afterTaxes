@@ -11,7 +11,7 @@ import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategori
 import TransferBudgetModal from '../../components/Budget/TransferBudgetModal';
 import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/TransferBudgetModal';
 import type { ActionList } from '../../pages/Expenses/Expenses';
-import { Notes, Plus } from 'tabler-icons-react';
+import { Minus, Notes, Plus } from 'tabler-icons-react';
 import { useNavigate } from 'react-router-dom';
 
 interface BudgetProps {}
@@ -40,6 +40,8 @@ export type BudgetActions = ActionList & {
   action: () => void;
 };
 
+export type FundsOperation = 'add' | 'remove';
+
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   useSetHeader('Budget', 'Budget', {
     year,
@@ -53,12 +55,15 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
 
   const [budgets, setBudgets] = useState<CategorizedBudget[]>([]);
   const [openAddFundsModal, setOpenAddFundsModal] = useState<boolean>(false);
+  const [fundsOperation, setFundsOperation] = useState<FundsOperation>('add');
+  const remainingBudget = useMemo(
+    () => budgetBreakdown.unallocated,
+    [budgetBreakdown.unallocated]
+  );
 
   const [openCreateBudgetModal, setOpenCreateBudgetModal] =
     useState<boolean>(false);
   const [openTransferBudget, setOpenTransferBudget] = useState(false);
-  const [openBudgetCategoriesModal, setOpenBudgetCategoriesModal] =
-    useState(false);
 
   const [sourceBudget, setSourceBudget] = useState<SourceBudgetCategory>({
     id: 0,
@@ -73,7 +78,19 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       label: 'Add funds',
       icon: <Plus size={15} />,
       value: 'addFunds',
-      action: () => setOpenAddFundsModal(true),
+      action: () => {
+        setFundsOperation('add');
+        setOpenAddFundsModal(true);
+      },
+    },
+    {
+      label: 'Remove funds',
+      icon: <Minus size={15} />,
+      value: 'viewAll',
+      action: () => {
+        setFundsOperation('remove');
+        setOpenAddFundsModal(true);
+      },
     },
     {
       label: 'Budget categories',
@@ -132,7 +149,9 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       {/* Modal */}
       <AddBudgetModal
         opened={openAddFundsModal}
+        fundsOperation={fundsOperation}
         setOpened={setOpenAddFundsModal}
+        remainingBudget={fundsOperation === 'remove' ? remainingBudget : 0}
         onSubmit={async () => {
           await fetchBudgetPageValues();
         }}
