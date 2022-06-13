@@ -10,7 +10,7 @@ import CategorizedBudgetCard from '../../components/Budget/CategorizedBudgetCard
 import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategorizedBudgetModal';
 import TransferBudgetModal from '../../components/Budget/TransferBudgetModal';
 import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/TransferBudgetModal';
-import type { ActionList } from '../../pages/Expenses/Expenses';
+import type { ActionList } from '../../components/Menu/ActionMenu';
 import { Minus, Notes, Plus } from 'tabler-icons-react';
 import { useNavigate } from 'react-router-dom';
 

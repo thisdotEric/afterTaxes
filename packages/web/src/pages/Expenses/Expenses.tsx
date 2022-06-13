@@ -50,7 +50,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     {
       value: 'edit',
       label: 'Edit',
-      icon: <Edit size={14} />,
+      icon: <Edit size={13} />,
       action: (row) => {
         setCurrentRow(row);
         setIsEdit(true);
@@ -60,7 +60,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     {
       value: 'delete',
       label: 'Delete',
-      icon: <Trash size={14} />,
+      isDanger: true,
+      icon: <Trash size={13} />,
       action: (row) => {
         setCurrentRow(row);
         setOpenedConfirmDeleteModal(true);
@@ -117,41 +118,39 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         />
       )}
 
-      {opened && (
-        <RecordExpensesModal
-          opened={opened}
-          setOpened={setOpened}
-          setIsEdit={setIsEdit}
-          actionType={
-            isEdit
-              ? {
-                  type: 'update',
-                  currentRow: {
-                    id: currentRow.id,
-                    budgetName: currentRow.budgetName,
-                  },
-                }
-              : {
-                  type: 'add',
-                }
-          }
-          onSubmit={async () => {
-            setIsEdit(false);
-            await fetchData();
+      <RecordExpensesModal
+        opened={opened}
+        setOpened={setOpened}
+        setIsEdit={setIsEdit}
+        actionType={
+          isEdit
+            ? {
+                type: 'update',
+                currentRow: {
+                  id: currentRow.id,
+                  budgetName: currentRow.budgetName,
+                },
+              }
+            : {
+                type: 'add',
+              }
+        }
+        onSubmit={async () => {
+          setIsEdit(false);
+          await fetchData();
 
-            setTimeout(() => {
-              if (isEdit)
-                showNotification(
-                  getNotificationProps('One item updated', 'success')
-                );
-              else
-                showNotification(
-                  getNotificationProps('New expense item added', 'success')
-                );
-            }, 100);
-          }}
-        />
-      )}
+          setTimeout(() => {
+            if (isEdit)
+              showNotification(
+                getNotificationProps('One item updated', 'success')
+              );
+            else
+              showNotification(
+                getNotificationProps('New expense item added', 'success')
+              );
+          }, 10);
+        }}
+      />
 
       <ConfirmModal
         opened={openedConfirmDeleteModal}
