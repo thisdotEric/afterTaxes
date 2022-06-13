@@ -59,14 +59,17 @@ const AddBudgetModal: FC<AddBudgetModalProps> = ({
             });
 
             clearStates();
+            setOpened(false);
             await onSubmit();
           }}
         >
-          <NumberInput
-            label='Remaining Funds'
-            value={remainingBudget!}
-            disabled
-          />
+          {fundsOperation === 'remove' && (
+            <NumberInput
+              label='Remaining Funds'
+              value={remainingBudget!}
+              disabled
+            />
+          )}
 
           <NumberInput
             label={
