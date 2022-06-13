@@ -217,7 +217,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
           />
 
           <BudgetDropDown
-            remainingBudgets={remainingBudgets}
+            remainingbudgets={remainingBudgets}
             onChange={(budgetType) => {
               if (parseInt(budgetType!) <= 0)
                 setBudgetError('Did not select a budget type.');
@@ -226,7 +226,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
               runDispatch('budget_id', `${budgetType}`);
             }}
             error={budgetError}
-            setCurrentValue={setCurrentMaxAmount}
+            setcurrentvalue={setCurrentMaxAmount}
             placeholder={`${
               actionType.type === 'update'
                 ? `${

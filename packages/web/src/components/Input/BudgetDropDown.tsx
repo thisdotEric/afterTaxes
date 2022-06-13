@@ -31,9 +31,9 @@ const SelectItem = forwardRef<HTMLDivElement, BudgetItemProps>(
 );
 
 interface BudgetDropDownProps {
-  remainingBudgets: BudgetItemProps[];
+  remainingbudgets: BudgetItemProps[];
   onChange: (value: string | null) => void;
-  setCurrentValue: React.Dispatch<React.SetStateAction<number>>;
+  setcurrentvalue: React.Dispatch<React.SetStateAction<number>>;
   error?: React.ReactNode;
   value?: string | null | undefined;
   ref?: React.Ref<HTMLInputElement> | undefined;
@@ -52,17 +52,17 @@ const BudgetDropDown: FC<BudgetDropDownProps> = (
       onChange={(value) => {
         props.onChange(value);
 
-        const current = props.remainingBudgets.filter(
+        const current = props.remainingbudgets.filter(
           (r) => r.value === value
         )[0].remainingBudget;
-        props.setCurrentValue(current);
+        props.setcurrentvalue(current);
       }}
       label='Budget Type'
       placeholder={
         props.placeholder === undefined ? 'Budget Type' : props.placeholder
       }
       itemComponent={SelectItem}
-      data={props.remainingBudgets}
+      data={props.remainingbudgets}
       searchable
       maxDropdownHeight={400}
       id='user-input'
