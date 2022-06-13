@@ -12,6 +12,8 @@ import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
 import { axios } from '../../utils';
 import TableComponent from '../../components/Table';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
+import type { ActionList } from '../../components/Menu/ActionMenu';
+import ActionMenu from '../../components/Menu/ActionMenu';
 
 interface ExpensesProps {}
 
@@ -23,12 +25,6 @@ export interface ExpensesHistory {
   amount: number;
   budget_id: string;
   budgetName: string;
-}
-
-export interface ActionList {
-  value: string;
-  label: string;
-  icon: JSX.Element;
 }
 
 export interface CurrentRow {
@@ -55,25 +51,26 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       value: 'edit',
       label: 'Edit',
       icon: <Edit size={14} />,
+      action: (row) => {
+        setCurrentRow(row);
+        setIsEdit(true);
+        setOpened(true);
+      },
     },
     {
       value: 'delete',
       label: 'Delete',
       icon: <Trash size={14} />,
+      action: (row) => {
+        setCurrentRow(row);
+        setOpenedConfirmDeleteModal(true);
+      },
     },
   ]);
 
   const fetchData = async () => {
     const { data } = await axios.get('expenses/2022/06');
     setRows(data);
-  };
-
-  const actionDropdownOnclick = (action: string) => {
-    if (action === 'delete') setOpenedConfirmDeleteModal(true);
-    if (action === 'edit') {
-      setIsEdit(true);
-      setOpened(true);
-    }
   };
 
   // Memoized table rows and columns
@@ -89,33 +86,13 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
           disableSortBy: true,
           Cell: (row) => {
             return (
-              <Menu
-                withArrow
-                control={
-                  <Button
-                    size='xs'
-                    id='action-btn'
-                    rightIcon={<ChevronDown size={12} />}
-                  >
-                    Action
-                  </Button>
-                }
-              >
-                {actions.map(({ value, label, icon }) => (
-                  <Menu.Item
-                    icon={icon}
-                    onClick={() => {
-                      setCurrentRow({
-                        id: row.row.original.id,
-                        budgetName: row.row.original.budgetName,
-                      });
-                      actionDropdownOnclick(value);
-                    }}
-                  >
-                    {label}
-                  </Menu.Item>
-                ))}
-              </Menu>
+              <ActionMenu
+                actions={actions}
+                currentRow={{
+                  id: row.value,
+                  budgetName: row.row.original.budgetName,
+                }}
+              />
             );
           },
         },
