@@ -31,9 +31,9 @@ const SelectItem = forwardRef<HTMLDivElement, BudgetItemProps>(
 );
 
 interface BudgetDropDownProps {
-  remainingbudgets: BudgetItemProps[];
+  remainingBudgets: BudgetItemProps[];
   onChange: (value: string | null) => void;
-  setcurrentvalue: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentValue: React.Dispatch<React.SetStateAction<number>>;
   error?: React.ReactNode;
   value?: string | null | undefined;
   ref?: React.Ref<HTMLInputElement> | undefined;
@@ -42,27 +42,28 @@ interface BudgetDropDownProps {
   disabled?: boolean | undefined;
 }
 
-const BudgetDropDown: FC<BudgetDropDownProps> = (
-  props: BudgetDropDownProps
-) => {
+const BudgetDropDown: FC<BudgetDropDownProps> = ({
+  remainingBudgets,
+  onChange,
+  disabled,
+  setCurrentValue,
+  placeholder,
+}: BudgetDropDownProps) => {
   return (
     <Select
-      {...props}
+      disabled={disabled}
       autoComplete='off'
       onChange={(value) => {
-        props.onChange(value);
+        onChange(value);
 
-        const current = props.remainingbudgets.filter(
-          (r) => r.value === value
-        )[0].remainingBudget;
-        props.setcurrentvalue(current);
+        const current = remainingBudgets.filter((r) => r.value === value)[0]
+          .remainingBudget;
+        setCurrentValue(current);
       }}
       label='Budget Type'
-      placeholder={
-        props.placeholder === undefined ? 'Budget Type' : props.placeholder
-      }
+      placeholder={placeholder === undefined ? 'Budget Type' : placeholder}
       itemComponent={SelectItem}
-      data={props.remainingbudgets}
+      data={remainingBudgets}
       searchable
       maxDropdownHeight={400}
       id='user-input'

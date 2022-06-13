@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useReducer, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 import {
   TextInput,
   NumberInput,
@@ -193,6 +200,12 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     fetchRemainingBudgets();
 
     if (actionType.type === 'update') fetchToBeUpdatedExpenseItem();
+  }, [actionType.type]);
+
+  useEffect(() => {
+    fetchRemainingBudgets();
+
+    if (actionType.type === 'update') fetchToBeUpdatedExpenseItem();
   }, []);
 
   return (
@@ -217,7 +230,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
           />
 
           <BudgetDropDown
-            remainingbudgets={remainingBudgets}
+            remainingBudgets={remainingBudgets}
             onChange={(budgetType) => {
               if (parseInt(budgetType!) <= 0)
                 setBudgetError('Did not select a budget type.');
@@ -226,7 +239,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
               runDispatch('budget_id', `${budgetType}`);
             }}
             error={budgetError}
-            setcurrentvalue={setCurrentMaxAmount}
+            setCurrentValue={setCurrentMaxAmount}
             placeholder={`${
               actionType.type === 'update'
                 ? `${
