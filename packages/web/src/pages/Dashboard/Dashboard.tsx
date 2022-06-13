@@ -18,6 +18,12 @@ import LineChart from '../../components/Charts/LineChart';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+/**
+ * What should be in a dashboard
+ *
+ *
+ */
+
 export const data = {
   labels: ['Red', 'Blue', 'Personal Hygiene', 'Green', 'Purple', 'Orange'],
   datasets: [
@@ -60,7 +66,7 @@ const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
       <Card
         style={{ height: '250px', width: '250px', backgroundColor: '#2e3139' }}
       >
-        <Doughnut data={data} />;
+        <Doughnut data={data} />
       </Card>
 
       <Card
