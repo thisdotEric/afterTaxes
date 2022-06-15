@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSetHeader } from '../../hooks';
 import { Button } from '@mantine/core';
 import { month, year } from '../../constants/date';
@@ -11,7 +11,7 @@ import CreateCategorizedBudgetModal from '../../components/Budget/CreateCategori
 import TransferBudgetModal from '../../components/Budget/TransferBudgetModal';
 import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/TransferBudgetModal';
 import type { ActionList } from '../../components/Menu/ActionMenu';
-import { Minus, Notes, Plus } from 'tabler-icons-react';
+import { History, Minus, Notes, Plus } from 'tabler-icons-react';
 import { useNavigate } from 'react-router-dom';
 
 interface BudgetProps {}
@@ -86,6 +86,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     {
       label: 'Remove funds',
       icon: <Minus size={15} />,
+      isDanger: true,
       value: 'viewAll',
       action: () => {
         setFundsOperation('remove');
@@ -98,6 +99,14 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       value: 'viewAll',
       action: () => {
         navigate('/budget/categories');
+      },
+    },
+    {
+      label: 'Funds History',
+      icon: <History size={15} />,
+      value: 'fundsHistory',
+      action: () => {
+        navigate('/budget/history');
       },
     },
   ]);
@@ -114,7 +123,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
     [sourceBudget.id]
   );
 
-  const fetchBudgetPageValues = async () => {
+  const fetchBudgetPageValues = useCallback(async () => {
     const { data } = await axios.get('budgets/2022/06');
     setBudgetBreakdown({
       total: data.total,
@@ -125,7 +134,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       'budgets/2022/06/categories'
     );
     setBudgets(categorized_budget);
-  };
+  }, []);
 
   useEffect(() => {
     fetchBudgetPageValues();

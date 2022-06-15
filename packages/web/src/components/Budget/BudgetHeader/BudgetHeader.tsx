@@ -1,9 +1,7 @@
 import type { BudgetActions, BudgetBreakdown } from '../../../pages/Budget';
 import React, { FC, useMemo } from 'react';
 import { BudgetHeaderWrapper, BudgetText } from './BudgetHeader.styles';
-import { Button, Menu, UnstyledButton } from '@mantine/core';
-import { ChevronDown, History } from 'tabler-icons-react';
-import { Link } from 'react-router-dom';
+import ActionMenu from '../../../components/Menu';
 
 interface BudgetHeaderProps {
   budgetBreakdown: BudgetBreakdown;
@@ -28,10 +26,6 @@ const BudgetHeader: FC<BudgetHeaderProps> = ({
             Total Monthly Budget:{' '}
             <span>{budgetBreakdown.total.toFixed(2)}</span>
           </BudgetText>
-          &nbsp;&nbsp;
-          <UnstyledButton component={Link} to={'/budget/history'}>
-            <History stroke='white' size={16} />
-          </UnstyledButton>
         </div>
         <BudgetText>
           Unallocated Budget:{' '}
@@ -41,24 +35,7 @@ const BudgetHeader: FC<BudgetHeaderProps> = ({
           </span>
         </BudgetText>
 
-        <Menu
-          withArrow
-          control={
-            <Button
-              size='xs'
-              id='action-btn'
-              rightIcon={<ChevronDown size={12} />}
-            >
-              Actions
-            </Button>
-          }
-        >
-          {actions.map(({ label, icon, action }) => (
-            <Menu.Item icon={icon} onClick={() => action()}>
-              {label}
-            </Menu.Item>
-          ))}
-        </Menu>
+        <ActionMenu actions={actions} />
       </BudgetHeaderWrapper>
     )
   );

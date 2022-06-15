@@ -52,7 +52,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       label: 'Edit',
       icon: <Edit size={13} />,
       action: (row) => {
-        setCurrentRow(row);
+        if (row) setCurrentRow(row);
+
         setIsEdit(true);
         setOpened(true);
       },
@@ -63,7 +64,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       isDanger: true,
       icon: <Trash size={13} />,
       action: (row) => {
-        setCurrentRow(row);
+        if (row) setCurrentRow(row);
+
         setOpenedConfirmDeleteModal(true);
       },
     },
