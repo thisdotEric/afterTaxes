@@ -1,11 +1,12 @@
 import React, { FC, useContext, useReducer, useState } from 'react';
-import { LoginWrapper, RememberMe } from './Login.styles';
+import { AccountActionWrapper, LoginWrapper, RememberMe } from './Login.styles';
 import { SubmitButton } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context';
 import { github } from '../../assets';
 import { TextInput, PasswordInput } from '../../components/Input';
 import { axios } from '../../utils';
+import { Button } from '@mantine/core';
 interface LoginProps {}
 
 interface LoginState {
@@ -109,6 +110,15 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
 
         {error && <p id='errMsg'>{error}</p>}
         <SubmitButton id='login-btn' name='login' value='Sign In' />
+
+        <AccountActionWrapper>
+          <Button size='xs' className='account-action'>
+            Sign up
+          </Button>
+          <Button size='xs' className='account-action'>
+            Forgot Password?
+          </Button>
+        </AccountActionWrapper>
 
         <a href='https://github.com/thisdotEric/afterTaxes' target='_blank'>
           <img src={github} alt='Github' width={30} height={30} id='github' />

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {
+  green,
   lightgreen,
   primarybg,
   red,
@@ -61,5 +62,23 @@ export const RememberMe = styled.div`
     color: ${white};
     margin-left: 10px;
     font-size: 12px;
+  }
+`;
+
+export const AccountActionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+
+  .account-action {
+    background: none;
+    font-weight: normal;
+
+    &:hover {
+      text-decoration: underline;
+      font-weight: bold;
+      color: ${green};
+    }
   }
 `;
