@@ -10,12 +10,12 @@ export interface ActionList {
   label: string;
   icon: JSX.Element;
   isDanger?: boolean;
-  action: (row: CurrentRow) => void;
+  action: (row?: CurrentRow) => void;
 }
 
 interface ActionMenuProps {
   actions: ActionList[];
-  currentRow: CurrentRow;
+  currentRow?: CurrentRow;
 }
 
 const ActionMenu: FC<ActionMenuProps> = ({
@@ -25,7 +25,7 @@ const ActionMenu: FC<ActionMenuProps> = ({
   return (
     <MenuWrapper>
       <Menu
-        size={'xs'}
+        size={'sm'}
         shadow={'lg'}
         classNames={{
           itemHovered: 'menu-root',

@@ -21,8 +21,8 @@ const AnimatedPage: FC<AnimatedPageProps> = ({
       animate='animate'
       exit='exit'
       transition={{
-        duration: 0.1,
-        ease: 'easeIn',
+        duration: 0.2,
+        ease: 'circIn',
       }}
     >
       {children}
