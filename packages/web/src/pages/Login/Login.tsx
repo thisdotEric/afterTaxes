@@ -112,7 +112,13 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
         <SubmitButton id='login-btn' name='login' value='Sign In' />
 
         <AccountActionWrapper>
-          <Button size='xs' className='account-action'>
+          <Button
+            size='xs'
+            className='account-action'
+            onClick={() => {
+              navigate('/signup');
+            }}
+          >
             Sign up
           </Button>
           <Button size='xs' className='account-action'>

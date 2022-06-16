@@ -19,6 +19,7 @@ import FundsHistory from '../../pages/FundsHistory';
 import BudgetCategories from '../../pages/Budget/BudgetCategories';
 import NotFoundPage from '../../pages/404';
 import { AnimatePresence } from 'framer-motion';
+import SignUp from '../../pages/SignUp';
 
 interface AppProps {}
 
@@ -59,6 +60,7 @@ const App: FC<AppProps> = ({}: AppProps) => {
             </Route>
           </Route>
           <Route path='/signin' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </AnimatePresence>
