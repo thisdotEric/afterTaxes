@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   SideNavWrapper,
   MainContentWrapper,
@@ -10,8 +10,6 @@ import { AppLogo } from '../../components/App/AppLogo';
 import { month, year, day, IDate } from '../../constants/date';
 import { DateComponent as DateComponent } from '../../components/Date';
 import { HeaderContext, HeaderContextValue } from '../../context';
-import { Tooltip } from '@mantine/core';
-import { InfoCircle } from 'tabler-icons-react';
 import AnimatedPage from '../../components/Framer';
 
 interface LayoutProps {}
@@ -42,22 +40,7 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
             date={header?.date!.day}
           />
 
-          <p id='header-title'>
-            &nbsp; {header!.headerTitle}{' '}
-            <span>
-              <Tooltip
-                wrapLines
-                width={250}
-                withArrow
-                transition='fade'
-                transitionDuration={500}
-                transitionTimingFunction='ease'
-                label='This is the expenses page.'
-              >
-                <InfoCircle size={18} strokeWidth={2} color='#ddd4d4' />
-              </Tooltip>
-            </span>{' '}
-          </p>
+          <p id='header-title'>&nbsp; {header!.headerTitle}</p>
         </HeaderWrapper>
 
         <AnimatedPage>

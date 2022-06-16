@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Button, Menu, Modal } from '@mantine/core';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { Button, Menu, Modal, Skeleton } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
 import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
 import { showNotification } from '@mantine/notifications';
@@ -71,10 +71,10 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     },
   ]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const { data } = await axios.get('expenses/2022/06');
     setRows(data);
-  };
+  }, []);
 
   // Memoized table rows and columns
   const data = useMemo<ExpensesHistory[]>(() => rows, [rows, setRows]);
@@ -142,14 +142,12 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
           await fetchData();
 
           setTimeout(() => {
-            if (isEdit)
-              showNotification(
-                getNotificationProps('One item updated', 'success')
-              );
-            else
-              showNotification(
-                getNotificationProps('New expense item added', 'success')
-              );
+            showNotification(
+              getNotificationProps(
+                `${isEdit ? 'One item updated' : 'New expense item added'}`,
+                'success'
+              )
+            );
           }, 10);
         }}
       />
