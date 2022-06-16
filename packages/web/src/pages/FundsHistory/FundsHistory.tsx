@@ -1,11 +1,8 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Timeline, Text, Card } from '@mantine/core';
-import { Minus, Plug, Plus, SpacingHorizontal } from 'tabler-icons-react';
 import { axios } from '../../utils';
 import { useSetHeader } from '../../hooks';
 import { month, year } from '../../constants/date';
 import { FundsHistoryWrapper } from './FundsHistory.styles';
-import { PlusCircle } from 'react-feather';
 import TableComponent from '../../components/Table';
 import type { Column } from 'react-table';
 
@@ -20,63 +17,20 @@ interface FundsHistoryProps {}
 const FundsHistory: FC<FundsHistoryProps> = ({}: FundsHistoryProps) => {
   useSetHeader('Funds History', 'Funds History', { month, year });
 
-  const [fundsHistory, setFundsHistory] = useState<IFundsHistory[]>([
-    {
-      amount: 12,
-      date: new Date(),
-      description: 'sdfbsdf',
-    },
-    {
-      amount: 20.23,
-      date: new Date(),
-      description: 'Galing sa utang',
-    },
-    {
-      amount: 200,
-      date: new Date(),
-      description: 'sdfbsdf',
-    },
-    {
-      amount: 20.23,
-      date: new Date(),
-      description: 'Galing sa utang',
-    },
-    {
-      amount: 200,
-      date: new Date(),
-      description: 'sdfbsdf',
-    },
-    {
-      amount: -20.23,
-      date: new Date(),
-      description: 'Galing sa utang',
-    },
-    {
-      amount: 200,
-      date: new Date(),
-      description: 'sdfbsdf',
-    },
-    {
-      amount: 2,
-      date: new Date(),
-      description: 'Galing sa utang',
-    },
-    {
-      amount: 95.22,
-      date: new Date(),
-      description: 'sdfbsdf',
-    },
-    {
-      amount: 20.23,
-      date: new Date(),
-      description: 'Galing sa utang',
-    },
-  ]);
+  const [fundsHistory, setFundsHistory] = useState<IFundsHistory[]>([]);
 
   const fetchFundsHistory = async () => {
     const { data } = await axios.get('budgets/2022/06/history');
 
     console.log(data);
+
+    setFundsHistory(
+      data.map((h: any) => ({
+        amount: h.amount,
+        description: h.description,
+        date: new Date(h.created_at),
+      }))
+    );
   };
 
   const columns = useMemo(

@@ -36,6 +36,45 @@ export class ExpensesRepository {
       });
   }
 
+  async updateExpenseItem(
+    user_id: number,
+    { name, amount, description, id }: Omit<ExpensesHistory, 'budgetName'>
+  ) {
+    await this.knex
+      .db()(EXPENSES)
+      .update({
+        name,
+        amount,
+        description,
+      })
+      .where({ user_id, expenses_id: id });
+  }
+
+  async getSingleExpenseItem(
+    user_id: number,
+    expenses_id: number
+  ): Promise<ExpensesHistory> {
+    const expenseItem_row = (
+      await this.knex
+        .db()(EXPENSES)
+        .where({ user_id, expenses_id })
+        .select('*')
+        .limit(1)
+    )[0];
+
+    const expenseItem: ExpensesHistory = {
+      id: expenseItem_row.expenses_id,
+      name: expenseItem_row.name,
+      date: new Date(expenseItem_row.updated_at),
+      amount: expenseItem_row.amount,
+      description: expenseItem_row.description,
+      budget_id: expenseItem_row.categorized_budget_id,
+      budgetName: expenseItem_row.cbName,
+    };
+
+    return expenseItem;
+  }
+
   async deleteExpensesItem(user_id: number, expenses_id: number) {
     await this.knex.db()(EXPENSES).where({ user_id, expenses_id }).delete();
   }

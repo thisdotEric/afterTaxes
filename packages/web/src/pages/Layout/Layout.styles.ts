@@ -15,7 +15,7 @@ export const HeaderWrapper = styled.div`
   align-items: center;
 
   #header-title {
-    font-size: 20px;
+    font-size: 18px;
     padding: 20px 0px;
     font-weight: bold;
     color: white;

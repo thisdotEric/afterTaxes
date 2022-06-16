@@ -57,8 +57,8 @@ const Date: FC<DateProps> = ({ year, month, date }) => {
           src={calendar}
           alt=''
           title='Change Date'
-          width={20}
-          height={20}
+          width={17}
+          height={17}
           id='calendar-icon'
         />
       </a>

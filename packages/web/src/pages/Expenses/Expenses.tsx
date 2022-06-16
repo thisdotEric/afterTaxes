@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Button, Menu, Modal } from '@mantine/core';
 import { ExpensesPageWrapper } from './Expenses.styles';
 import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
@@ -12,6 +12,8 @@ import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
 import { axios } from '../../utils';
 import TableComponent from '../../components/Table';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
+import type { ActionList } from '../../components/Menu/ActionMenu';
+import ActionMenu from '../../components/Menu/ActionMenu';
 
 interface ExpensesProps {}
 
@@ -25,10 +27,9 @@ export interface ExpensesHistory {
   budgetName: string;
 }
 
-interface ActionList {
-  value: string;
-  label: string;
-  icon: JSX.Element;
+export interface CurrentRow {
+  id: number;
+  budgetName: string;
 }
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
@@ -36,32 +37,41 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
 
   // Modal state variables
   const [opened, setOpened] = useState(false);
-  const [openedEditModal, setOpenedEditModal] = useState(false);
   const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
     useState(false);
-  const [currentRowId, setCurrentRowId] = useState<number>();
+  const [currentRow, setCurrentRow] = useState<CurrentRow>({
+    id: 0,
+    budgetName: '',
+  });
+  const [isEdit, setIsEdit] = useState(false);
 
   const [rows, setRows] = useState<ExpensesHistory[]>([]);
   const [actions] = useState<ActionList[]>([
     {
       value: 'edit',
       label: 'Edit',
-      icon: <Edit size={14} />,
+      icon: <Edit size={13} />,
+      action: (row) => {
+        setCurrentRow(row);
+        setIsEdit(true);
+        setOpened(true);
+      },
     },
     {
       value: 'delete',
       label: 'Delete',
-      icon: <Trash size={14} />,
+      isDanger: true,
+      icon: <Trash size={13} />,
+      action: (row) => {
+        setCurrentRow(row);
+        setOpenedConfirmDeleteModal(true);
+      },
     },
   ]);
 
   const fetchData = async () => {
     const { data } = await axios.get('expenses/2022/06');
     setRows(data);
-  };
-
-  const actionDropdownOnclick = (action: string) => {
-    if (action === 'delete') setOpenedConfirmDeleteModal(true);
   };
 
   // Memoized table rows and columns
@@ -77,30 +87,13 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
           disableSortBy: true,
           Cell: (row) => {
             return (
-              <Menu
-                withArrow
-                control={
-                  <Button
-                    size='xs'
-                    id='action-btn'
-                    rightIcon={<ChevronDown size={12} />}
-                  >
-                    Action
-                  </Button>
-                }
-              >
-                {actions.map(({ value, label, icon }) => (
-                  <Menu.Item
-                    icon={icon}
-                    onClick={() => {
-                      setCurrentRowId(row.row.original.id);
-                      actionDropdownOnclick(value);
-                    }}
-                  >
-                    {label}
-                  </Menu.Item>
-                ))}
-              </Menu>
+              <ActionMenu
+                actions={actions}
+                currentRow={{
+                  id: row.value,
+                  budgetName: row.row.original.budgetName,
+                }}
+              />
             );
           },
         },
@@ -128,14 +121,34 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
       <RecordExpensesModal
         opened={opened}
         setOpened={setOpened}
+        setIsEdit={setIsEdit}
+        actionType={
+          isEdit
+            ? {
+                type: 'update',
+                currentRow: {
+                  id: currentRow.id,
+                  budgetName: currentRow.budgetName,
+                },
+              }
+            : {
+                type: 'add',
+              }
+        }
         onSubmit={async () => {
+          setIsEdit(false);
           await fetchData();
 
           setTimeout(() => {
-            showNotification(
-              getNotificationProps('New expense item added', 'success')
-            );
-          }, 100);
+            if (isEdit)
+              showNotification(
+                getNotificationProps('One item updated', 'success')
+              );
+            else
+              showNotification(
+                getNotificationProps('New expense item added', 'success')
+              );
+          }, 10);
         }}
       />
 
@@ -143,9 +156,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         opened={openedConfirmDeleteModal}
         setOpened={setOpenedConfirmDeleteModal}
         onSubmit={async () => {
-          console.log(currentRowId);
-
-          await axios.delete(`expenses/${currentRowId}`);
+          await axios.delete(`expenses/${currentRow.id}`);
 
           await fetchData();
         }}

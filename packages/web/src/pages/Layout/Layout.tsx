@@ -12,6 +12,7 @@ import { DateComponent as DateComponent } from '../../components/Date';
 import { HeaderContext, HeaderContextValue } from '../../context';
 import { Tooltip } from '@mantine/core';
 import { InfoCircle } from 'tabler-icons-react';
+import AnimatedPage from '../../components/Framer';
 
 interface LayoutProps {}
 
@@ -59,7 +60,9 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
           </p>
         </HeaderWrapper>
 
-        <Outlet />
+        <AnimatedPage>
+          <Outlet />
+        </AnimatedPage>
       </MainContentWrapper>
     </HeaderContext.Provider>
   );

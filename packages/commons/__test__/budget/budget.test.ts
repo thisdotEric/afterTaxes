@@ -1,11 +1,11 @@
 import {
   BudgetComputationService,
-  Budget,
+  CategorizedBudget,
   RemainingBudget,
 } from '../../src/business/budget';
 
 describe('Budget Computation Service ', () => {
-  let budgets: Budget[];
+  let budgets: CategorizedBudget[];
   let budgetComputation: BudgetComputationService;
 
   beforeAll(() => {
@@ -35,7 +35,7 @@ describe('Budget Computation Service ', () => {
 
   it('compute the remaining budget grouped by budget category', () => {
     const map = new Map<number, number>();
-    map.set(2, 112);
+    map.set(2, 56);
 
     const expected: RemainingBudget[] = [
       {

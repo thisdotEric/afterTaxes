@@ -1,10 +1,9 @@
-import React, { FC, forwardRef, useEffect, useState } from 'react';
+import React, { FC, forwardRef } from 'react';
 import './Input.css';
 import { Group, Text, Select } from '@mantine/core';
 import { ChartPie } from 'tabler-icons-react';
-import { axios } from '../../utils';
 
-interface BudgetItemProps extends React.ComponentPropsWithoutRef<'div'> {
+export interface BudgetItemProps extends React.ComponentPropsWithoutRef<'div'> {
   label: string;
   remainingBudget: number;
   value: string;
@@ -32,44 +31,28 @@ const SelectItem = forwardRef<HTMLDivElement, BudgetItemProps>(
 );
 
 interface BudgetDropDownProps {
+  remainingBudgets: BudgetItemProps[];
   onChange: (value: string | null) => void;
   setCurrentValue: React.Dispatch<React.SetStateAction<number>>;
   error?: React.ReactNode;
+  value?: string | null | undefined;
+  ref?: React.Ref<HTMLInputElement> | undefined;
+  label?: React.ReactNode;
+  placeholder?: string | undefined;
+  disabled?: boolean | undefined;
 }
 
 const BudgetDropDown: FC<BudgetDropDownProps> = ({
+  remainingBudgets,
   onChange,
+  disabled,
   setCurrentValue,
-  error,
+  placeholder,
 }: BudgetDropDownProps) => {
-  const [remainingBudgets, setRemainingBudgets] = useState<BudgetItemProps[]>(
-    []
-  );
-
-  const fetchBudgetBreakdown = async () => {
-    const { data } = await axios.get('budgets/2022/06/remaining');
-
-    console.log(data);
-
-    setRemainingBudgets(() => {
-      return data.map((d: any) => {
-        return {
-          label: d.name,
-          remainingBudget: d.remainingBudget,
-          value: d.budget_id,
-        };
-      });
-    });
-  };
-
-  useEffect(() => {
-    fetchBudgetBreakdown();
-  }, []);
-
   return (
     <Select
+      disabled={disabled}
       autoComplete='off'
-      error={error}
       onChange={(value) => {
         onChange(value);
 
@@ -78,7 +61,7 @@ const BudgetDropDown: FC<BudgetDropDownProps> = ({
         setCurrentValue(current);
       }}
       label='Budget Type'
-      placeholder='Pick one'
+      placeholder={placeholder === undefined ? 'Budget Type' : placeholder}
       itemComponent={SelectItem}
       data={remainingBudgets}
       searchable
