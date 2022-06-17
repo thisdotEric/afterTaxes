@@ -1,5 +1,10 @@
 import React, { FC, useContext, useReducer, useState } from 'react';
-import { AccountActionWrapper, LoginWrapper, RememberMe } from './Login.styles';
+import {
+  AccountActionWrapper,
+  LandingPageText,
+  LoginWrapper,
+  RememberMe,
+} from './Login.styles';
 import { SubmitButton } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context';
@@ -50,9 +55,9 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
 
   return (
     <LoginWrapper>
-      <p>
+      <LandingPageText fontsize={48}>
         <span>after</span>Taxes
-      </p>
+      </LandingPageText>
 
       <form
         onSubmit={async (e) => {
