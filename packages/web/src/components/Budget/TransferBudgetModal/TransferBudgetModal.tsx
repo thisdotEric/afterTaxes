@@ -32,25 +32,25 @@ const TransferBudgetModal: FC<TransferBudgetModalProps> = ({
   const [amountError, setAmountError] = useState('');
   const [budgetTypeError, setBudgetTypeError] = useState('');
 
-  const allValuesFilled = () => {
-    let withoutError = true;
-
+  const allValuesFilled = (currentAmount: number, currentRemaining: number) => {
     if (destinationBudgetID == 0) {
       setBudgetTypeError('No destination budget selected.');
-      withoutError = false;
+      return false;
     }
 
-    if (amount == 0) {
+    if (currentAmount == 0) {
       setAmountError('Transfer budget should not be zero.');
-      withoutError = false;
+      return false;
     }
 
-    if (amount > remainingBudget) {
-      setAmountError(`Limit amount of ${remainingBudget.toFixed(2)} exceeded.`);
-      withoutError = false;
+    if (currentAmount > currentRemaining) {
+      setAmountError(
+        `Limit amount of ${currentRemaining.toFixed(2)} exceeded.`
+      );
+      return false;
     }
 
-    return withoutError;
+    return true;
   };
 
   const clearStates = () => {
@@ -74,7 +74,7 @@ const TransferBudgetModal: FC<TransferBudgetModalProps> = ({
           onSubmit={async (e) => {
             e.preventDefault();
 
-            if (allValuesFilled()) {
+            if (allValuesFilled(amount, remainingBudget)) {
               await axios.patch('budgets/transfer', {
                 from: id,
                 to: destinationBudgetID,
@@ -113,17 +113,20 @@ const TransferBudgetModal: FC<TransferBudgetModalProps> = ({
             onChange={(value) => {
               if (value === undefined) setAmount(0);
               else {
-                if (value! > remainingBudget)
+                if (value! > remainingBudget) {
                   setAmountError(
-                    `Limit amount of ${remainingBudget.toFixed(2)} exceeded.`
+                    `Limit amount of ${remainingBudget.toFixed(
+                      2
+                    )} exceeded. Will default to ${remainingBudget.toFixed(2)}`
                   );
-                else {
+                } else {
                   setAmount(value!);
                   setAmountError('');
                 }
               }
             }}
             error={amountError}
+            max={remainingBudget}
           />
 
           <ConfirmationTransfer>
