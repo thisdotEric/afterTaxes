@@ -5,6 +5,7 @@ import { PasswordInput, TextInput } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { Button as MantineButton } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { axios } from '../../utils';
 
 interface SignUpProps {}
 
@@ -75,7 +76,14 @@ const SignUp: FC<SignUpProps> = ({}: SignUpProps) => {
             setPasswordErr('Password does not match.');
             return;
           } else {
-            console.log(state);
+            await axios.post('users', {
+              first_name: state.first_name,
+              middle_name: state.middle_name,
+              last_name: state.last_name,
+              email: state.email,
+              password: state.password,
+            });
+
             navigate('/signin');
           }
         }}
