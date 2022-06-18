@@ -2,6 +2,7 @@ import { IUser } from '@entity';
 import { UserNotFoundException } from '@exceptions';
 import { UserRepository } from '@modules/users';
 import { Service } from 'fastify-decorators';
+import { SignupUser } from './user.repository';
 
 @Service()
 export class UserService {
@@ -18,5 +19,9 @@ export class UserService {
     if (!user) throw new UserNotFoundException();
 
     return user;
+  }
+
+  async signUp(user: SignupUser): Promise<boolean> {
+    return this.userRepository.add(user);
   }
 }

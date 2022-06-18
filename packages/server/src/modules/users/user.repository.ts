@@ -1,15 +1,30 @@
 import KnexQueryBuilder from '@database/knex/knexDatabase';
-import { DbNames } from '@database/constants';
+import { DbNames, USERS } from '@database/constants';
 import { IUser } from '@entity';
 import { BaseRepository } from '@interfaces/repositories';
 import { Service } from 'fastify-decorators';
+import { hashPassword, PersistedPassword } from '@utils/auth';
+
+export type SignupUser = IUser & { password: string };
 
 @Service()
-export default class UserRepository implements BaseRepository<IUser, number> {
+export default class UserRepository
+  implements BaseRepository<SignupUser, number>
+{
   constructor(private readonly knex: KnexQueryBuilder) {}
 
-  async add(entity: IUser): Promise<boolean> {
-    return entity !== null;
+  async add(entity: SignupUser): Promise<boolean> {
+    const password: PersistedPassword = await hashPassword(entity.password);
+
+    await this.knex
+      .db()(USERS)
+      .insert({
+        ...entity,
+        password: password.hashedPassword,
+        password_salt: password.salt,
+      });
+
+    return true;
   }
 
   async getById(user_id: number): Promise<IUser | null> {

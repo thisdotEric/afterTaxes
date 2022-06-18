@@ -1,17 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET, Hook } from 'fastify-decorators';
+import { Controller, GET, Hook, POST } from 'fastify-decorators';
+import { SignupUser } from './user.repository';
 import { UserService } from './user.service';
 
 @Controller('/users')
 export class UsersController {
   constructor(private readonly usersService: UserService) {}
-
-  @Hook('preHandler')
-  async isAuth(request: FastifyRequest, reply: FastifyReply) {
-    const user = request.session.user;
-
-    if (!user) reply.code(401).send('Unauthorized');
-  }
 
   @GET('/me')
   async me(request: FastifyRequest, reply: FastifyReply) {
@@ -27,5 +21,19 @@ export class UsersController {
         fullname: `${user.first_name} ${user.middle_name} ${user.last_name}`,
       });
     }
+  }
+
+  @POST('/')
+  async signup(
+    request: FastifyRequest<{
+      Body: SignupUser;
+    }>,
+    reply: FastifyReply
+  ) {
+    const user = request.body;
+
+    await this.usersService.signUp(user);
+
+    return reply.code(201).send('Ok');
   }
 }
