@@ -5,6 +5,7 @@ import type { RequiredModalProps } from '../../../components/Modal/SharedModal';
 import { primarybg } from '../../../components/styles/colors';
 import { TextArea, TextInput } from '../../../components/Input';
 import { Button } from '../../../components/Button';
+import { axios } from '../../../utils';
 
 interface AddBudgetCategoryProps extends RequiredModalProps {}
 
@@ -26,6 +27,7 @@ const AddBudgetCategory: FC<AddBudgetCategoryProps> = ({
   const [budgetType, setBudgetType] = useState<BudgetType>(initialState);
 
   const clearStates = () => {
+    setOpened(false);
     setBudgetType(initialState);
   };
 
@@ -34,7 +36,6 @@ const AddBudgetCategory: FC<AddBudgetCategoryProps> = ({
       opened={opened}
       onClose={() => {
         clearStates();
-        setOpened(false);
       }}
       title='Add budget categories'
       styles={{
@@ -48,6 +49,8 @@ const AddBudgetCategory: FC<AddBudgetCategoryProps> = ({
 
             console.log(budgetType);
 
+            await axios.post('budgets/categories', { ...budgetType });
+            clearStates();
             await onSubmit();
           }}
         >

@@ -70,7 +70,9 @@ const BudgetCategories: FC<
       <AddBudgetCategory
         opened={openAddBudgetCategories}
         setOpened={setOpenAddBudgetCategories}
-        onSubmit={async () => {}}
+        onSubmit={async () => {
+          await fetchBudgetCategories();
+        }}
       />
 
       <Button
