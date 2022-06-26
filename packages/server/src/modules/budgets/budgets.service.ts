@@ -9,6 +9,7 @@ import {
   CategorizedBudget,
   RemainingBudget,
 } from '@aftertaxes/commons';
+import { BudgetCategory } from './budgetTypes.repository';
 
 export interface BudgetBreakdown {
   total: number;
@@ -198,5 +199,9 @@ export class BudgetsService {
 
   async getAddedFundsHistory(user_id: number, month: number, year: number) {
     return this.budgetRepository.getBudgets(user_id, month, year);
+  }
+
+  async addNewBudgetCategory(user_id: number, budgetCategory: BudgetCategory) {
+    return this.budgetTypesRepo.addNewBudgetCategory(user_id, budgetCategory);
   }
 }

@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { BudgetsService } from './budgets.service';
 import { BudgetInput } from './budgets.schema';
 import { Controller, POST, GET, PATCH } from 'fastify-decorators';
+import { BudgetCategory } from './budgetTypes.repository';
 
 @Controller('/budgets')
 export class BudgetsController {
@@ -113,6 +114,26 @@ export class BudgetsController {
     const budgetTypes = await this.budgetService.getAllBudgetTypes(user_id);
 
     return reply.code(201).send(budgetTypes);
+  }
+
+  @POST('/categories')
+  public async addNewBudgetCategory(
+    request: FastifyRequest<{
+      Body: BudgetCategory;
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const { name, description } = request.body;
+
+    console.log(user_id, request.body);
+
+    await this.budgetService.addNewBudgetCategory(user_id, {
+      name,
+      description,
+    });
+
+    return reply.code(201).send('Ok');
   }
 
   @GET('/:year/:month/remaining')
