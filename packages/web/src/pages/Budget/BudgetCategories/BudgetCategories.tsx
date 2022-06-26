@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { axios } from '../../../utils';
-import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
 import { Button, Accordion } from '@mantine/core';
 import {
   AccordionContent,
   CategoriesAccordionWrapper,
 } from './BudgetCategories.styles';
+import AddBudgetCategory from '../../../components/Budget/AddBudgetCategory';
 
 interface BudgetCategoriesProps {}
 
@@ -33,6 +33,7 @@ const BudgetCategories: FC<
   BudgetCategoriesProps
 > = ({}: BudgetCategoriesProps) => {
   const [categories, setCategories] = useState<BudgetCategory[]>([]);
+  const [openAddBudgetCategories, setOpenAddBudgetCategories] = useState(false);
 
   const fetchBudgetCategories = async () => {
     const { data } = await axios.get('budgets/categories');
@@ -66,7 +67,19 @@ const BudgetCategories: FC<
 
   return (
     <CategoriesAccordionWrapper>
-      <Button size='xs' id='add-category-btn'>
+      <AddBudgetCategory
+        opened={openAddBudgetCategories}
+        setOpened={setOpenAddBudgetCategories}
+        onSubmit={async () => {}}
+      />
+
+      <Button
+        size='xs'
+        id='add-category-btn'
+        onClick={() => {
+          setOpenAddBudgetCategories(true);
+        }}
+      >
         + Add new budget category
       </Button>
       <Accordion

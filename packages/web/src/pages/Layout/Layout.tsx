@@ -11,6 +11,7 @@ import { month, year, day, IDate } from '../../constants/date';
 import { DateComponent as DateComponent } from '../../components/Date';
 import { HeaderContext, HeaderContextValue } from '../../context';
 import AnimatedPage from '../../components/Framer';
+import { DatePicker } from '@mantine/dates';
 
 interface LayoutProps {}
 
@@ -22,6 +23,7 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
       year,
     },
   });
+  const [value, onChange] = useState<Date>(new Date());
 
   return (
     <HeaderContext.Provider value={{ header, setHeader }}>
@@ -34,10 +36,16 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
 
       <MainContentWrapper>
         <HeaderWrapper>
-          <DateComponent
+          {/* <DateComponent
             month={header ? header.date!.month : month}
             year={header ? header.date!.year : year}
             date={header?.date!.day}
+          /> */}
+
+          <DatePicker
+            value={value}
+            onChange={(value) => onChange(value!)}
+            inputFormat='MMMM YYYY'
           />
 
           <p id='header-title'>&nbsp; {header!.headerTitle}</p>
