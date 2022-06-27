@@ -6,6 +6,7 @@ import {
   CategoriesAccordionWrapper,
 } from './BudgetCategories.styles';
 import AddBudgetCategory from '../../../components/Budget/AddBudgetCategory';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 
 interface BudgetCategoriesProps {}
 
@@ -18,7 +19,7 @@ function AccordionLabel({ category, description }: AccordionLabelProps) {
   return (
     <div>
       <p id='label'>{category}</p>
-      <p id='description'>{description}</p>
+      {description !== '' && <p id='description'>{description}</p>}
     </div>
   );
 }
@@ -34,6 +35,9 @@ const BudgetCategories: FC<
 > = ({}: BudgetCategoriesProps) => {
   const [categories, setCategories] = useState<BudgetCategory[]>([]);
   const [openAddBudgetCategories, setOpenAddBudgetCategories] = useState(false);
+  const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
+    useState(false);
+  const [currentCategoryId, setCurrentCategoryId] = useState(0);
 
   const fetchBudgetCategories = async () => {
     const { data } = await axios.get('budgets/categories');
@@ -52,12 +56,22 @@ const BudgetCategories: FC<
   }, []);
 
   const items = categories.map((item) => (
-    <Accordion.Item label={<AccordionLabel {...item} />} key={item.category_id}>
+    <Accordion.Item
+      label={<AccordionLabel {...item} />}
+      key={item.category_id}
+      onClick={() => {
+        setCurrentCategoryId(item.category_id);
+      }}
+    >
       <AccordionContent>
         <div className='actions'>
           <Button size='xs'>Edit</Button>
           &nbsp;
-          <Button size='xs' id='delete'>
+          <Button
+            size='xs'
+            id='delete'
+            onClick={() => setOpenedConfirmDeleteModal(true)}
+          >
             Delete
           </Button>
         </div>
@@ -73,6 +87,18 @@ const BudgetCategories: FC<
         onSubmit={async () => {
           await fetchBudgetCategories();
         }}
+      />
+
+      <ConfirmModal
+        opened={openedConfirmDeleteModal}
+        setOpened={setOpenedConfirmDeleteModal}
+        onSubmit={async () => {
+          console.log(currentCategoryId);
+
+          await fetchBudgetCategories();
+        }}
+        modalTitle='Confirm delete budget category?'
+        confirmMessage='Delete'
       />
 
       <Button
