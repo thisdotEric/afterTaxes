@@ -84,6 +84,9 @@ export class BudgetsController {
         year: number;
         month: number;
       };
+      Querystring: {
+        id: number;
+      };
     }>,
     reply: FastifyReply
   ) {
@@ -96,7 +99,14 @@ export class BudgetsController {
       year
     );
 
-    return reply.code(201).send(categorized_budgets);
+    // Filter results if id is provided on the query string
+    if (request.query.id != undefined) {
+      return reply
+        .code(200)
+        .send(
+          categorized_budgets.filter(i => i.budget_type_id == request.query.id)
+        );
+    } else return reply.code(200).send(categorized_budgets);
   }
 
   @GET('/categories')
