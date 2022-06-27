@@ -2,10 +2,12 @@ import React, { FC } from 'react';
 import SharedModal, { RequiredModalProps } from '../SharedModal';
 import { FormWrapper } from '../../../components/styles/FormWrapper.styles';
 import { Button } from '../../../components/Button';
+import { OptionalNote } from './ConfirmModal.styles';
 
 interface ConfirmModalProps extends RequiredModalProps {
   modalTitle: string;
   confirmMessage: string;
+  optionalNote?: string;
 }
 
 const ConfirmModal: FC<ConfirmModalProps> = ({
@@ -14,6 +16,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
   opened,
   modalTitle,
   confirmMessage,
+  optionalNote,
 }: ConfirmModalProps) => {
   return (
     <SharedModal
@@ -32,6 +35,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
             await onSubmit();
           }}
         >
+          {optionalNote && <OptionalNote>***{optionalNote}***</OptionalNote>}
           <Button name={confirmMessage} submitType='delete' />
         </form>
       </FormWrapper>
