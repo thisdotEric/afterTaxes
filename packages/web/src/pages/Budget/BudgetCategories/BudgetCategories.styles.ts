@@ -46,9 +46,8 @@ export const CategoriesAccordionWrapper = styled.div`
 
 export const AccordionContent = styled.div`
   display: flex;
-  justify-content: left;
+  justify-content: right;
   align-items: center;
-  flex-direction: row;
 
   #delete {
     color: ${red};

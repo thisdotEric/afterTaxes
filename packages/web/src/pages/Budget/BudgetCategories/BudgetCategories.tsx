@@ -7,6 +7,7 @@ import {
 } from './BudgetCategories.styles';
 import AddBudgetCategory from '../../../components/Budget/AddBudgetCategory';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import RemainingBudgetPerCategory from './RemainingBudgetPerCategory';
 
 interface BudgetCategoriesProps {}
 
@@ -24,7 +25,7 @@ function AccordionLabel({ category, description }: AccordionLabelProps) {
   );
 }
 
-interface BudgetCategory {
+export interface BudgetCategory {
   category_id: number;
   category: string;
   description: string;
@@ -76,6 +77,9 @@ const BudgetCategories: FC<
           </Button>
         </div>
       </AccordionContent>
+
+      {/* Remaining budgets in this category */}
+      <RemainingBudgetPerCategory budget_id={item.category_id} />
     </Accordion.Item>
   ));
 
