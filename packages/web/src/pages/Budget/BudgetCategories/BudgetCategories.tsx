@@ -99,10 +99,15 @@ const BudgetCategories: FC<
         onSubmit={async () => {
           console.log(currentCategoryId);
 
+          await axios.delete(
+            `budgets/categories/${currentCategoryId}?month=${6}&year=${2022}`
+          );
+
           await fetchBudgetCategories();
         }}
         modalTitle='Confirm delete budget category?'
         confirmMessage='Delete'
+        optionalNote={`The total remaining budget will be returned to unallocated budget section.`}
       />
 
       <Button
