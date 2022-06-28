@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 import { secondarybg, green, primarybg } from '../../components/styles/colors';
 
+export const TotalExpenses = styled.p`
+  color: grey;
+
+  span {
+    font-weight: bold;
+    color: ${green};
+  }
+`;
+
 export const ExpensesPageWrapper = styled.div`
   .input-modal {
     background-color: greenyellow;

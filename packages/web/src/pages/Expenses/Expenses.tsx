@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Menu, Modal, Skeleton } from '@mantine/core';
-import { ExpensesPageWrapper } from './Expenses.styles';
+import { ExpensesPageWrapper, TotalExpenses } from './Expenses.styles';
 import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
@@ -103,6 +103,12 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     []
   );
 
+  const totalExpenses = useMemo(() => {
+    return rows.reduce((prev, next) => {
+      return prev + next.amount;
+    }, 0);
+  }, [rows]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -117,6 +123,11 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
             name: 'Add new expense',
             event: () => setOpened(true),
           }}
+          leftHandTableInfo={
+            <TotalExpenses>
+              Total Expenses: <span>{totalExpenses.toFixed(2)}</span>
+            </TotalExpenses>
+          }
         />
       )}
 
