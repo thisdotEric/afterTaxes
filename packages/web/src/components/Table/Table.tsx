@@ -25,6 +25,7 @@ interface TableProps {
     name: string;
     event: () => void;
   };
+  leftHandTableInfo?: React.ReactNode;
 }
 
 const TableComponent: FC<TableProps> = ({
@@ -32,6 +33,7 @@ const TableComponent: FC<TableProps> = ({
   data,
   action,
   pageSize = 10,
+  leftHandTableInfo,
 }: TableProps) => {
   const {
     getTableProps,
@@ -117,7 +119,9 @@ const TableComponent: FC<TableProps> = ({
         </tbody>
       </Table>
       <hr />
-      <TableFooter>
+      <TableFooter isRightAlign={leftHandTableInfo == undefined}>
+        {leftHandTableInfo}
+
         <TablePagination
           canNextPage={canNextPage}
           canPreviousPage={canPreviousPage}
