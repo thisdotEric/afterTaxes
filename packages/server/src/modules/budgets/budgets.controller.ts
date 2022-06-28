@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { BudgetsService } from './budgets.service';
 import { BudgetInput } from './budgets.schema';
-import { Controller, POST, GET, PATCH } from 'fastify-decorators';
+import { Controller, POST, GET, PATCH, DELETE } from 'fastify-decorators';
 import { BudgetCategory } from './budgetTypes.repository';
 
 @Controller('/budgets')
@@ -142,6 +142,33 @@ export class BudgetsController {
       name,
       description,
     });
+
+    return reply.code(201).send('Ok');
+  }
+
+  @DELETE('/categories/:category_id')
+  public async disableBudgetCategory(
+    request: FastifyRequest<{
+      Params: {
+        category_id: number;
+      };
+      Querystring: {
+        year: number;
+        month: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const { category_id } = request.params;
+    const { year, month } = request.query;
+
+    await this.budgetService.disableBudgetCategory(
+      user_id,
+      category_id,
+      month,
+      year
+    );
 
     return reply.code(201).send('Ok');
   }

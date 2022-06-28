@@ -171,7 +171,8 @@ export class BudgetsService {
   private async computeRemainingBudgets(
     user_id: number,
     month: number,
-    year: number
+    year: number,
+    filterBy?: number
   ): Promise<RemainingBudget[]> {
     const allExpenses = await this.expensesRepo.getAllExpenses(
       user_id,
@@ -185,8 +186,18 @@ export class BudgetsService {
     const map =
       expensesComputation.computeTotalExpensesPerCategory(allExpenses);
 
-    const categorized_budget =
-      await this.budgetRepository.getCategorizedBudgets(user_id, month, year);
+    let categorized_budget;
+
+    if (filterBy)
+      categorized_budget = (
+        await this.budgetRepository.getCategorizedBudgets(user_id, month, year)
+      ).filter(b => b.budget_type_id == filterBy);
+    else
+      categorized_budget = await this.budgetRepository.getCategorizedBudgets(
+        user_id,
+        month,
+        year
+      );
 
     const remainingBudgets =
       budgetComputation.computeRemainingBalancePerCategory(
@@ -203,5 +214,57 @@ export class BudgetsService {
 
   async addNewBudgetCategory(user_id: number, budgetCategory: BudgetCategory) {
     return this.budgetTypesRepo.addNewBudgetCategory(user_id, budgetCategory);
+  }
+
+  async disableBudgetCategory(
+    user_id: number,
+    category_id: number,
+    month: number,
+    year: number
+  ) {
+    /**
+     * Important note
+     *
+     * Make sure to settle all the budgets from the past month to
+     * avoid conflicts.
+     */
+
+    const remainingBudgetsToBeRemoved = await this.computeRemainingBudgets(
+      user_id,
+      month,
+      year,
+      category_id
+    );
+
+    const budget_ids_toBeZeroedOut = remainingBudgetsToBeRemoved.map(
+      ({ budget_id }) => budget_id
+    );
+
+    const allExpenses = await this.expensesRepo.getAllExpenses(
+      user_id,
+      month,
+      year
+    );
+
+    const totalExpenses = allExpenses
+      .filter(b => b.budget_id == category_id)
+      .reduce((prev, next) => {
+        return prev + next.amount;
+      }, 0);
+
+    const budgetTypeName = await this.budgetTypesRepo.getBudgetTypeName(
+      category_id
+    );
+
+    await this.budgetRepository.deleteCategorizedBudget(
+      user_id,
+      budget_ids_toBeZeroedOut
+    );
+    await this.budgetTypesRepo.deleteBudgetCategory(user_id, category_id);
+
+    await this.budgetRepository.add(user_id, {
+      amount: totalExpenses * -1,
+      description: `Budget from '${budgetTypeName}' removed`,
+    });
   }
 }
