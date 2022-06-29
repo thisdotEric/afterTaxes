@@ -84,7 +84,10 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   onSubmit,
   opened,
   setOpened,
-  actionType = { type: 'add', currentRow: { id: 0, budgetName: '' } },
+  actionType = {
+    type: 'add',
+    currentRow: { id: 0, budgetName: '' },
+  },
   setIsEdit,
 }: RecordExpensesProps) => {
   const [expensesState, dispatch] = useReducer(expensesReducer, initialState);
@@ -275,6 +278,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
 
               runDispatch('amount', `${value}`);
             }}
+            disabled={actionType.currentRow?.originatingBudgetDeleted}
           />
 
           <TextArea
