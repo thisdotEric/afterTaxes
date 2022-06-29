@@ -10,6 +10,10 @@ export interface IExpenses {
   date: Date;
 }
 
+type ExpensesHistoryV2 = ExpensesHistory & {
+  originatingBudgetDeleted?: boolean;
+};
+
 @Service()
 export class ExpensesRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
@@ -83,7 +87,7 @@ export class ExpensesRepository {
     user_id: number,
     month: number,
     year: number
-  ): Promise<ExpensesHistory[]> {
+  ): Promise<ExpensesHistoryV2[]> {
     try {
       const allExpenses_row = await this.knex
         .db()(EXPENSES)
@@ -96,7 +100,7 @@ export class ExpensesRepository {
         .orderByRaw(`${EXPENSES}.updated_at desc`)
         .select('*', 'expenses.name', 'cb.name as cbName');
 
-      const allExpenses: ExpensesHistory[] = allExpenses_row.map((r: any) => {
+      const allExpenses: ExpensesHistoryV2[] = allExpenses_row.map((r: any) => {
         return {
           id: r.expenses_id,
           name: r.name,
@@ -105,6 +109,7 @@ export class ExpensesRepository {
           description: r.description,
           budget_id: r.categorized_budget_id,
           budgetName: r.cbName,
+          originatingBudgetDeleted: r.deleted,
         };
       });
 
