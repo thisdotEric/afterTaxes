@@ -151,7 +151,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
           size='xs'
           onClick={() => setOpenCreateBudgetModal(true)}
         >
-          + Create new budget
+          + Allocate Budget
         </Button>
       </div>
 
@@ -182,6 +182,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
               categorizedBudget={budget}
               openTransferBudgetModal={setOpenTransferBudget}
               setSourceBudget={setSourceBudget}
+              onSubmit={async () => await fetchBudgetPageValues()}
             />
           ))}
       </BudgetCards>
