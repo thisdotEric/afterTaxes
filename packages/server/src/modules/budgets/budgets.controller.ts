@@ -146,6 +146,22 @@ export class BudgetsController {
     return reply.code(201).send('Ok');
   }
 
+  @DELETE('/:budget_id')
+  public async deleteAllocatedBudget(
+    request: FastifyRequest<{
+      Params: {
+        budget_id: number;
+      };
+    }>,
+    reply: FastifyReply
+  ) {
+    const user_id = request.session.user!.user_id;
+    const { budget_id } = request.params;
+
+    await this.budgetService.deleteCategorizedBudget(user_id, budget_id);
+
+    return reply.code(201).send('Ok');
+  }
   @DELETE('/categories/:category_id')
   public async disableBudgetCategory(
     request: FastifyRequest<{

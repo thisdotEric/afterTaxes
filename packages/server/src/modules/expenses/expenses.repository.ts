@@ -114,4 +114,14 @@ export class ExpensesRepository {
       return [];
     }
   }
+
+  async getAllExpensesByID(
+    categorized_budget_id: number
+  ): Promise<ExpensesHistory[]> {
+    const expenses = await this.knex.db()(EXPENSES).where({
+      categorized_budget_id,
+    });
+
+    return expenses;
+  }
 }

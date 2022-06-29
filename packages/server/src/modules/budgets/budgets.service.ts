@@ -216,6 +216,21 @@ export class BudgetsService {
     return this.budgetTypesRepo.addNewBudgetCategory(user_id, budgetCategory);
   }
 
+  async deleteCategorizedBudget(user_id: number, budget_id: number) {
+    const expenses = await this.expensesRepo.getAllExpensesByID(budget_id);
+
+    const totalExpenses = expenses.reduce((prev, next) => {
+      return prev + next.amount;
+    }, 0);
+
+    await this.budgetRepository.add(user_id, {
+      amount: totalExpenses * -1,
+      description: `Budget allocated to 'SoundCloud' removed`,
+    });
+
+    await this.budgetRepository.deleteCategorizedBudget(user_id, [budget_id]);
+  }
+
   async disableBudgetCategory(
     user_id: number,
     category_id: number,
