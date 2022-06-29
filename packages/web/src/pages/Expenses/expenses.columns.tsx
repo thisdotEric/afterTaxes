@@ -1,3 +1,4 @@
+import { red } from '../../components/styles/colors';
 import React from 'react';
 import type { Column } from 'react-table';
 import type { ExpensesHistory } from './Expenses';
@@ -27,5 +28,21 @@ export const expensesColumns = [
   {
     Header: 'CATEGORY',
     accessor: 'budgetName',
+    Cell: ({
+      row: {
+        original: { originatingBudgetDeleted, budgetName },
+      },
+    }) => {
+      const deletedStyle = { color: 'gray', fontStyle: 'italic' };
+
+      return (
+        <p style={originatingBudgetDeleted ? deletedStyle : {}}>
+          {budgetName}{' '}
+          {originatingBudgetDeleted && (
+            <span style={{ color: `${red}` }}>* </span>
+          )}
+        </p>
+      );
+    },
   },
 ] as Column<ExpensesHistory>[];

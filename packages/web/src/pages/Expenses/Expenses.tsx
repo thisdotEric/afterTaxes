@@ -1,6 +1,10 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Menu, Modal, Skeleton } from '@mantine/core';
-import { ExpensesPageWrapper, TotalExpenses } from './Expenses.styles';
+import {
+  ExpensesLegends,
+  ExpensesPageWrapper,
+  TotalExpenses,
+} from './Expenses.styles';
 import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
@@ -25,11 +29,13 @@ export interface ExpensesHistory {
   amount: number;
   budget_id: string;
   budgetName: string;
+  originatingBudgetDeleted?: boolean;
 }
 
 export interface CurrentRow {
   id: number;
   budgetName: string;
+  originatingBudgetDeleted?: boolean;
 }
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
@@ -94,6 +100,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 currentRow={{
                   id: row.value,
                   budgetName: row.row.original.budgetName,
+                  originatingBudgetDeleted:
+                    row.row.original.originatingBudgetDeleted,
                 }}
               />
             );
@@ -128,6 +136,15 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
               Total Expenses: <span>{totalExpenses.toFixed(2)}</span>
             </TotalExpenses>
           }
+          legends={
+            <ExpensesLegends>
+              <p>
+                Legends:{' '}
+                <span id='legend-description'>Originating budget deleted</span>
+                <span>*</span>
+              </p>
+            </ExpensesLegends>
+          }
         />
       )}
 
@@ -142,6 +159,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 currentRow: {
                   id: currentRow.id,
                   budgetName: currentRow.budgetName,
+                  originatingBudgetDeleted: currentRow.originatingBudgetDeleted,
                 },
               }
             : {

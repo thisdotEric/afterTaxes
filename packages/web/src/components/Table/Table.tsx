@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Button, Table, TextInput } from '@mantine/core';
 import {
   useGlobalFilter,
@@ -7,14 +7,7 @@ import {
   useTable,
 } from 'react-table';
 import { TableFooter, TableWrapper } from './Table.styles';
-import {
-  ArrowDown,
-  ArrowNarrowLeft,
-  ArrowNarrowRight,
-  ArrowUp,
-  ChevronsLeft,
-  Search,
-} from 'tabler-icons-react';
+import { ArrowDown, ArrowUp, Search } from 'tabler-icons-react';
 import TablePagination from './TablePagination';
 
 interface TableProps {
@@ -26,6 +19,7 @@ interface TableProps {
     event: () => void;
   };
   leftHandTableInfo?: React.ReactNode;
+  legends?: React.ReactNode;
 }
 
 const TableComponent: FC<TableProps> = ({
@@ -34,6 +28,7 @@ const TableComponent: FC<TableProps> = ({
   action,
   pageSize = 10,
   leftHandTableInfo,
+  legends,
 }: TableProps) => {
   const {
     getTableProps,
@@ -133,6 +128,7 @@ const TableComponent: FC<TableProps> = ({
           length={pageOptions.length}
         />
       </TableFooter>
+      {legends}
     </TableWrapper>
   );
 };

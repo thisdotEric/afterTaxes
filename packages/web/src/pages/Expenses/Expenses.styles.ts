@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { secondarybg, green, primarybg } from '../../components/styles/colors';
+import {
+  secondarybg,
+  green,
+  primarybg,
+  red,
+} from '../../components/styles/colors';
 
 export const TotalExpenses = styled.p`
   color: grey;
@@ -7,6 +12,20 @@ export const TotalExpenses = styled.p`
   span {
     font-weight: bold;
     color: ${green};
+  }
+`;
+
+export const ExpensesLegends = styled.div`
+  padding-top: 10px;
+  color: white;
+  font-style: italic;
+
+  span {
+    color: ${red};
+  }
+
+  #legend-description {
+    color: grey;
   }
 `;
 
