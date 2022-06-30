@@ -36,16 +36,18 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
 
       <MainContentWrapper>
         <HeaderWrapper>
-          {/* <DateComponent
-            month={header ? header.date!.month : month}
-            year={header ? header.date!.year : year}
-            date={header?.date!.day}
-          /> */}
-
           <DatePicker
             value={value}
             onChange={(value) => onChange(value!)}
             inputFormat='MMMM YYYY'
+            id='datepicker'
+            defaultValue={new Date()}
+            firstDayOfWeek='sunday'
+            classNames={{
+              label: 'datepicker-labesl',
+              arrow: 'arrow',
+              dropdown: 'arrow',
+            }}
           />
 
           <p id='header-title'>&nbsp; {header!.headerTitle}</p>

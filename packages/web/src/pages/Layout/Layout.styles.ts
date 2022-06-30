@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { primarybg, secondarybg } from '../../components/styles/colors';
 
 export const MainContentWrapper = styled.div`
@@ -7,6 +7,25 @@ export const MainContentWrapper = styled.div`
   padding-top: 5px;
   padding-right: 20px;
   min-height: 100vh;
+
+  .datepicker-label {
+    font-size: 12px;
+    color: rgb(230, 230, 230);
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  #datepicker {
+    background-color: #2e3139;
+    border: none;
+    caret-color: white;
+    color: white;
+    font-weight: bold;
+    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    width: 160px;
+  }
 `;
 
 export const HeaderWrapper = styled.div`
