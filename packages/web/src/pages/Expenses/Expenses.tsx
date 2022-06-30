@@ -1,5 +1,11 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Menu, Modal, Skeleton } from '@mantine/core';
+import React, {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
   ExpensesLegends,
   ExpensesPageWrapper,
@@ -10,14 +16,15 @@ import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
 import { expensesColumns } from './expenses.columns';
 import { useSetHeader } from '../../hooks';
-import { year, month } from '../../constants/date';
 import type { Column } from 'react-table';
-import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
+import { Edit, Trash } from 'tabler-icons-react';
 import { axios } from '../../utils';
 import TableComponent from '../../components/Table';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import type { ActionList } from '../../components/Menu/ActionMenu';
 import ActionMenu from '../../components/Menu/ActionMenu';
+import { HeaderContext } from '../../context';
+import { getMonthAndYear } from '../../utils/date';
 
 interface ExpensesProps {}
 
@@ -39,7 +46,10 @@ export interface CurrentRow {
 }
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
-  useSetHeader('Expenses List', 'Expenses', { year, month });
+  useSetHeader('Expenses List', 'Expenses');
+  const {
+    header: { date },
+  } = useContext(HeaderContext);
 
   // Modal state variables
   const [opened, setOpened] = useState(false);
@@ -78,9 +88,11 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   ]);
 
   const fetchData = useCallback(async () => {
-    const { data } = await axios.get('expenses/2022/06');
+    const { month, year } = getMonthAndYear(date);
+
+    const { data } = await axios.get(`expenses/${year}/${month}`);
     setRows(data);
-  }, []);
+  }, [date]);
 
   // Memoized table rows and columns
   const data = useMemo<ExpensesHistory[]>(() => rows, [rows, setRows]);
@@ -120,6 +132,10 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [date]);
 
   return (
     <ExpensesPageWrapper>

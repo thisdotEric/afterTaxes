@@ -7,8 +7,6 @@ import {
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
 import { AppLogo } from '../../components/App/AppLogo';
-import { month, year, day, IDate } from '../../constants/date';
-import { DateComponent as DateComponent } from '../../components/Date';
 import { HeaderContext, HeaderContextValue } from '../../context';
 import AnimatedPage from '../../components/Framer';
 import { DatePicker } from '@mantine/dates';
@@ -18,12 +16,8 @@ interface LayoutProps {}
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
   const [header, setHeader] = useState<HeaderContextValue>({
     headerTitle: 'Dashboard',
-    date: {
-      month,
-      year,
-    },
+    date: new Date(),
   });
-  const [value, onChange] = useState<Date>(new Date());
 
   return (
     <HeaderContext.Provider value={{ header, setHeader }}>
@@ -37,8 +31,10 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
       <MainContentWrapper>
         <HeaderWrapper>
           <DatePicker
-            value={value}
-            onChange={(value) => onChange(value!)}
+            value={header.date}
+            onChange={(value) => {
+              setHeader({ ...header, date: value! });
+            }}
             inputFormat='MMMM YYYY'
             id='datepicker'
             defaultValue={new Date()}
