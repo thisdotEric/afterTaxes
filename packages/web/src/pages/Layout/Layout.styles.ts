@@ -16,11 +16,10 @@ export const HeaderWrapper = styled.div`
   align-items: center;
 
   #header-title {
-    font-size: 18px;
+    font-size: 14px;
     padding: 20px 0px;
     font-weight: bold;
     color: white;
-    min-width: 150px;
   }
 
   #monthpicker {
