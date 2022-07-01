@@ -27,7 +27,7 @@ function getSavedDate(): Date {
 
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
   const [header, setHeader] = useState<HeaderContextValue>({
-    headerTitle: 'Dashboard',
+    headerTitle: '',
     date: getSavedDate(),
   });
 
@@ -35,10 +35,6 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
     () => ({ header, setHeader }),
     [header, setHeader]
   );
-
-  useEffect(() => {
-    setHeader({ ...header, date: getSavedDate() });
-  }, []);
 
   return (
     <HeaderContext.Provider value={{ ...memoizedHeader }}>
@@ -64,7 +60,7 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
             showTwoColumnMonthYearPicker
             calendarContainer={MonthPicker}
           />
-          <p id='header-title'>&nbsp; {header!.headerTitle}</p>
+          <p id='header-title'>&nbsp; {header.headerTitle}</p>
         </HeaderWrapper>
 
         <AnimatedPage>
