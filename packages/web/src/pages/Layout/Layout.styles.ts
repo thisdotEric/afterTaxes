@@ -7,30 +7,12 @@ export const MainContentWrapper = styled.div`
   padding-top: 5px;
   padding-right: 20px;
   min-height: 100vh;
-
-  .datepicker-label {
-    font-size: 12px;
-    color: rgb(230, 230, 230);
-    display: flex;
-    justify-content: left;
-    align-items: center;
-  }
-
-  #datepicker {
-    background-color: #2e3139;
-    border: none;
-    caret-color: white;
-    color: white;
-    font-weight: bold;
-    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    width: 160px;
-  }
 `;
 
 export const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
+  width: 100%;
+  display: inline-flexbox;
+  justify-content: left;
   align-items: center;
 
   #header-title {
@@ -38,6 +20,21 @@ export const HeaderWrapper = styled.div`
     padding: 20px 0px;
     font-weight: bold;
     color: white;
+    min-width: 150px;
+  }
+
+  #monthpicker {
+    padding: 8px 10px;
+    outline: none;
+    font-size: 14px;
+    background-color: ${secondarybg};
+    border: none;
+    caret-color: white;
+    color: white;
+    font-weight: bold;
+    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 5px;
   }
 `;
 

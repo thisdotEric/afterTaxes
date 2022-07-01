@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   SideNavWrapper,
   MainContentWrapper,
@@ -9,18 +9,39 @@ import { SideNav } from '../../components/SideNav';
 import { AppLogo } from '../../components/App/AppLogo';
 import { HeaderContext, HeaderContextValue } from '../../context';
 import AnimatedPage from '../../components/Framer';
-import { DatePicker } from '@mantine/dates';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import MonthPicker from '../../components/MonthPicker';
 
 interface LayoutProps {}
+
+function getSavedDate(): Date {
+  const localstorageDate = localStorage.getItem('date');
+
+  if (localstorageDate) {
+    const storedDate = JSON.parse(localstorageDate);
+
+    return new Date(storedDate);
+  } else return new Date();
+}
 
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
   const [header, setHeader] = useState<HeaderContextValue>({
     headerTitle: 'Dashboard',
-    date: new Date(),
+    date: getSavedDate(),
   });
 
+  const memoizedHeader = useMemo(
+    () => ({ header, setHeader }),
+    [header, setHeader]
+  );
+
+  useEffect(() => {
+    setHeader({ ...header, date: getSavedDate() });
+  }, []);
+
   return (
-    <HeaderContext.Provider value={{ header, setHeader }}>
+    <HeaderContext.Provider value={{ ...memoizedHeader }}>
       <SideNavWrapper>
         <div>
           <AppLogo />
@@ -31,21 +52,18 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
       <MainContentWrapper>
         <HeaderWrapper>
           <DatePicker
-            value={header.date}
-            onChange={(value) => {
-              setHeader({ ...header, date: value! });
+            id='monthpicker'
+            selected={header.date}
+            onChange={(selectedDate) => {
+              localStorage.setItem('date', JSON.stringify(selectedDate!));
+              setHeader({ ...header, date: selectedDate! });
             }}
-            inputFormat='MMMM YYYY'
-            id='datepicker'
-            defaultValue={new Date()}
-            firstDayOfWeek='sunday'
-            classNames={{
-              label: 'datepicker-labesl',
-              arrow: 'arrow',
-              dropdown: 'arrow',
-            }}
+            dateFormat='MMMM yyyy'
+            showMonthYearPicker
+            showFullMonthYearPicker
+            showTwoColumnMonthYearPicker
+            calendarContainer={MonthPicker}
           />
-
           <p id='header-title'>&nbsp; {header!.headerTitle}</p>
         </HeaderWrapper>
 

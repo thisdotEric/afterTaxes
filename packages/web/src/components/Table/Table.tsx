@@ -62,7 +62,6 @@ const TableComponent: FC<TableProps> = ({
     <TableWrapper>
       <div className='table-actions'>
         <TextInput
-          icon={<Search size={15} />}
           size='xs'
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}

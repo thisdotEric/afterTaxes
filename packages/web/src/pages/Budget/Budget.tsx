@@ -144,13 +144,15 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
       `budgets/${year}/${month}/categories`
     );
     setBudgets(categorized_budget);
-  }, []);
+  }, [date]);
 
   useEffect(() => {
     fetchBudgetPageValues();
   }, []);
 
   useEffect(() => {
+    console.log("Date's changed");
+
     fetchBudgetPageValues();
   }, [date]);
 

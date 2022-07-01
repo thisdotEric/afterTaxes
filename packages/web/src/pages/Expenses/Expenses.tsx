@@ -129,9 +129,9 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     }, 0);
   }, [rows]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     fetchData();

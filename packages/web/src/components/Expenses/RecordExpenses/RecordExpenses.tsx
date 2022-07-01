@@ -1,6 +1,7 @@
 import React, {
   FC,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useReducer,
@@ -20,6 +21,8 @@ import SharedModal from '../../Modal/SharedModal';
 import { axios } from '../../../utils';
 import type { CurrentRow } from '../../../pages/Expenses/Expenses';
 import type { BudgetItemProps } from '../../../components/Input/BudgetDropDown';
+import { HeaderContext } from '../../../context';
+import { getMonthAndYear } from '../../../utils/date';
 
 interface RecordExpensesProps extends RequiredModalProps {
   actionType?: {
@@ -116,6 +119,10 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     setCurrentMaxAmount(0);
   };
 
+  const {
+    header: { date },
+  } = useContext(HeaderContext);
+
   const allValuesFilledUp = useCallback(() => {
     let withoutError = true;
 
@@ -162,7 +169,9 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   };
 
   const fetchRemainingBudgets = async () => {
-    const { data } = await axios.get('budgets/2022/06/remaining');
+    const { month, year } = getMonthAndYear(date);
+
+    const { data } = await axios.get(`budgets/${year}/${month}/remaining`);
 
     setRemainingBudgets(() => {
       return data.map((d: any) => {
@@ -203,7 +212,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
     fetchRemainingBudgets();
 
     if (actionType.type === 'update') fetchToBeUpdatedExpenseItem();
-  }, [actionType.type]);
+  }, [actionType.type, date]);
 
   useEffect(() => {
     fetchRemainingBudgets();

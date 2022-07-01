@@ -56,10 +56,7 @@ interface DashboardProps {}
 const Dashboard: FC<DashboardProps> = ({}: DashboardProps) => {
   const navigate = useNavigate();
 
-  useSetHeader('Daily Budget Dashboard', 'Dashboard', {
-    year,
-    month,
-  });
+  useSetHeader('Daily Budget Dashboard', 'Dashboard');
 
   return (
     <div>
