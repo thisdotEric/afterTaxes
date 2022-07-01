@@ -129,9 +129,12 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     }, 0);
   }, [rows]);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  const monthHasNotPassed = useMemo(() => {
+    const { month } = getMonthAndYear(date);
+    const { month: currentMonth } = getMonthAndYear(new Date());
+
+    return month == currentMonth;
+  }, [date]);
 
   useEffect(() => {
     fetchData();
@@ -143,10 +146,14 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         <TableComponent
           columns={columns}
           data={data}
-          action={{
-            name: 'Add new expense',
-            event: () => setOpened(true),
-          }}
+          action={
+            monthHasNotPassed
+              ? {
+                  name: 'Add new expense',
+                  event: () => setOpened(true),
+                }
+              : undefined
+          }
           leftHandTableInfo={
             <TotalExpenses>
               Total Expenses: <span>{totalExpenses.toFixed(2)}</span>
