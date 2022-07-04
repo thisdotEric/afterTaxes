@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {
+  green,
   lightgreen,
   primarybg,
   red,
@@ -19,18 +20,6 @@ export const LoginWrapper = styled.div`
     cursor: pointer;
   }
 
-  // afterTaxes text
-  p {
-    font-size: 48px;
-    text-align: center;
-    color: ${white};
-    margin: 20px;
-
-    span {
-      color: ${lightgreen};
-    }
-  }
-
   #login-btn {
     text-align: center;
     width: 100%;
@@ -44,6 +33,21 @@ export const LoginWrapper = styled.div`
     font-size: 13px;
     text-align: left;
     color: ${red};
+  }
+`;
+
+interface LandingPageTextProps {
+  fontsize?: number;
+}
+
+export const LandingPageText = styled.p<LandingPageTextProps>`
+  font-size: ${(p) => p.fontsize}px;
+  text-align: center;
+  color: ${white};
+  padding: 20px;
+
+  span {
+    color: ${lightgreen};
   }
 `;
 
@@ -61,5 +65,23 @@ export const RememberMe = styled.div`
     color: ${white};
     margin-left: 10px;
     font-size: 12px;
+  }
+`;
+
+export const AccountActionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+
+  .account-action {
+    background: none;
+    font-weight: normal;
+
+    &:hover {
+      text-decoration: underline;
+      font-weight: bold;
+      color: ${green};
+    }
   }
 `;

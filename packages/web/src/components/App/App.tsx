@@ -1,11 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
 import { UserContext } from '../../context';
@@ -19,6 +13,7 @@ import FundsHistory from '../../pages/FundsHistory';
 import BudgetCategories from '../../pages/Budget/BudgetCategories';
 import NotFoundPage from '../../pages/404';
 import { AnimatePresence } from 'framer-motion';
+import SignUp from '../../pages/SignUp';
 
 interface AppProps {}
 
@@ -47,18 +42,11 @@ const App: FC<AppProps> = ({}: AppProps) => {
                 <Route path='history' element={<FundsHistory />} />
                 <Route path='categories' element={<BudgetCategories />} />
               </Route>
-              <Route
-                path='reports'
-                element={
-                  <>
-                    <p>Reports</p>
-                  </>
-                }
-              />
               <Route path='profile' element={<UserProfile />} />
             </Route>
           </Route>
           <Route path='/signin' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </AnimatePresence>

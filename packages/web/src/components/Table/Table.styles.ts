@@ -1,11 +1,9 @@
-import {
-  green,
-  grey,
-  lightgreen,
-  primarybg,
-  secondarybg,
-} from '../../components/styles/colors';
+import { green, lightgreen, secondarybg } from '../../components/styles/colors';
 import styled from 'styled-components';
+
+interface TableFooterProps {
+  isRightAlign: boolean;
+}
 
 export const TableWrapper = styled.div`
   hr {
@@ -94,9 +92,9 @@ export const TableWrapper = styled.div`
   }
 `;
 
-export const TableFooter = styled.div`
+export const TableFooter = styled.div<TableFooterProps>`
   display: flex;
-  justify-content: right;
+  justify-content: ${(p) => (p.isRightAlign ? 'right' : 'space-between')};
   align-items: center;
   padding-top: 15px;
 `;

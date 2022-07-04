@@ -49,7 +49,7 @@ export class BudgetsRepository {
   ): Promise<CategorizedBudget[]> {
     let sql = `select * from ${CATEGORIZED_BUDGET} cb join ${BUDGET_TYPES} bt on cb.budget_type_id = bt.budget_type_id 
     where EXTRACT(MONTH FROM cb.created_at) = ${month} and EXTRACT(YEAR FROM cb.created_at) = ${year} 
-    and cb.user_id = ${user_id} order by budget desc`;
+    and cb.user_id = ${user_id} and cb.deleted = false order by budget desc`;
 
     const budget_rows = await this.knex.db().raw(sql);
 
@@ -103,5 +103,16 @@ export class BudgetsRepository {
       .db()(CATEGORIZED_BUDGET)
       .update({ budget })
       .where({ user_id, categorized_budget_id: budget_id });
+  }
+
+  async deleteCategorizedBudget(user_id: number, budget_ids: number[]) {
+    const deleteBudget_Promise = budget_ids.map(categorized_budget_id =>
+      this.knex
+        .db()(CATEGORIZED_BUDGET)
+        .update({ deleted: true, budget: 0 })
+        .where({ user_id, categorized_budget_id })
+    );
+
+    await Promise.all(deleteBudget_Promise);
   }
 }

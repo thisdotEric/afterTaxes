@@ -3,22 +3,42 @@ import type {
   CategorizedBudget,
   SourceBudgetCategory,
 } from '../../../pages/Budget';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { ArrowsLeftRight, Edit, Trash } from 'tabler-icons-react';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import { axios } from '../../../utils';
 
 interface CategorizedBudgetCardProps {
   categorizedBudget: CategorizedBudget;
   openTransferBudgetModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSourceBudget: React.Dispatch<React.SetStateAction<SourceBudgetCategory>>;
+  onSubmit: () => Promise<void>;
 }
 
 const CategorizedBudgetCard: FC<CategorizedBudgetCardProps> = ({
-  categorizedBudget: { budget, id, name, remainingBudget },
+  categorizedBudget: { budget, id, name, remainingBudget, budget_type_id },
   openTransferBudgetModal,
   setSourceBudget,
+  onSubmit,
 }: CategorizedBudgetCardProps) => {
+  const [openedConfirmDeleteModal, setOpenedConfirmDeleteModal] =
+    useState<boolean>(false);
+
   return (
     <>
+      <ConfirmModal
+        opened={openedConfirmDeleteModal}
+        setOpened={setOpenedConfirmDeleteModal}
+        onSubmit={async () => {
+          console.log('Budget CAtegory Id: ', budget_type_id);
+
+          await axios.delete(`budgets/${id}`);
+          await onSubmit();
+        }}
+        modalTitle='Confirm delete budget?'
+        confirmMessage='Delete Budget'
+      />
+
       <Card shadow={'sm'} id='budget-card' key={id}>
         <div>
           <p id='name'>{name}</p>
@@ -51,7 +71,9 @@ const CategorizedBudgetCard: FC<CategorizedBudgetCardProps> = ({
             size={20}
             id='delete'
             className='action-btn'
-            onClick={() => console.log('Hey')}
+            onClick={() => {
+              setOpenedConfirmDeleteModal(true);
+            }}
             strokeWidth={1.5}
           />
         </div>{' '}

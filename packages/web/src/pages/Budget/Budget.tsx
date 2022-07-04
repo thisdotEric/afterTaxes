@@ -1,7 +1,13 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useSetHeader } from '../../hooks';
 import { Button } from '@mantine/core';
-import { month, year } from '../../constants/date';
 import { BudgetCards, BudgetWrapper } from './Budget.styles';
 import AddBudgetModal from '../../components/Budget/AddBudgetModal';
 import { axios } from '../../utils';
@@ -13,6 +19,8 @@ import type { DestinationBudgets } from '@components/Budget/TransferBudgetModal/
 import type { ActionList } from '../../components/Menu/ActionMenu';
 import { History, Minus, Notes, Plus } from 'tabler-icons-react';
 import { useNavigate } from 'react-router-dom';
+import { HeaderContext } from '../../context';
+import { getMonthAndYear } from '../../utils/date';
 
 interface BudgetProps {}
 
@@ -43,10 +51,10 @@ export type BudgetActions = ActionList & {
 export type FundsOperation = 'add' | 'remove';
 
 const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
-  useSetHeader('Budget', 'Budget', {
-    year,
-    month,
-  });
+  useSetHeader('Budget', 'Budget');
+  const {
+    header: { date },
+  } = useContext(HeaderContext);
 
   const [budgetBreakdown, setBudgetBreakdown] = useState<BudgetBreakdown>({
     total: 0,
@@ -124,21 +132,29 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
   );
 
   const fetchBudgetPageValues = useCallback(async () => {
-    const { data } = await axios.get('budgets/2022/06');
+    const { month, year } = getMonthAndYear(date);
+
+    const { data } = await axios.get(`budgets/${year}/${month}`);
     setBudgetBreakdown({
       total: data.total,
       unallocated: data.unallocated,
     });
 
     const { data: categorized_budget } = await axios.get(
-      'budgets/2022/06/categories'
+      `budgets/${year}/${month}/categories`
     );
     setBudgets(categorized_budget);
-  }, []);
+  }, [date]);
 
   useEffect(() => {
     fetchBudgetPageValues();
   }, []);
+
+  useEffect(() => {
+    console.log("Date's changed");
+
+    fetchBudgetPageValues();
+  }, [date]);
 
   return (
     <BudgetWrapper>
@@ -151,7 +167,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
           size='xs'
           onClick={() => setOpenCreateBudgetModal(true)}
         >
-          + Create new budget
+          + Allocate Budget
         </Button>
       </div>
 
@@ -182,6 +198,7 @@ const Budget: FC<BudgetProps> = ({}: BudgetProps) => {
               categorizedBudget={budget}
               openTransferBudgetModal={setOpenTransferBudget}
               setSourceBudget={setSourceBudget}
+              onSubmit={async () => await fetchBudgetPageValues()}
             />
           ))}
       </BudgetCards>

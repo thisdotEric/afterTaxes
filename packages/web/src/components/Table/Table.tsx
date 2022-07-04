@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Button, Table, TextInput } from '@mantine/core';
 import {
   useGlobalFilter,
@@ -7,14 +7,7 @@ import {
   useTable,
 } from 'react-table';
 import { TableFooter, TableWrapper } from './Table.styles';
-import {
-  ArrowDown,
-  ArrowNarrowLeft,
-  ArrowNarrowRight,
-  ArrowUp,
-  ChevronsLeft,
-  Search,
-} from 'tabler-icons-react';
+import { ArrowDown, ArrowUp, Search } from 'tabler-icons-react';
 import TablePagination from './TablePagination';
 
 interface TableProps {
@@ -25,6 +18,8 @@ interface TableProps {
     name: string;
     event: () => void;
   };
+  leftHandTableInfo?: React.ReactNode;
+  legends?: React.ReactNode;
 }
 
 const TableComponent: FC<TableProps> = ({
@@ -32,6 +27,8 @@ const TableComponent: FC<TableProps> = ({
   data,
   action,
   pageSize = 10,
+  leftHandTableInfo,
+  legends,
 }: TableProps) => {
   const {
     getTableProps,
@@ -65,7 +62,6 @@ const TableComponent: FC<TableProps> = ({
     <TableWrapper>
       <div className='table-actions'>
         <TextInput
-          icon={<Search size={15} />}
           size='xs'
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
@@ -117,7 +113,9 @@ const TableComponent: FC<TableProps> = ({
         </tbody>
       </Table>
       <hr />
-      <TableFooter>
+      <TableFooter isRightAlign={leftHandTableInfo == undefined}>
+        {leftHandTableInfo}
+
         <TablePagination
           canNextPage={canNextPage}
           canPreviousPage={canPreviousPage}
@@ -129,6 +127,7 @@ const TableComponent: FC<TableProps> = ({
           length={pageOptions.length}
         />
       </TableFooter>
+      {legends}
     </TableWrapper>
   );
 };

@@ -1,10 +1,11 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import { axios } from '../../utils';
 import { useSetHeader } from '../../hooks';
-import { month, year } from '../../constants/date';
 import { FundsHistoryWrapper } from './FundsHistory.styles';
 import TableComponent from '../../components/Table';
 import type { Column } from 'react-table';
+import { HeaderContext } from '../../context';
+import { getMonthAndYear } from '../../utils/date';
 
 export interface IFundsHistory {
   amount: number;
@@ -15,14 +16,16 @@ export interface IFundsHistory {
 interface FundsHistoryProps {}
 
 const FundsHistory: FC<FundsHistoryProps> = ({}: FundsHistoryProps) => {
-  useSetHeader('Funds History', 'Funds History', { month, year });
+  useSetHeader('Funds History', 'Funds History');
+  const {
+    header: { date },
+  } = useContext(HeaderContext);
 
   const [fundsHistory, setFundsHistory] = useState<IFundsHistory[]>([]);
 
   const fetchFundsHistory = async () => {
-    const { data } = await axios.get('budgets/2022/06/history');
-
-    console.log(data);
+    const { month, year } = getMonthAndYear(date);
+    const { data } = await axios.get(`budgets/${year}/${month}/history`);
 
     setFundsHistory(
       data.map((h: any) => ({
