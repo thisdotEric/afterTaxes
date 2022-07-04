@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { primarybg, secondarybg } from '../../components/styles/colors';
 
 export const MainContentWrapper = styled.div`
@@ -10,15 +10,30 @@ export const MainContentWrapper = styled.div`
 `;
 
 export const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
+  width: 100%;
+  display: inline-flexbox;
+  justify-content: left;
   align-items: center;
 
   #header-title {
-    font-size: 18px;
+    font-size: 14px;
     padding: 20px 0px;
     font-weight: bold;
     color: white;
+  }
+
+  #monthpicker {
+    padding: 8px 10px;
+    outline: none;
+    font-size: 14px;
+    background-color: ${secondarybg};
+    border: none;
+    caret-color: white;
+    color: white;
+    font-weight: bold;
+    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 5px;
   }
 `;
 

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import './Input.css';
 import { DatePicker as MantineDatePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
+import dayjs from 'dayjs';
 
 interface DatePickerProps {
   label: string;
@@ -24,6 +25,9 @@ const DatePicker: FC<DatePickerProps> = ({
       label={label}
       value={value}
       placeholder='Pick date'
+      minDate={dayjs(new Date()).startOf('month').toDate()}
+      maxDate={dayjs(new Date()).endOf('month').toDate()}
+      allowLevelChange={false}
       defaultValue={date}
       firstDayOfWeek='sunday'
       classNames={{

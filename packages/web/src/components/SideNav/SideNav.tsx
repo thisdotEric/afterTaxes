@@ -41,11 +41,6 @@ const SideNav: FC<SideNavProps> = ({}: SideNavProps) => {
       icon: <CurrencyDollar size={iconSize} />,
     },
     {
-      name: 'Reports',
-      to: '/reports',
-      icon: <ReportAnalytics size={iconSize} />,
-    },
-    {
       name: 'Sign out',
       to: '/',
       isSignout: true,

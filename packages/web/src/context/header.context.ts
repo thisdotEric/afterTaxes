@@ -1,16 +1,18 @@
 import { createContext } from 'react';
-import type { IDate } from '../constants/date';
 
 export interface HeaderContextValue {
   headerTitle: string;
-  date: IDate;
+  date: Date;
 }
 interface HeaderContextProps {
-  header: HeaderContextValue | null;
+  header: HeaderContextValue;
   setHeader: React.Dispatch<React.SetStateAction<HeaderContextValue>>;
 }
 
 export const HeaderContext = createContext<HeaderContextProps>({
-  header: null,
+  header: {
+    headerTitle: '',
+    date: new Date(),
+  },
   setHeader: () => {},
 });

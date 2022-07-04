@@ -10,6 +10,10 @@ export interface IExpenses {
   date: Date;
 }
 
+type ExpensesHistoryV2 = ExpensesHistory & {
+  originatingBudgetDeleted?: boolean;
+};
+
 @Service()
 export class ExpensesRepository {
   constructor(private readonly knex: KnexQueryBuilder) {}
@@ -24,21 +28,19 @@ export class ExpensesRepository {
       date,
     }: Omit<ExpensesHistory, 'id' | 'budgetName'>
   ): Promise<void> {
-    await this.knex
-      .db()(EXPENSES)
-      .insert({
-        name,
-        amount,
-        description,
-        created_at: date ? date : new Date(),
-        categorized_budget_id: budget_id,
-        user_id,
-      });
+    await this.knex.db()(EXPENSES).insert({
+      name,
+      amount,
+      description,
+      created_at: date,
+      categorized_budget_id: budget_id,
+      user_id,
+    });
   }
 
   async updateExpenseItem(
     user_id: number,
-    { name, amount, description, id }: Omit<ExpensesHistory, 'budgetName'>
+    { name, amount, description, id, date }: Omit<ExpensesHistory, 'budgetName'>
   ) {
     await this.knex
       .db()(EXPENSES)
@@ -46,6 +48,7 @@ export class ExpensesRepository {
         name,
         amount,
         description,
+        created_at: date,
       })
       .where({ user_id, expenses_id: id });
   }
@@ -65,7 +68,7 @@ export class ExpensesRepository {
     const expenseItem: ExpensesHistory = {
       id: expenseItem_row.expenses_id,
       name: expenseItem_row.name,
-      date: new Date(expenseItem_row.updated_at),
+      date: expenseItem_row.created_at,
       amount: expenseItem_row.amount,
       description: expenseItem_row.description,
       budget_id: expenseItem_row.categorized_budget_id,
@@ -83,7 +86,7 @@ export class ExpensesRepository {
     user_id: number,
     month: number,
     year: number
-  ): Promise<ExpensesHistory[]> {
+  ): Promise<ExpensesHistoryV2[]> {
     try {
       const allExpenses_row = await this.knex
         .db()(EXPENSES)
@@ -93,18 +96,24 @@ export class ExpensesRepository {
         .where(`${EXPENSES}.user_id`, user_id)
         .whereRaw(`EXTRACT(month from ${EXPENSES}.created_at) = '${month}'`)
         .andWhereRaw(`EXTRACT(year from ${EXPENSES}.created_at) = '${year}'`)
-        .orderByRaw(`${EXPENSES}.updated_at desc`)
-        .select('*', 'expenses.name', 'cb.name as cbName');
+        .orderByRaw(`${EXPENSES}.created_at desc`)
+        .select(
+          '*',
+          'expenses.name',
+          'cb.name as cbName',
+          'expenses.created_at'
+        );
 
-      const allExpenses: ExpensesHistory[] = allExpenses_row.map((r: any) => {
+      const allExpenses: ExpensesHistoryV2[] = allExpenses_row.map((r: any) => {
         return {
           id: r.expenses_id,
           name: r.name,
-          date: new Date(r.updated_at),
+          date: r.created_at,
           amount: r.amount,
           description: r.description,
           budget_id: r.categorized_budget_id,
           budgetName: r.cbName,
+          originatingBudgetDeleted: r.deleted,
         };
       });
 
@@ -113,5 +122,15 @@ export class ExpensesRepository {
       console.log(error);
       return [];
     }
+  }
+
+  async getAllExpensesByID(
+    categorized_budget_id: number
+  ): Promise<ExpensesHistory[]> {
+    const expenses = await this.knex.db()(EXPENSES).where({
+      categorized_budget_id,
+    });
+
+    return expenses;
   }
 }

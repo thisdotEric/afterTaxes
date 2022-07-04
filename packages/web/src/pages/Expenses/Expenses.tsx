@@ -1,19 +1,30 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Menu, Modal, Skeleton } from '@mantine/core';
-import { ExpensesPageWrapper } from './Expenses.styles';
+import React, {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  ExpensesLegends,
+  ExpensesPageWrapper,
+  TotalExpenses,
+} from './Expenses.styles';
 import { RecordExpensesModal } from '../../components/Expenses/RecordExpenses';
 import { showNotification } from '@mantine/notifications';
 import { getNotificationProps } from '../../components/Notification';
 import { expensesColumns } from './expenses.columns';
 import { useSetHeader } from '../../hooks';
-import { year, month } from '../../constants/date';
 import type { Column } from 'react-table';
-import { ChevronDown, Edit, Trash } from 'tabler-icons-react';
+import { Edit, Trash } from 'tabler-icons-react';
 import { axios } from '../../utils';
 import TableComponent from '../../components/Table';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import type { ActionList } from '../../components/Menu/ActionMenu';
 import ActionMenu from '../../components/Menu/ActionMenu';
+import { HeaderContext } from '../../context';
+import { getMonthAndYear } from '../../utils/date';
 
 interface ExpensesProps {}
 
@@ -25,15 +36,20 @@ export interface ExpensesHistory {
   amount: number;
   budget_id: string;
   budgetName: string;
+  originatingBudgetDeleted?: boolean;
 }
 
 export interface CurrentRow {
   id: number;
   budgetName: string;
+  originatingBudgetDeleted?: boolean;
 }
 
 const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
-  useSetHeader('Expenses List', 'Expenses', { year, month });
+  useSetHeader('Expenses List', 'Expenses');
+  const {
+    header: { date },
+  } = useContext(HeaderContext);
 
   // Modal state variables
   const [opened, setOpened] = useState(false);
@@ -72,9 +88,11 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   ]);
 
   const fetchData = useCallback(async () => {
-    const { data } = await axios.get('expenses/2022/06');
+    const { month, year } = getMonthAndYear(date);
+
+    const { data } = await axios.get(`expenses/${year}/${month}`);
     setRows(data);
-  }, []);
+  }, [date]);
 
   // Memoized table rows and columns
   const data = useMemo<ExpensesHistory[]>(() => rows, [rows, setRows]);
@@ -94,6 +112,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 currentRow={{
                   id: row.value,
                   budgetName: row.row.original.budgetName,
+                  originatingBudgetDeleted:
+                    row.row.original.originatingBudgetDeleted,
                 }}
               />
             );
@@ -103,9 +123,22 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     []
   );
 
+  const totalExpenses = useMemo(() => {
+    return rows.reduce((prev, next) => {
+      return prev + next.amount;
+    }, 0);
+  }, [rows]);
+
+  const monthHasNotPassed = useMemo(() => {
+    const { month } = getMonthAndYear(date);
+    const { month: currentMonth } = getMonthAndYear(new Date());
+
+    return month == currentMonth;
+  }, [date]);
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [date]);
 
   return (
     <ExpensesPageWrapper>
@@ -113,10 +146,28 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
         <TableComponent
           columns={columns}
           data={data}
-          action={{
-            name: 'Add new expense',
-            event: () => setOpened(true),
-          }}
+          action={
+            monthHasNotPassed
+              ? {
+                  name: 'Add new expense',
+                  event: () => setOpened(true),
+                }
+              : undefined
+          }
+          leftHandTableInfo={
+            <TotalExpenses>
+              Total Expenses: <span>{totalExpenses.toFixed(2)}</span>
+            </TotalExpenses>
+          }
+          legends={
+            <ExpensesLegends>
+              <p>
+                Legends:{' '}
+                <span id='legend-description'>Originating budget deleted</span>
+                <span>*</span>
+              </p>
+            </ExpensesLegends>
+          }
         />
       )}
 
@@ -131,6 +182,7 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
                 currentRow: {
                   id: currentRow.id,
                   budgetName: currentRow.budgetName,
+                  originatingBudgetDeleted: currentRow.originatingBudgetDeleted,
                 },
               }
             : {

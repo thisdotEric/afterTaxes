@@ -40,8 +40,8 @@ function loginReducer(state: LoginState, action: LoginAction): LoginState {
 const Login: FC<LoginProps> = ({}: LoginProps) => {
   const [checkBoxState, setCheckBoxState] = useState<boolean>(false);
   const [state, dispatch] = useReducer(loginReducer, {
-    email: 'jason.conte@gmail.com',
-    password: 'password',
+    email: '',
+    password: '',
   });
   const [error, setError] = useState<string>('');
 
