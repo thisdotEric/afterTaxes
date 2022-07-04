@@ -22,7 +22,7 @@ import { axios } from '../../../utils';
 import type { CurrentRow } from '../../../pages/Expenses/Expenses';
 import type { BudgetItemProps } from '../../../components/Input/BudgetDropDown';
 import { HeaderContext } from '../../../context';
-import { getMonthAndYear } from '../../../utils/date';
+import { createDateWithTime, getMonthAndYear } from '../../../utils/date';
 
 interface RecordExpensesProps extends RequiredModalProps {
   actionType?: {
@@ -162,9 +162,9 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
         });
       else await axios.post('expenses', expensesState);
 
+      await onSubmit();
       clearStates();
       setOpened(false);
-      await onSubmit();
     }
   };
 
@@ -237,7 +237,7 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
             value={expensesState.date}
             date={expensesState.date}
             onChange={(date) => {
-              runDispatch('date', date);
+              runDispatch('date', createDateWithTime(date!));
             }}
           />
 
