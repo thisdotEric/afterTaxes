@@ -34,6 +34,7 @@ COPY --from=builder /app/packages/web/build ./packages/web/build
 
 # Copy the environment variables
 COPY ./packages/server/.env ./packages/server/.env
+COPY ./packages/web/.env.dev ./packages/web/.env
 
 # Copy these files to use typescript path mappings on production
 COPY ./packages/server/prod-paths.js ./packages/server/prod-paths.js
