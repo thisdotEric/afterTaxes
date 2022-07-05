@@ -1,17 +1,14 @@
 import React, { FC } from 'react';
 import './Input.css';
-import { Select } from '@mantine/core';
+import { Select, SelectProps } from '@mantine/core';
 import { ChevronDown } from 'tabler-icons-react';
 
 interface DropdownData {
   value: string;
   label: string;
 }
-interface SelectInputProps {
+interface SelectInputProps extends SelectProps {
   data: DropdownData[];
-  onChange?: (value: string | null) => void;
-  label: string;
-  error?: React.ReactNode;
 }
 
 const SelectInput: FC<SelectInputProps> = (props: SelectInputProps) => {

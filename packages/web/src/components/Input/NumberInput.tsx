@@ -1,16 +1,12 @@
 import React, { FC } from 'react';
 import './Input.css';
-import { NumberInput as MantineNumberInput } from '@mantine/core';
+import {
+  NumberInput as MantineNumberInput,
+  NumberInputProps as MantineNumberInputProps,
+} from '@mantine/core';
 import { CurrencyDollar } from 'tabler-icons-react';
 
-interface NumberInputProps {
-  label: string;
-  onChange?: (value: number | undefined) => void;
-  value: number;
-  disabled?: boolean;
-  error?: React.ReactNode;
-  max?: number | undefined;
-}
+interface NumberInputProps extends MantineNumberInputProps {}
 
 const NumberInput: FC<NumberInputProps> = (props: NumberInputProps) => {
   return (
