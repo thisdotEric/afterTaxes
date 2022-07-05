@@ -18,18 +18,15 @@
     "baseUrl": "./src",
     "paths": {
       "@middlewares": ["middlewares"],
-      "@graphql/*": ["graphql/*"],
       "@types": ["types"],
-      "@ioc/*": ["ioc/*"],
       "@utils/*": ["utils/*"],
       "@database/*": ["database/*"],
+      "@routes/*": ["routes/*"],
       "@entity": ["entity"],
-      "@repository": ["repository"],
       "@exceptions": ["exceptions"],
-      "@ioc": ["ioc"],
-      "@authentication": ["authentication"],
-      "@service": ["service"],
-      "@app/*": ["app/*"]
+      "@app/*": ["app/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@modules/*": ["modules/*"]
     }
   },
   "exclude": ["node_modules", "client", "dist", "__test__"],

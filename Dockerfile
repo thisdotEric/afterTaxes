@@ -7,12 +7,12 @@ WORKDIR /app
 COPY package.json lerna.json ./
 COPY packages/server/package.json /app/packages/server/package.json
 COPY packages/commons/package.json /app/packages/commons/package.json
+COPY packages/web/package.json /app/packages/web/package.json
 
 RUN yarn install
 
 COPY . ./
 
-# The scope of the build process only covers the server and commons package.
 # Scoped is defined in the root package.json build command.
 RUN yarn build
 
@@ -26,9 +26,11 @@ COPY --from=builder /app/yarn.lock ./
 
 COPY --from=builder /app/packages/server/package.json ./packages/server/package.json
 COPY --from=builder /app/packages/commons/package.json ./packages/commons/package.json
+COPY --from=builder /app/packages/web/package.json ./packages/web/package.json
 
 COPY --from=builder /app/packages/server/dist ./packages/server/dist
 COPY --from=builder /app/packages/commons/dist ./packages/commons/dist
+COPY --from=builder /app/packages/web/build ./packages/web/build
 
 # Copy the environment variables
 COPY ./packages/server/.env ./packages/server/.env

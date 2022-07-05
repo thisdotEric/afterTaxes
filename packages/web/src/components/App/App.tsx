@@ -1,43 +1,55 @@
 import React, { FC, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from '../../pages/Layout';
 import Expenses from '../../pages/Expenses/Expenses';
-import ProtectedRoutes from './ProtectedRoutes';
 import { UserContext } from '../../context';
 import { Login } from '../../pages/Login';
 import type { ILoggedInUser } from '@aftertaxes/commons';
-import { RecordExpenses } from '../../pages/Expenses/RecordExpenses';
 import { Dashboard } from '../../pages/Dashboard';
-import { IDate, month, day, year } from '../../constants/date';
 import { UserProfile } from '../../pages/UserProfile';
+import ProtectedRoutes from '../App/ProtectedRoutes';
+import Budget from '../../pages/Budget';
+import FundsHistory from '../../pages/FundsHistory';
+import BudgetCategories from '../../pages/Budget/BudgetCategories';
+import NotFoundPage from '../../pages/404';
+import { AnimatePresence } from 'framer-motion';
+import SignUp from '../../pages/SignUp';
 
 interface AppProps {}
 
 const App: FC<AppProps> = ({}: AppProps) => {
-  const [user, setUser] = useState<ILoggedInUser | null>(null);
-  const [currentDate, setCurrentDate] = useState<IDate>({ day, month, year });
-
-  const value = useMemo(
-    () => ({ user, setUser, currentDate, setCurrentDate }),
-    [user, setUser, currentDate, setCurrentDate]
+  const userData = localStorage.getItem('user');
+  const [user, setUser] = useState<ILoggedInUser | null>(
+    userData ? JSON.parse(userData) : null
   );
+
+  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const location = useLocation();
 
   return (
     <UserContext.Provider value={value}>
-      <Router>
-        <Routes>
+      <AnimatePresence exitBeforeEnter>
+        <Routes key={location.pathname} location={location}>
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<Layout />}>
+              <Route path='' element={<Navigate to={'/dashboard'} />} />
               <Route path='dashboard' element={<Dashboard />} />
-              <Route path='expenses' element={<Expenses />} />
-              <Route path='reports' element={<RecordExpenses />} />
+              <Route path='expenses'>
+                <Route path='' element={<Expenses />} />
+              </Route>
+              <Route path='budget'>
+                <Route path='' element={<Budget />} />
+                <Route path='history' element={<FundsHistory />} />
+                <Route path='categories' element={<BudgetCategories />} />
+              </Route>
               <Route path='profile' element={<UserProfile />} />
             </Route>
           </Route>
-
           <Route path='/signin' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
-      </Router>
+      </AnimatePresence>
     </UserContext.Provider>
   );
 };

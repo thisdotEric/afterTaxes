@@ -2,6 +2,9 @@
 
 ---
 
+### Documentation on the way :)
+
+
 ![example workflow](https://github.com/thisdotEric/afterTaxes/actions/workflows/ci.yml/badge.svg)
 
 ## Branches

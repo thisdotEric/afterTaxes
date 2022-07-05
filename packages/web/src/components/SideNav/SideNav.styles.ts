@@ -27,11 +27,6 @@ export const SideNavLinksWrapper = styled.ul`
     transition: transform 0.1s;
   }
 
-  .link:hover {
-    color: ${grey};
-    transform: scale(1.02);
-  }
-
   #signout {
     border: none;
     width: 100%;
@@ -42,6 +37,21 @@ export const SideNavLinksWrapper = styled.ul`
     background-color: ${primarybg};
   }
 
+  .link {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+
+    span {
+      padding-left: 5px;
+    }
+
+    &:hover {
+      color: ${grey};
+      transform: scale(1.02);
+    }
+  }
+
   .line {
     width: 60%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
@@ -50,12 +60,6 @@ export const SideNavLinksWrapper = styled.ul`
     margin-top: 5px;
   }
 
-  #icon {
-    background-color: inherit;
-    width: 18px;
-    height: 13px;
-    padding-right: 5px;
-  }
   .active,
   .active:hover {
     color: ${lightgreen};

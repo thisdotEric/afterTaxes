@@ -1,4 +1,4 @@
-import { getCurrentMonthAndYear } from '@utils/date';
+import { getCurrentMonthAndYear } from '../../src/utils/date';
 
 describe('Date test', () => {
   it('should match the current date and year', () => {

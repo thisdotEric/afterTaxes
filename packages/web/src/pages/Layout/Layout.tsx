@@ -1,28 +1,43 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import { SideNavWrapper, MainContentWrapper } from './Layout.styles';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  SideNavWrapper,
+  MainContentWrapper,
+  HeaderWrapper,
+} from './Layout.styles';
 import { Outlet } from 'react-router-dom';
 import { SideNav } from '../../components/SideNav';
 import { AppLogo } from '../../components/App/AppLogo';
-import { PopUp } from '../../components/PopUp';
-import { PopUpContext, IPopUp } from '../../context';
+import { HeaderContext, HeaderContextValue } from '../../context';
+import AnimatedPage from '../../components/Framer';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import MonthPicker from '../../components/MonthPicker';
 
 interface LayoutProps {}
 
+function getSavedDate(): Date {
+  const localstorageDate = localStorage.getItem('date');
+
+  if (localstorageDate) {
+    const storedDate = JSON.parse(localstorageDate);
+
+    return new Date(storedDate);
+  } else return new Date();
+}
+
 const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
-  const [popUp, setPopUp] = useState<IPopUp | null>({
-    message: '',
-    type: 'success',
-    show: false,
+  const [header, setHeader] = useState<HeaderContextValue>({
+    headerTitle: '',
+    date: getSavedDate(),
   });
 
-  const popUpValue = useMemo(() => ({ popUp, setPopUp }), [popUp, setPopUp]);
-
-  useEffect(() => {
-    document.title = 'Dashboard';
-  }, []);
+  const memoizedHeader = useMemo(
+    () => ({ header, setHeader }),
+    [header, setHeader]
+  );
 
   return (
-    <>
+    <HeaderContext.Provider value={{ ...memoizedHeader }}>
       <SideNavWrapper>
         <div>
           <AppLogo />
@@ -30,14 +45,29 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
         </div>
       </SideNavWrapper>
 
-      <PopUpContext.Provider value={popUpValue}>
-        <MainContentWrapper>
-          <PopUp />
+      <MainContentWrapper>
+        <HeaderWrapper>
+          <DatePicker
+            id='monthpicker'
+            selected={header.date}
+            onChange={(selectedDate) => {
+              localStorage.setItem('date', JSON.stringify(selectedDate!));
+              setHeader({ ...header, date: selectedDate! });
+            }}
+            dateFormat='MMMM yyyy'
+            showMonthYearPicker
+            showFullMonthYearPicker
+            showTwoColumnMonthYearPicker
+            calendarContainer={MonthPicker}
+          />
+          <p id='header-title'>&nbsp; {header.headerTitle}</p>
+        </HeaderWrapper>
 
+        <AnimatedPage>
           <Outlet />
-        </MainContentWrapper>
-      </PopUpContext.Provider>
-    </>
+        </AnimatedPage>
+      </MainContentWrapper>
+    </HeaderContext.Provider>
   );
 };
 

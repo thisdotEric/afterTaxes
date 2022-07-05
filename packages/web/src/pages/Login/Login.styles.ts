@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {
+  green,
   lightgreen,
   primarybg,
   red,
@@ -14,26 +15,9 @@ export const LoginWrapper = styled.div`
   flex-direction: column;
   background-color: ${primarybg};
   height: 100vh;
-  width: 100%;
-
-  form {
-    width: 320px;
-  }
 
   form input[type='checkbox'] {
     cursor: pointer;
-  }
-
-  // afterTaxes text
-  p {
-    font-size: 48px;
-    text-align: center;
-    color: ${white};
-    margin: 20px;
-
-    span {
-      color: ${lightgreen};
-    }
   }
 
   #login-btn {
@@ -52,6 +36,21 @@ export const LoginWrapper = styled.div`
   }
 `;
 
+interface LandingPageTextProps {
+  fontsize?: number;
+}
+
+export const LandingPageText = styled.p<LandingPageTextProps>`
+  font-size: ${(p) => p.fontsize}px;
+  text-align: center;
+  color: ${white};
+  padding: 20px;
+
+  span {
+    color: ${lightgreen};
+  }
+`;
+
 export const RememberMe = styled.div`
   display: flex;
   cursor: pointer;
@@ -60,10 +59,29 @@ export const RememberMe = styled.div`
   align-items: center;
   height: 20px;
   margin-left: 10px;
+  margin-top: 10px;
 
   p {
     color: ${white};
     margin-left: 10px;
     font-size: 12px;
+  }
+`;
+
+export const AccountActionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+
+  .account-action {
+    background: none;
+    font-weight: normal;
+
+    &:hover {
+      text-decoration: underline;
+      font-weight: bold;
+      color: ${green};
+    }
   }
 `;

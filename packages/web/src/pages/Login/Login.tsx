@@ -1,13 +1,17 @@
-import React, { FC, useContext, useReducer, useRef, useState } from 'react';
-import { LoginWrapper, RememberMe } from './Login.styles';
-import { SubmitButton, TextInput } from '../../components/Form';
+import React, { FC, useContext, useReducer, useState } from 'react';
+import {
+  AccountActionWrapper,
+  LandingPageText,
+  LoginWrapper,
+  RememberMe,
+} from './Login.styles';
+import { SubmitButton } from '../../components/Form';
 import { useNavigate } from 'react-router-dom';
-import graphql from '../../graphql/request';
-import { loginMutation } from '../../graphql/mutations';
 import { UserContext } from '../../context';
-import type { ILoggedInUser } from '@aftertaxes/commons';
 import { github } from '../../assets';
-
+import { TextInput, PasswordInput } from '../../components/Input';
+import { axios } from '../../utils';
+import { Button } from '@mantine/core';
 interface LoginProps {}
 
 interface LoginState {
@@ -18,10 +22,6 @@ interface LoginState {
 interface LoginAction {
   type: 'email' | 'password';
   payload: string;
-}
-
-interface TData {
-  login: ILoggedInUser;
 }
 
 function loginReducer(state: LoginState, action: LoginAction): LoginState {
@@ -40,10 +40,10 @@ function loginReducer(state: LoginState, action: LoginAction): LoginState {
 const Login: FC<LoginProps> = ({}: LoginProps) => {
   const [checkBoxState, setCheckBoxState] = useState<boolean>(false);
   const [state, dispatch] = useReducer(loginReducer, {
-    email: 'siguenza089@gmail.com',
-    password: 'password',
+    email: '',
+    password: '',
   });
-  const [error, setError] = useState<string | null>();
+  const [error, setError] = useState<string>('');
 
   const { setUser } = useContext(UserContext);
 
@@ -55,49 +55,51 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
 
   return (
     <LoginWrapper>
-      <p>
+      <LandingPageText fontsize={48}>
         <span>after</span>Taxes
-      </p>
+      </LandingPageText>
 
       <form
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const authenticatedUser = await graphql.request<TData, LoginState>(
-            loginMutation,
-            state
-          );
+          if (state.email === '' || state.password === '')
+            setError('Invalid email or password.');
+          else setError('');
 
-          /**
-           * Set the currently logged in user
-           */
-          setUser(authenticatedUser.login);
+          try {
+            const { data: user } = await axios.post('sessions', state);
 
-          navigate('/dashboard');
+            /**
+             * Set the currently logged in user
+             */
+            setUser({
+              email: user.email,
+              fullname: user.fullname,
+            });
+
+            navigate('/dashboard');
+          } catch (error) {
+            setError('Invalid email or password.');
+          }
         }}
       >
         <TextInput
-          type='email'
-          name='email'
           label='Email'
+          type='email'
           value={state.email}
-          required={true}
-          title='Email'
           onChange={(e) => {
             dispatch({ type: 'email', payload: e.currentTarget.value });
-            setError(null);
+            setError('');
           }}
         />
-        <TextInput
-          type='password'
-          name='password'
-          title='Password'
+
+        <PasswordInput
           label='Password'
           value={state.password}
-          required={true}
           onChange={(e) => {
             dispatch({ type: 'password', payload: e.currentTarget.value });
-            setError(null);
+            setError('');
           }}
         />
 
@@ -113,6 +115,21 @@ const Login: FC<LoginProps> = ({}: LoginProps) => {
 
         {error && <p id='errMsg'>{error}</p>}
         <SubmitButton id='login-btn' name='login' value='Sign In' />
+
+        <AccountActionWrapper>
+          <Button
+            size='xs'
+            className='account-action'
+            onClick={() => {
+              navigate('/signup');
+            }}
+          >
+            Sign up
+          </Button>
+          <Button size='xs' className='account-action'>
+            Forgot Password?
+          </Button>
+        </AccountActionWrapper>
 
         <a href='https://github.com/thisdotEric/afterTaxes' target='_blank'>
           <img src={github} alt='Github' width={30} height={30} id='github' />

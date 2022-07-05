@@ -1,11 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { App } from './components/App';
+import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <MantineProvider>
+    <ModalsProvider>
+      <NotificationsProvider position='top-right'>
+        <React.StrictMode>
+          <Router>
+            <App />
+          </Router>
+        </React.StrictMode>
+      </NotificationsProvider>
+    </ModalsProvider>
+  </MantineProvider>,
   document.getElementById('root')
 );
 
