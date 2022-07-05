@@ -32,6 +32,7 @@ COPY --from=builder /app/packages/server/dist ./packages/server/dist
 COPY --from=builder /app/packages/commons/dist ./packages/commons/dist
 COPY --from=builder /app/packages/web/build ./packages/web/build
 
+
 # Copy these files to use typescript path mappings on production
 COPY ./packages/server/prod-paths.js ./packages/server/prod-paths.js
 COPY ./packages/server/tsconfig.json ./packages/server/tsconfig.json
@@ -41,4 +42,5 @@ RUN yarn install
 WORKDIR /app/packages/server
 
 EXPOSE 3000
+
 CMD node -r ./prod-paths.js ./dist/server.js
