@@ -1,7 +1,7 @@
 import fp from 'fastify-plugin';
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
 import fSession from '@fastify/session';
-import fastifyCookie from 'fastify-cookie';
+import fastifyCookie from '@fastify/cookie';
 import { knex } from 'knex';
 import configs from '@database/knex/knexfile';
 import { SESSIONS } from '@database/constants';

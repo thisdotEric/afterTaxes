@@ -3,8 +3,8 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 import 'reflect-metadata';
 import Fastify from 'fastify';
-import cors from 'fastify-cors';
-import AutoLoad from 'fastify-autoload';
+import cors from '@fastify/cors';
+import AutoLoad from '@fastify/autoload';
 import { join } from 'path';
 
 export const isDev = process.env.NODE_ENV === 'development';
