@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET, Hook, POST } from 'fastify-decorators';
+import { Controller, GET, POST } from 'fastify-decorators';
 import { SignupUser } from './user.repository';
 import { UserService } from './user.service';
 

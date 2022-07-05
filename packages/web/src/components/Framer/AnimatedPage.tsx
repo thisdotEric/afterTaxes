@@ -2,7 +2,12 @@ import { motion } from 'framer-motion';
 import React, { FC } from 'react';
 
 interface AnimatedPageProps {
-  children: React.ReactNode;
+  /**
+   * For now, the known children of this component is
+   * <Outlet/> from the react-router-dom and
+   * type any is a bad type. Watch out for bugs.
+   */
+  children: any;
 }
 
 const animations = {
