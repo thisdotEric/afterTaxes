@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { Button, Table, TextInput } from '@mantine/core';
 import {
   useGlobalFilter,
@@ -7,8 +7,10 @@ import {
   useTable,
 } from 'react-table';
 import { TableFooter, TableWrapper } from './Table.styles';
-import { ArrowDown, ArrowUp, Search } from 'tabler-icons-react';
+import { ArrowDown, ArrowUp } from 'tabler-icons-react';
 import TablePagination from './TablePagination';
+import { LoadingContext } from '../../context';
+import { GridLoader } from 'react-spinners';
 
 interface TableProps {
   columns: any;
@@ -57,8 +59,19 @@ const TableComponent: FC<TableProps> = ({
   );
 
   const { globalFilter, pageIndex } = state;
+  const { loading } = useContext(LoadingContext);
 
-  return (
+  return loading ? (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <GridLoader loading={loading} color={`#15c45e`} size={5} />
+    </div>
+  ) : (
     <TableWrapper>
       <div className='table-actions'>
         <TextInput
@@ -73,7 +86,6 @@ const TableComponent: FC<TableProps> = ({
           {action?.name}
         </Button>
       </div>
-
       <Table {...getTableProps()} fontSize={'xs'} id='main-table'>
         <thead>
           {headerGroups.map((headerGroup) => (
