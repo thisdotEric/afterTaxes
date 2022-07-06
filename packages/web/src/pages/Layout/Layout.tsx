@@ -12,6 +12,9 @@ import AnimatedPage from '../../components/Framer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import MonthPicker from '../../components/MonthPicker';
+import { LoadingOverlay, MantineProvider } from '@mantine/core';
+import { LoadingContext } from '../../context/loading.context';
+import { PropagateLoader } from 'react-spinners';
 
 interface LayoutProps {}
 
@@ -34,6 +37,16 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
   const memoizedHeader = useMemo(
     () => ({ header, setHeader }),
     [header, setHeader]
+  );
+
+  const [loading, setLoading] = useState(false);
+
+  const memoizedLoading = useMemo(
+    () => ({
+      loading,
+      setLoading,
+    }),
+    [loading, setLoading]
   );
 
   return (
@@ -63,9 +76,15 @@ const Layout: FC<LayoutProps> = ({}: LayoutProps) => {
           <p id='header-title'>&nbsp; {header.headerTitle}</p>
         </HeaderWrapper>
 
-        <AnimatedPage>
-          <Outlet />
-        </AnimatedPage>
+        <LoadingContext.Provider
+          value={{
+            ...memoizedLoading,
+          }}
+        >
+          <AnimatedPage>
+            <Outlet />
+          </AnimatedPage>
+        </LoadingContext.Provider>
       </MainContentWrapper>
     </HeaderContext.Provider>
   );
