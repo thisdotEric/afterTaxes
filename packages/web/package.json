@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cp -v .env.prod .env && snowpack dev",
     "start:dev": "cp -v .env.dev .env && snowpack dev",
-    "build": "snowpack build && cp public/_redirects build/_redirects",
+    "build": "SNOWPACK_PUBLIC_AFTERTAXES_SERVER=https://aftertaxes.herokuapp.com/api/v1/ snowpack build && cp public/_redirects build/_redirects",
     "build:dev": "cp -v .env.dev .env && snowpack build && cp public/_redirects build/_redirects",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
