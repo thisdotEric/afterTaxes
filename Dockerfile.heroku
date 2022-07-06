@@ -41,6 +41,4 @@ RUN yarn install
 
 WORKDIR /app/packages/server
 
-EXPOSE 3000
-
 CMD node -r ./prod-paths.js ./dist/server.js
