@@ -154,6 +154,8 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setOpened(false);
+
     if (allValuesFilledUp()) {
       if (actionType.type === 'update')
         await axios.put('expenses', {
@@ -162,9 +164,8 @@ const RecordExpenses: FC<RecordExpensesProps> = ({
         });
       else await axios.post('expenses', expensesState);
 
-      await onSubmit();
       clearStates();
-      setOpened(false);
+      await onSubmit();
     }
   };
 

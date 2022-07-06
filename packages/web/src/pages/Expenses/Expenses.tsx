@@ -23,8 +23,9 @@ import TableComponent from '../../components/Table';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import type { ActionList } from '../../components/Menu/ActionMenu';
 import ActionMenu from '../../components/Menu/ActionMenu';
-import { HeaderContext } from '../../context';
+import { HeaderContext, LoadingContext } from '../../context';
 import { getMonthAndYear } from '../../utils/date';
+import { PropagateLoader } from 'react-spinners';
 
 interface ExpensesProps {}
 
@@ -87,6 +88,8 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
     },
   ]);
 
+  const { setLoading } = useContext(LoadingContext);
+
   const fetchData = useCallback(async () => {
     const { month, year } = getMonthAndYear(date);
 
@@ -137,39 +140,44 @@ const Expenses: FC<ExpensesProps> = ({}: ExpensesProps) => {
   }, [date]);
 
   useEffect(() => {
+    setLoading(true);
     fetchData();
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [date]);
 
   return (
     <ExpensesPageWrapper>
-      {rows && (
-        <TableComponent
-          columns={columns}
-          data={data}
-          action={
-            monthHasNotPassed
-              ? {
-                  name: 'Add new expense',
-                  event: () => setOpened(true),
-                }
-              : undefined
-          }
-          leftHandTableInfo={
-            <TotalExpenses>
-              Total Expenses: <span>{totalExpenses.toFixed(2)}</span>
-            </TotalExpenses>
-          }
-          legends={
-            <ExpensesLegends>
-              <p>
-                Legends:{' '}
-                <span id='legend-description'>Originating budget deleted</span>
-                <span>*</span>
-              </p>
-            </ExpensesLegends>
-          }
-        />
-      )}
+      <TableComponent
+        columns={columns}
+        data={data}
+        action={
+          monthHasNotPassed
+            ? {
+                name: 'Add new expense',
+                event: () => setOpened(true),
+              }
+            : undefined
+        }
+        leftHandTableInfo={
+          <TotalExpenses>
+            Total Expenses: <span>{totalExpenses.toFixed(2)}</span>
+          </TotalExpenses>
+        }
+        legends={
+          <ExpensesLegends>
+            <p>
+              Legends:{' '}
+              <span id='legend-description'>Originating budget deleted</span>
+              <span>*</span>
+            </p>
+          </ExpensesLegends>
+        }
+      />
 
       <RecordExpensesModal
         opened={opened}
