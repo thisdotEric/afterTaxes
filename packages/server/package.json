@@ -17,7 +17,7 @@
     "build": "cross-env NODE_ENV=production yarn build-ts",
     "start": "node -r ./prod-paths.js ./dist/server.js",
     "knex-prod": "knex --knexfile dist/database/knex/knexfile.js",
-    "prod-migrations": "yarn prod-rollback-all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
+    "prod-migrations": "yarn knex-prod migrate:rollback --all && yarn knex-prod migrate:latest && yarn knex-prod seed:run",
     "build-ts": "tsc -p .",
     "test": "jest --coverage --detectOpenHandles --forceExit"
   },

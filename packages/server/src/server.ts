@@ -9,6 +9,7 @@ const port = parseInt(portString);
   server.listen(
     {
       port,
+      host: '0.0.0.0',
     },
     (error: Error | null, address: string) => {
       if (error) {
