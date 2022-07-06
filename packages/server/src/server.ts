@@ -1,6 +1,7 @@
 import createServer, { isDev } from './createServer';
 
-const port = parseInt(process.env.PORT!) || 3000;
+const portString = process.env.PORT == undefined ? '3005' : process.env.PORT;
+const port = parseInt(portString);
 
 (async () => {
   const server = await createServer();
